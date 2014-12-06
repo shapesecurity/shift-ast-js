@@ -1,0 +1,37 @@
+{
+  "name": "shift-ast",
+  "version": "1.0.0",
+  "description": "constructors for the Shift AST format",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/shift-ast-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/shift-ast-js.git"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "mocha --compilers js:6to5/lib/6to5/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "build": "6to5 --source-maps-inline --out-dir lib src"
+  },
+  "devDependencies": {
+    "6to5": "^1.14.14",
+    "mocha": "^2.0.1"
+  },
+  "keywords": [
+    "Shift",
+    "AST",
+    "node",
+    "constructor",
+    "class",
+    "abstract",
+    "syntax",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/shapesecurity/shift-ast-js/issues"
+  },
+  "license": "Apache-2.0"
+}
