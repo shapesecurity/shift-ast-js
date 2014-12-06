@@ -1,0 +1,38 @@
+{
+  "name": "laserbat-ast",
+  "version": "0.0.1",
+  "description": "constructors for the LaserBat AST format",
+  "author": "Shape Security Labs",
+  "homepage": "https://github.com/shapesecurity/laserbat-ast-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shapesecurity/laserbat-ast-js.git"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "mkdir lib; 6to5 src/index.js > lib/index.js"
+  },
+  "devDependencies": {
+    "6to5": "^1.14.14"
+  },
+  "keywords": [
+    "LaserBat",
+    "AST",
+    "node",
+    "constructor",
+    "class",
+    "laser",
+    "bat",
+    "abstract",
+    "syntax",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/shapesecurity/laserbat-ast-js/issues"
+  },
+  "license": "Apache-2.0"
+}
