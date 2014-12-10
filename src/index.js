@@ -21,6 +21,12 @@ export class Node {
   get type() {
     return this.constructor.name;
   }
+  toJSON() {
+    let o = Object.create(null);
+    o.type = this.type;
+    Object.keys(this).forEach((key) => o[key] = this[key]);
+    return o;
+  }
 }
 // TODO: Node.prototype.loc
 
