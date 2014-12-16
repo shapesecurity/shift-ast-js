@@ -16,24 +16,24 @@
 
 import * as assert from "assert";
 
-import * as AST from "../"
+import * as Shift from "../"
 
 suite("unit", () => {
   suite("toJSON", () => {
     test("includes `type` member", () => {
-      let node = new AST.LiteralNumericExpression(0);
+      let node = new Shift.LiteralNumericExpression(0);
       assert.equal(node.type, JSON.parse(JSON.stringify(node)).type);
     });
   });
 
   // enough nonces to fill up the longest constructor parameter list
-  const NONCES = Array.apply(null, Array(Object.keys(AST).reduce((memo, t) => Math.max(memo, AST[t].length), 0))).map(() => ({}));
+  const NONCES = Array.apply(null, Array(Object.keys(Shift).reduce((memo, t) => Math.max(memo, Shift[t].length), 0))).map(() => ({}));
 
   function testConstructor(t, members) {
     test(t, () => {
-      let node = new AST[t](...NONCES);
-      assert.ok(node instanceof AST[t]);
-      assert.ok(node instanceof AST.Node);
+      let node = new Shift[t](...NONCES);
+      assert.ok(node instanceof Shift[t]);
+      assert.ok(node instanceof Shift.Node);
       assert.equal(typeof node.type, "string");
       members.forEach((member, index) => {
         assert.equal(node[member], NONCES[index], `${t}: ${member}`);
