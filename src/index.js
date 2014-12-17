@@ -22,7 +22,7 @@ export class Node { }
 
 export class Directive extends Node { }
 export class Statement extends Node { }
-export class IterationStatement extends Node { }
+export class IterationStatement extends Statement { }
 export class Expression extends Node { }
 export class UnaryExpression extends Expression {
   constructor(operand) {
