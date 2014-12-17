@@ -21,21 +21,38 @@ export class Node { }
 // TODO: Node.prototype.loc
 
 export class Directive extends Node { }
+
 export class Statement extends Node { }
 export class IterationStatement extends Statement { }
+
 export class Expression extends Node { }
+export class PrimaryExpression extends Expression { }
+export class LiteralExpression extends PrimaryExpression { }
+
 export class UnaryExpression extends Expression {
   constructor(operand) {
     this.operand = operand;
   }
 }
+
 export class MemberExpression extends Expression {
   constructor(object) {
     this.object = object;
   }
 }
-export class PrimaryExpression extends Expression { }
-export class LiteralExpression extends PrimaryExpression { }
+
+export class ObjectProperty extends Node {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+export class AccessorProperty extends ObjectProperty {
+  constructor(name, body) {
+    super(name);
+    this.body = body;
+  }
+}
 
 
 // functions
@@ -76,27 +93,25 @@ export class ObjectExpression extends PrimaryExpression {
   }
 }
 
-export class Getter extends Node {
+export class Getter extends AccessorProperty {
   constructor(name, body) {
+    super(name, body);
     this.type = "Getter";
-    this.name = name;
-    this.body = body;
   }
 }
 
-export class Setter extends Node {
+export class Setter extends AccessorProperty {
   constructor(name, parameter, body) {
+    super(name, body);
     this.type = "Setter";
-    this.name = name;
     this.parameter = parameter;
-    this.body = body;
   }
 }
 
-export class DataProperty extends Node {
+export class DataProperty extends ObjectProperty {
   constructor(name, expression) {
+    super(name);
     this.type = "DataProperty";
-    this.name = name;
     this.expression = expression;
   }
 }
