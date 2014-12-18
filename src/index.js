@@ -51,16 +51,182 @@ class MemberExpression {
   }
 }
 
-class ObjectProperty {
+class NamedObjectProperty {
   constructor(name) {
     this.name = name;
   }
 }
 
-class AccessorProperty extends ObjectProperty {
+class MethodDefinition extends NamedObjectProperty {
   constructor(name, body) {
     super(name);
     this.body = body;
+  }
+}
+
+class AccessorProperty extends MethodDefinition { }
+
+class ImportDeclaration {
+  constructor(moduleSpecifier) {
+    this.moduleSpecifier = moduleSpecifier;
+  }
+}
+
+
+// bindings
+
+export class BindingWithDefault {
+  constructor(binding, initializer) {
+    this.type = "BindingWithDefault";
+    this.binding = binding;
+    this.initializer = initializer;
+  }
+}
+
+export class BindingIdentifier {
+  constructor(identifier) {
+    this.type = "BindingIdentifier";
+    this.identifier = identifier;
+  }
+}
+
+export class ArrayBinding {
+  constructor(elements, restElement) {
+    this.type = "ArrayBinding";
+    this.elements = elements;
+    this.restElement = restElement;
+  }
+}
+
+export class ObjectBinding {
+  constructor(properties) {
+    this.type = "ObjectBinding";
+    this.properties = properties;
+  }
+}
+
+export class BindingPropertyIdentifier {
+  constructor(identifier, initializer) {
+    this.type = "BindingPropertyIdentifier";
+    this.identifier = identifier;
+    this.initializer = initializer;
+  }
+}
+
+export class BindingPropertyProperty {
+  constructor(name, binding) {
+    this.type = "BindingPropertyProperty";
+    this.name = name;
+    this.binding = binding;
+  }
+}
+
+
+// classes
+
+export class ClassExpression {
+  constructor(name, super_, elements) {
+    this.type = "ClassExpression";
+    this.name = name;
+    this.super = super_;
+    this.elements = elements;
+  }
+}
+
+export class ClassStatement {
+  constructor(name, super_, elements) {
+    this.type = "ClassStatement";
+    this.name = name;
+    this.super = super_;
+    this.elements = elements;
+  }
+}
+
+export class ClassElement {
+  constructor(isStatic, method) {
+    this.type = "ClassElement";
+    this.isStatic = isStatic;
+    this.method = method;
+  }
+}
+
+
+// modules
+
+export class Module {
+  constructor(directives, sourceElements) {
+    this.type = "Module";
+    this.directives = directives;
+    this.sourceElements = sourceElements;
+  }
+}
+
+export class ImportModule extends ImportDeclaration {
+  constructor(moduleSpecifier) {
+    this.type = "ImportModule";
+    super(moduleSpecifier);
+  }
+}
+
+export class ImportFrom extends ImportDeclaration {
+  constructor(importClause, moduleSpecifier) {
+    this.type = "ImportFrom";
+    super(moduleSpecifier);
+    this.importClause = importClause;
+  }
+}
+
+export class ImportFromWithBinding extends ImportDeclaration {
+  constructor(bindingIdentifier, importClause, moduleSpecifier) {
+    this.type = "ImportFromWithBinding";
+    super(moduleSpecifier);
+    this.bindingIdentifier = bindingIdentifier;
+    this.importClause = importClause;
+  }
+}
+
+export class NamedImports {
+  constructor(importSpecifiers) {
+    this.type = "NamedImports";
+    this.importSpecifiers = importSpecifiers;
+  }
+}
+
+export class ImportSpecifier {
+  constructor(identifier, bindingIdentifier) {
+    this.type = "ImportSpecifier";
+    this.identifier = identifier;
+    this.bindingIdentifier = bindingIdentifier;
+  }
+}
+
+export class ExportFrom {
+  constructor(exportSpecifiers, moduleSpecifier) {
+    this.type = "ExportFrom";
+    this.exportSpecifiers = exportSpecifiers;
+    this.moduleSpecifier = moduleSpecifier;
+  }
+}
+
+export class Export {
+  constructor(target) {
+    this.type = "Export";
+    this.target = target;
+  }
+}
+
+export class ExportDefault {
+  constructor(target) {
+    this.type = "ExportDefault";
+    this.target = target;
+  }
+}
+
+export class ExportSpecifier {
+  constructor(identifier, as) {
+    this.type = "ExportSpecifier";
+    this.identifier = identifier;
+    this.as = as;
   }
 }
 
@@ -75,21 +241,44 @@ export class FunctionBody {
   }
 }
 
+export class ArrowExpression {
+  constructor(parameters, restParameter, body) {
+    this.type = "ArrowExpression";
+    this.parameters = parameters;
+    this.restParameter = restParameter;
+    this.body = body;
+  }
+}
+
 export class FunctionDeclaration {
-  constructor(name, parameters, body) {
+  constructor(isGenerator, name, parameters, restParameter, body) {
     this.type = "FunctionDeclaration";
+    this.isGenerator = isGenerator;
     this.name = name;
     this.parameters = parameters;
+    this.restParameter = restParameter;
     this.body = body;
   }
 }
 
 export class FunctionExpression {
-  constructor(name, parameters, body) {
+  constructor(isGenerator, name, parameters, restParameter, body) {
     this.type = "FunctionExpression";
+    this.isGenerator = isGenerator;
     this.name = name;
     this.parameters = parameters;
+    this.restParameter = restParameter;
     this.body = body;
+  }
+}
+
+export class Method extends MethodDefinition {
+  constructor(isGenerator, name, parameters, restParameter, body) {
+    this.type = "Method";
+    super(name, body);
+    this.isGenerator = isGenerator;
+    this.parameters = parameters;
+    this.restParameter = restParameter;
   }
 }
 
@@ -118,7 +307,7 @@ export class Setter extends AccessorProperty {
   }
 }
 
-export class DataProperty extends ObjectProperty {
+export class DataProperty extends NamedObjectProperty {
   constructor(name, expression) {
     this.type = "DataProperty";
     super(name);
@@ -126,10 +315,23 @@ export class DataProperty extends ObjectProperty {
   }
 }
 
-export class PropertyName {
-  constructor(kind, value) {
-    this.type = "PropertyName";
-    this.kind = kind;
+export class ShorthandProperty {
+  constructor(name) {
+    this.type = "ShorthandProperty";
+    this.name = name;
+  }
+}
+
+export class ComputedPropertyName {
+  constructor(value) {
+    this.type = "ComputedPropertyName";
+    this.value = value;
+  }
+}
+
+export class StaticPropertyName {
+  constructor( value) {
+    this.type = "StaticPropertyName";
     this.value = value;
   }
 }
@@ -269,9 +471,30 @@ export class StaticMemberExpression extends MemberExpression {
   }
 }
 
+export class TemplateString {
+  constructor(elements) {
+    this.type = "TemplateString";
+    this.elements = elements;
+  }
+}
+
 export class ThisExpression {
   constructor() {
     this.type = "ThisExpression";
+  }
+}
+
+export class YieldExpression {
+  constructor(expression) {
+    this.type = "YieldExpression";
+    this.expression = expression;
+  }
+}
+
+export class YieldGeneratorExpression {
+  constructor(expression) {
+    this.type = "YieldGeneratorExpression";
+    this.expression = expression;
   }
 }
 
@@ -332,6 +555,15 @@ export class ForInStatement extends IterationStatement {
     super(body);
     this.left = left;
     this.right = right;
+  }
+}
+
+export class ForOfStatement {
+  constructor(left, right, body) {
+    this.type = "ForOfStatement";
+    this.left = left;
+    this.right = right;
+    this.body = body;
   }
 }
 
@@ -437,16 +669,10 @@ export class WithStatement {
 
 // directives
 
-export class UnknownDirective {
+export class Directive {
   constructor(value) {
-    this.type = "UnknownDirective";
+    this.type = "Directive";
     this.value = value;
-  }
-}
-
-export class UseStrictDirective {
-  constructor() {
-    this.type = "UseStrictDirective";
   }
 }
 
@@ -468,6 +694,13 @@ export class CatchClause {
   }
 }
 
+export class Directive {
+  constructor(value) {
+    this.type = "Directive";
+    this.value = value;
+  }
+}
+
 export class Identifier {
   constructor(name) {
     this.type = "Identifier";
@@ -479,6 +712,13 @@ export class Script {
   constructor(body) {
     this.type = "Script";
     this.body = body;
+  }
+}
+
+export class SpreadElement {
+  constructor(expression) {
+    this.type = "SpreadElement";
+    this.expression = expression;
   }
 }
 
@@ -494,6 +734,13 @@ export class SwitchDefault {
   constructor(consequent) {
     this.type = "SwitchDefault";
     this.consequent = consequent;
+  }
+}
+
+export class TemplateLiteral {
+  constructor(value) {
+    this.type = "TemplateLiteral";
+    this.value = value;
   }
 }
 
