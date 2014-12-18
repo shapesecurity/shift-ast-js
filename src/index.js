@@ -20,8 +20,6 @@
 export class Node { }
 // TODO: Node.prototype.loc
 
-export class Directive extends Node { }
-
 export class Statement extends Node { }
 export class IterationStatement extends Statement { }
 
@@ -41,16 +39,192 @@ export class MemberExpression extends Expression {
   }
 }
 
-export class ObjectProperty extends Node {
+export class ObjectProperty extends Node { }
+
+export class NamedObjectProperty extends ObjectProperty {
   constructor(name) {
     this.name = name;
   }
 }
 
-export class AccessorProperty extends ObjectProperty {
+export class MethodDefinition extends NamedObjectProperty {
   constructor(name, body) {
     super(name);
     this.body = body;
+  }
+}
+
+export class AccessorProperty extends MethodDefinition { }
+
+export class PropertyName extends Node { }
+
+export class ImportDeclaration extends Node {
+  constructor(moduleSpecifier) {
+    this.moduleSpecifier = moduleSpecifier;
+  }
+}
+
+export class ExportDeclaration extends Node { }
+
+export class Binding extends Node { }
+
+export class BindingProperty extends Node { }
+
+
+// bindings
+
+export class BindingWithDefault extends Node {
+  constructor(binding, initializer) {
+    this.type = "BindingWithDefault";
+    this.binding = binding;
+    this.initializer = initializer;
+  }
+}
+
+export class BindingIdentifier extends Binding {
+  constructor(identifier) {
+    this.type = "BindingIdentifier";
+    this.identifier = identifier;
+  }
+}
+
+export class ArrayBinding extends Binding {
+  constructor(elements, restElement) {
+    this.type = "ArrayBinding";
+    this.elements = elements;
+    this.restElement = restElement;
+  }
+}
+
+export class ObjectBinding extends Binding {
+  constructor(properties) {
+    this.type = "ObjectBinding";
+    this.properties = properties;
+  }
+}
+
+export class BindingPropertyIdentifier extends BindingProperty {
+  constructor(identifier, initializer) {
+    this.type = "BindingPropertyIdentifier";
+    this.identifier = identifier;
+    this.initializer = initializer;
+  }
+}
+
+export class BindingPropertyProperty extends BindingProperty {
+  constructor(name, binding) {
+    this.type = "BindingPropertyProperty";
+    this.name = name;
+    this.binding = binding;
+  }
+}
+
+
+// classes
+
+export class ClassExpression extends Expression {
+  constructor(name, super_, elements) {
+    this.type = "ClassExpression";
+    this.name = name;
+    this.super = super_;
+    this.elements = elements;
+  }
+}
+
+export class ClassStatement extends Statement {
+  constructor(name, super_, elements) {
+    this.type = "ClassStatement";
+    this.name = name;
+    this.super = super_;
+    this.elements = elements;
+  }
+}
+
+export class ClassElement extends Node {
+  constructor(isStatic, method) {
+    this.type = "ClassElement";
+    this.isStatic = isStatic;
+    this.method = method;
+  }
+}
+
+
+// modules
+
+export class Module extends Node {
+  constructor(directives, sourceElements) {
+    this.type = "Module";
+    this.directives = directives;
+    this.sourceElements = sourceElements;
+  }
+}
+
+export class ImportModule extends ImportDeclaration {
+  constructor(moduleSpecifier) {
+    this.type = "ImportModule";
+    super(moduleSpecifier);
+  }
+}
+
+export class ImportFrom extends ImportDeclaration {
+  constructor(importClause, moduleSpecifier) {
+    this.type = "ImportFrom";
+    super(moduleSpecifier);
+    this.importClause = importClause;
+  }
+}
+
+export class ImportFromWithBinding extends ImportDeclaration {
+  constructor(bindingIdentifier, importClause, moduleSpecifier) {
+    this.type = "ImportFromWithBinding";
+    super(moduleSpecifier);
+    this.bindingIdentifier = bindingIdentifier;
+    this.importClause = importClause;
+  }
+}
+
+export class NamedImports extends Node {
+  constructor(importSpecifiers) {
+    this.type = "NamedImports";
+    this.importSpecifiers = importSpecifiers;
+  }
+}
+
+export class ImportSpecifier extends Node {
+  constructor(identifier, bindingIdentifier) {
+    this.type = "ImportSpecifier";
+    this.identifier = identifier;
+    this.bindingIdentifier = bindingIdentifier;
+  }
+}
+
+export class ExportFrom extends ExportDeclaration {
+  constructor(exportSpecifiers, moduleSpecifier) {
+    this.type = "ExportFrom";
+    this.exportSpecifiers = exportSpecifiers;
+    this.moduleSpecifier = moduleSpecifier;
+  }
+}
+
+export class Export extends ExportDeclaration {
+  constructor(target) {
+    this.type = "Export";
+    this.target = target;
+  }
+}
+
+export class ExportDefault extends ExportDeclaration {
+  constructor(target) {
+    this.type = "ExportDefault";
+    this.target = target;
+  }
+}
+
+export class ExportSpecifier extends Node {
+  constructor(identifier, as) {
+    this.type = "ExportSpecifier";
+    this.identifier = identifier;
+    this.as = as;
   }
 }
 
@@ -65,21 +239,44 @@ export class FunctionBody extends Node {
   }
 }
 
+export class ArrowExpression extends Expression {
+  constructor(parameters, restParameter, body) {
+    this.type = "ArrowExpression";
+    this.parameters = parameters;
+    this.restParameter = restParameter;
+    this.body = body;
+  }
+}
+
 export class FunctionDeclaration extends Statement {
-  constructor(name, parameters, body) {
+  constructor(isGenerator, name, parameters, restParameter, body) {
     this.type = "FunctionDeclaration";
+    this.isGenerator = isGenerator;
     this.name = name;
     this.parameters = parameters;
+    this.restParameter = restParameter;
     this.body = body;
   }
 }
 
 export class FunctionExpression extends PrimaryExpression {
-  constructor(name, parameters, body) {
+  constructor(isGenerator, name, parameters, restParameter, body) {
     this.type = "FunctionExpression";
+    this.isGenerator = isGenerator;
     this.name = name;
     this.parameters = parameters;
+    this.restParameter = restParameter;
     this.body = body;
+  }
+}
+
+export class Method extends MethodDefinition {
+  constructor(isGenerator, name, parameters, restParameter, body) {
+    this.type = "Method";
+    super(name, body);
+    this.isGenerator = isGenerator;
+    this.parameters = parameters;
+    this.restParameter = restParameter;
   }
 }
 
@@ -108,7 +305,7 @@ export class Setter extends AccessorProperty {
   }
 }
 
-export class DataProperty extends ObjectProperty {
+export class DataProperty extends NamedObjectProperty {
   constructor(name, expression) {
     this.type = "DataProperty";
     super(name);
@@ -116,10 +313,23 @@ export class DataProperty extends ObjectProperty {
   }
 }
 
-export class PropertyName extends Node {
-  constructor(kind, value) {
-    this.type = "PropertyName";
-    this.kind = kind;
+export class ShorthandProperty extends ObjectProperty {
+  constructor(name) {
+    this.type = "ShorthandProperty";
+    this.name = name;
+  }
+}
+
+export class ComputedPropertyName extends PropertyName {
+  constructor(value) {
+    this.type = "ComputedPropertyName";
+    this.value = value;
+  }
+}
+
+export class StaticPropertyName extends PropertyName {
+  constructor( value) {
+    this.type = "StaticPropertyName";
     this.value = value;
   }
 }
@@ -259,9 +469,30 @@ export class StaticMemberExpression extends MemberExpression {
   }
 }
 
+export class TemplateString extends PrimaryExpression {
+  constructor(elements) {
+    this.type = "TemplateString";
+    this.elements = elements;
+  }
+}
+
 export class ThisExpression extends PrimaryExpression {
   constructor() {
     this.type = "ThisExpression";
+  }
+}
+
+export class YieldExpression extends Expression {
+  constructor(expression) {
+    this.type = "YieldExpression";
+    this.expression = expression;
+  }
+}
+
+export class YieldGeneratorExpression extends Expression {
+  constructor(expression) {
+    this.type = "YieldGeneratorExpression";
+    this.expression = expression;
   }
 }
 
@@ -319,6 +550,15 @@ export class ExpressionStatement extends Statement {
 export class ForInStatement extends IterationStatement {
   constructor(left, right, body) {
     this.type = "ForInStatement";
+    this.left = left;
+    this.right = right;
+    this.body = body;
+  }
+}
+
+export class ForOfStatement extends IterationStatement {
+  constructor(left, right, body) {
+    this.type = "ForOfStatement";
     this.left = left;
     this.right = right;
     this.body = body;
@@ -425,22 +665,6 @@ export class WithStatement extends Statement {
 }
 
 
-// directives
-
-export class UnknownDirective extends Directive {
-  constructor(value) {
-    this.type = "UnknownDirective";
-    this.value = value;
-  }
-}
-
-export class UseStrictDirective extends Directive {
-  constructor() {
-    this.type = "UseStrictDirective";
-  }
-}
-
-
 // other nodes
 
 export class Block extends Node {
@@ -458,6 +682,13 @@ export class CatchClause extends Node {
   }
 }
 
+export class Directive extends Node {
+  constructor(value) {
+    this.type = "Directive";
+    this.value = value;
+  }
+}
+
 export class Identifier extends Node {
   constructor(name) {
     this.type = "Identifier";
@@ -469,6 +700,13 @@ export class Script extends Node {
   constructor(body) {
     this.type = "Script";
     this.body = body;
+  }
+}
+
+export class SpreadElement extends Node {
+  constructor(expression) {
+    this.type = "SpreadElement";
+    this.expression = expression;
   }
 }
 
@@ -484,6 +722,13 @@ export class SwitchDefault extends Node {
   constructor(consequent) {
     this.type = "SwitchDefault";
     this.consequent = consequent;
+  }
+}
+
+export class TemplateLiteral extends Node {
+  constructor(value) {
+    this.type = "TemplateLiteral";
+    this.value = value;
   }
 }
 
