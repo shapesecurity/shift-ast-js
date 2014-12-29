@@ -1,6 +1,6 @@
 {
   "name": "shift-ast",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "constructors for the Shift AST format",
   "author": "Shape Security Labs",
   "homepage": "https://github.com/shapesecurity/shift-ast-js",
