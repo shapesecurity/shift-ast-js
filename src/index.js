@@ -95,23 +95,23 @@ export class ObjectExpression extends PrimaryExpression {
 
 export class Getter extends AccessorProperty {
   constructor(name, body) {
-    super(name, body);
     this.type = "Getter";
+    super(name, body);
   }
 }
 
 export class Setter extends AccessorProperty {
   constructor(name, parameter, body) {
-    super(name, body);
     this.type = "Setter";
+    super(name, body);
     this.parameter = parameter;
   }
 }
 
 export class DataProperty extends ObjectProperty {
   constructor(name, expression) {
-    super(name);
     this.type = "DataProperty";
+    super(name);
     this.expression = expression;
   }
 }
@@ -199,8 +199,8 @@ export class CallExpression extends Expression {
 
 export class ComputedMemberExpression extends MemberExpression {
   constructor(object, expression) {
-    super(object);
     this.type = "ComputedMemberExpression";
+    super(object);
     this.expression = expression;
   }
 }
@@ -231,24 +231,24 @@ export class NewExpression extends Expression {
 
 export class PostfixExpression extends UnaryExpression {
   constructor(operand, operator) {
-    super(operand);
     this.type = "PostfixExpression";
+    super(operand);
     this.operator = operator;
   }
 }
 
 export class PrefixExpression extends UnaryExpression {
   constructor(operator, operand) {
-    super(operand);
     this.type = "PrefixExpression";
+    super(operand);
     this.operator = operator;
   }
 }
 
 export class StaticMemberExpression extends MemberExpression {
   constructor(object, property) {
-    super(object);
     this.type = "StaticMemberExpression";
+    super(object);
     this.property = property;
   }
 }
