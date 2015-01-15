@@ -31,9 +31,10 @@ suite("unit", () => {
 
   function testConstructor(t, members) {
     test(t, () => {
+      assert(Shift[t]);
       let node = new Shift[t](...NONCES);
-      assert.ok(node instanceof Shift[t]);
-      assert.ok(node instanceof Shift.Node);
+      assert(node instanceof Shift[t]);
+      assert(node instanceof Shift.Node);
       assert.equal(typeof node.type, "string");
       members.forEach((member, index) => {
         assert.equal(node[member], NONCES[index], `${t}: ${member}`);
@@ -69,6 +70,7 @@ suite("unit", () => {
     IfStatement: ["test", "consequent", "alternate"],
     LabeledStatement: ["label", "body"],
     LiteralBooleanExpression: ["value"],
+    LiteralInfinityExpression: [],
     LiteralNullExpression: [],
     LiteralNumericExpression: ["value"],
     LiteralRegExpExpression: ["value"],

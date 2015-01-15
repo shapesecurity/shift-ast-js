@@ -134,6 +134,12 @@ export class LiteralBooleanExpression extends LiteralExpression {
   }
 }
 
+export class LiteralInfinityExpression extends LiteralExpression {
+  constructor() {
+    this.type = "LiteralInfinityExpression";
+  }
+}
+
 export class LiteralNullExpression extends LiteralExpression {
   constructor() {
     this.type = "LiteralNullExpression";
