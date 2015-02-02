@@ -76,10 +76,10 @@ class ImportDeclaration {
 // bindings
 
 export class BindingWithDefault {
-  constructor(binding, initializer) {
+  constructor(binding, init) {
     this.type = "BindingWithDefault";
     this.binding = binding;
-    this.initializer = initializer;
+    this.init = init;
   }
 }
 
@@ -106,10 +106,10 @@ export class ObjectBinding {
 }
 
 export class BindingPropertyIdentifier {
-  constructor(identifier, initializer) {
+  constructor(identifier, init) {
     this.type = "BindingPropertyIdentifier";
     this.identifier = identifier;
-    this.initializer = initializer;
+    this.init = init;
   }
 }
 
