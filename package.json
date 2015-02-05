@@ -8,13 +8,13 @@
     "type": "git",
     "url": "https://github.com/shapesecurity/shift-ast-js.git"
   },
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "scripts": {
     "test": "mocha --compilers js:6to5/lib/6to5/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "6to5 --source-maps-inline --out-dir lib src"
+    "build": "6to5 --source-maps-inline --out-dir dist src"
   },
   "devDependencies": {
     "6to5": "^1.14.14",
