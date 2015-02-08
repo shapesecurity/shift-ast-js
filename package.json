@@ -13,11 +13,11 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --compilers js:6to5/lib/6to5/register --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "6to5 --source-maps-inline --out-dir dist src"
+    "test": "mocha --compilers js:./6to5-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "build": "6to5 --modules commonStandard --source-maps-inline --out-dir dist src"
   },
   "devDependencies": {
-    "6to5": "^1.14.14",
+    "6to5": "3.5.3",
     "mocha": "^2.0.1"
   },
   "keywords": [
