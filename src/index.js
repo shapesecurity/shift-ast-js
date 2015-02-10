@@ -673,16 +673,6 @@ export class WithStatement {
 }
 
 
-// directives
-
-export class Directive {
-  constructor(value) {
-    this.type = "Directive";
-    this.value = value;
-  }
-}
-
-
 // other nodes
 
 export class Block {
