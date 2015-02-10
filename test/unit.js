@@ -101,6 +101,15 @@ suite("unit", () => {
   };
 
   suite("constructors", () => {
+    test("all constructors are tested", () => {
+      let shiftCtors = Object.keys(Shift).sort();
+      let specCtors = Object.keys(SPEC).sort();
+      shiftCtors.forEach((shiftCtor, i) => {
+        assert.equal(shiftCtor, specCtors[i]);
+      })
+      assert.equal(shiftCtors.length, specCtors.length);
+    });
+
     Object.keys(SPEC).forEach((t) => {
       testConstructor(t, SPEC[t]);
     });
