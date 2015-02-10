@@ -431,7 +431,11 @@ export class NewExpression {
   }
 }
 
-export class NewTargetExpression { }
+export class NewTargetExpression {
+  constructor() {
+    this.type = "NewTargetExpression";
+  }
+}
 
 export class PostfixExpression extends UnaryExpression {
   constructor(operand, operator) {
@@ -653,22 +657,6 @@ export class WithStatement {
 }
 
 
-// directives
-
-export class UnknownDirective {
-  constructor(value) {
-    this.type = "UnknownDirective";
-    this.value = value;
-  }
-}
-
-export class UseStrictDirective {
-  constructor() {
-    this.type = "UseStrictDirective";
-  }
-}
-
-
 // other nodes
 
 export class Block {
@@ -714,7 +702,11 @@ export class SpreadElement {
   }
 }
 
-export class Super { }
+export class Super {
+  constructor() {
+    this.type = "Super";
+  }
+}
 
 export class SwitchCase {
   constructor(test, consequent) {
