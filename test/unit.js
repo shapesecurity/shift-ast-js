@@ -34,7 +34,6 @@ suite("unit", () => {
       assert(Shift[t]);
       let node = new Shift[t](...NONCES);
       assert(node instanceof Shift[t]);
-      assert(node instanceof Shift.Node);
       assert.equal(typeof node.type, "string");
       members.forEach((member, index) => {
         assert.equal(node[member], NONCES[index], `${t}: ${member}`);
@@ -105,5 +104,9 @@ suite("unit", () => {
     Object.keys(SPEC).forEach((t) => {
       testConstructor(t, SPEC[t]);
     });
+  });
+
+  test("VariableDeclaration declarators must be non-empty", () => {
+    assert.throws(() => new Shift.VariableDeclaration("var", []));
   });
 });

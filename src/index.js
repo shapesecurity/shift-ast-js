@@ -17,37 +17,31 @@
 
 // node classes
 
-export class Node { }
-// TODO: Node.prototype.loc
+class IterationStatement {
+  constructor(body) {
+    this.body = body;
+  }
+}
 
-export class Directive extends Node { }
-
-export class Statement extends Node { }
-export class IterationStatement extends Statement { }
-
-export class Expression extends Node { }
-export class PrimaryExpression extends Expression { }
-export class LiteralExpression extends PrimaryExpression { }
-
-export class UnaryExpression extends Expression {
+class UnaryExpression {
   constructor(operand) {
     this.operand = operand;
   }
 }
 
-export class MemberExpression extends Expression {
+class MemberExpression {
   constructor(object) {
     this.object = object;
   }
 }
 
-export class ObjectProperty extends Node {
+class ObjectProperty {
   constructor(name) {
     this.name = name;
   }
 }
 
-export class AccessorProperty extends ObjectProperty {
+class AccessorProperty extends ObjectProperty {
   constructor(name, body) {
     super(name);
     this.body = body;
@@ -57,7 +51,7 @@ export class AccessorProperty extends ObjectProperty {
 
 // functions
 
-export class FunctionBody extends Node {
+export class FunctionBody {
   constructor(directives, statements) {
     this.type = "FunctionBody";
     this.directives = directives;
@@ -65,7 +59,7 @@ export class FunctionBody extends Node {
   }
 }
 
-export class FunctionDeclaration extends Statement {
+export class FunctionDeclaration {
   constructor(name, parameters, body) {
     this.type = "FunctionDeclaration";
     this.name = name;
@@ -74,7 +68,7 @@ export class FunctionDeclaration extends Statement {
   }
 }
 
-export class FunctionExpression extends PrimaryExpression {
+export class FunctionExpression {
   constructor(name, parameters, body) {
     this.type = "FunctionExpression";
     this.name = name;
@@ -86,7 +80,7 @@ export class FunctionExpression extends PrimaryExpression {
 
 // object expressions
 
-export class ObjectExpression extends PrimaryExpression {
+export class ObjectExpression {
   constructor(properties) {
     this.type = "ObjectExpression";
     this.properties = properties;
@@ -116,7 +110,7 @@ export class DataProperty extends ObjectProperty {
   }
 }
 
-export class PropertyName extends Node {
+export class PropertyName {
   constructor(kind, value) {
     this.type = "PropertyName";
     this.kind = kind;
@@ -127,40 +121,40 @@ export class PropertyName extends Node {
 
 // literals
 
-export class LiteralBooleanExpression extends LiteralExpression {
+export class LiteralBooleanExpression {
   constructor(value) {
     this.type = "LiteralBooleanExpression";
     this.value = value;
   }
 }
 
-export class LiteralInfinityExpression extends LiteralExpression {
+export class LiteralInfinityExpression {
   constructor() {
     this.type = "LiteralInfinityExpression";
   }
 }
 
-export class LiteralNullExpression extends LiteralExpression {
+export class LiteralNullExpression {
   constructor() {
     this.type = "LiteralNullExpression";
   }
 }
 
-export class LiteralNumericExpression extends LiteralExpression {
+export class LiteralNumericExpression {
   constructor(value) {
     this.type = "LiteralNumericExpression";
     this.value = value;
   }
 }
 
-export class LiteralRegExpExpression extends LiteralExpression {
+export class LiteralRegExpExpression {
   constructor(value) {
     this.type = "LiteralRegExpExpression";
     this.value = value;
   }
 }
 
-export class LiteralStringExpression extends LiteralExpression {
+export class LiteralStringExpression {
   constructor(value) {
     this.type = "LiteralStringExpression";
     this.value = value;
@@ -170,14 +164,14 @@ export class LiteralStringExpression extends LiteralExpression {
 
 // other expressions
 
-export class ArrayExpression extends PrimaryExpression {
+export class ArrayExpression {
   constructor(elements) {
     this.type = "ArrayExpression";
     this.elements = elements;
   }
 }
 
-export class AssignmentExpression extends Expression {
+export class AssignmentExpression {
   constructor(operator, binding, expression) {
     this.type = "AssignmentExpression";
     this.operator = operator;
@@ -186,7 +180,7 @@ export class AssignmentExpression extends Expression {
   }
 }
 
-export class BinaryExpression extends Expression {
+export class BinaryExpression {
   constructor(operator, left, right) {
     this.type = "BinaryExpression";
     this.operator = operator;
@@ -195,7 +189,7 @@ export class BinaryExpression extends Expression {
   }
 }
 
-export class CallExpression extends Expression {
+export class CallExpression {
   constructor(callee, args) {
     this.type = "CallExpression";
     this.callee = callee;
@@ -211,7 +205,7 @@ export class ComputedMemberExpression extends MemberExpression {
   }
 }
 
-export class ConditionalExpression extends Expression {
+export class ConditionalExpression {
   constructor(test, consequent, alternate) {
     this.type = "ConditionalExpression";
     this.test = test;
@@ -220,14 +214,14 @@ export class ConditionalExpression extends Expression {
   }
 }
 
-export class IdentifierExpression extends PrimaryExpression {
+export class IdentifierExpression {
   constructor(identifier) {
     this.type = "IdentifierExpression";
     this.identifier = identifier;
   }
 }
 
-export class NewExpression extends Expression {
+export class NewExpression {
   constructor(callee, args) {
     this.type = "NewExpression";
     this.callee = callee;
@@ -259,7 +253,7 @@ export class StaticMemberExpression extends MemberExpression {
   }
 }
 
-export class ThisExpression extends PrimaryExpression {
+export class ThisExpression {
   constructor() {
     this.type = "ThisExpression";
   }
@@ -268,28 +262,28 @@ export class ThisExpression extends PrimaryExpression {
 
 // other statements
 
-export class BlockStatement extends Statement {
+export class BlockStatement {
   constructor(block) {
     this.type = "BlockStatement";
     this.block = block;
   }
 }
 
-export class BreakStatement extends Statement {
+export class BreakStatement {
   constructor(label) {
     this.type = "BreakStatement";
     this.label = label;
   }
 }
 
-export class ContinueStatement extends Statement {
+export class ContinueStatement {
   constructor(label) {
     this.type = "ContinueStatement";
     this.label = label;
   }
 }
 
-export class DebuggerStatement extends Statement {
+export class DebuggerStatement {
   constructor() {
     this.type = "DebuggerStatement";
   }
@@ -298,18 +292,18 @@ export class DebuggerStatement extends Statement {
 export class DoWhileStatement extends IterationStatement {
   constructor(body, test) {
     this.type = "DoWhileStatement";
-    this.body = body;
+    super(body);
     this.test = test;
   }
 }
 
-export class EmptyStatement extends Statement {
+export class EmptyStatement {
   constructor() {
     this.type = "EmptyStatement";
   }
 }
 
-export class ExpressionStatement extends Statement {
+export class ExpressionStatement {
   constructor(expression) {
     this.type = "ExpressionStatement";
     this.expression = expression;
@@ -319,23 +313,23 @@ export class ExpressionStatement extends Statement {
 export class ForInStatement extends IterationStatement {
   constructor(left, right, body) {
     this.type = "ForInStatement";
+    super(body);
     this.left = left;
     this.right = right;
-    this.body = body;
   }
 }
 
 export class ForStatement extends IterationStatement {
   constructor(init, test, update, body) {
     this.type = "ForStatement";
+    super(body);
     this.init = init;
     this.test = test;
     this.update = update;
-    this.body = body;
   }
 }
 
-export class IfStatement extends Statement {
+export class IfStatement {
   constructor(test, consequent, alternate) {
     this.type = "IfStatement";
     this.test = test;
@@ -344,7 +338,7 @@ export class IfStatement extends Statement {
   }
 }
 
-export class LabeledStatement extends Statement {
+export class LabeledStatement {
   constructor(label, body) {
     this.type = "LabeledStatement";
     this.label = label;
@@ -352,14 +346,14 @@ export class LabeledStatement extends Statement {
   }
 }
 
-export class ReturnStatement extends Statement {
+export class ReturnStatement {
   constructor(expression) {
     this.type = "ReturnStatement";
     this.expression = expression;
   }
 }
 
-export class SwitchStatement extends Statement {
+export class SwitchStatement {
   constructor(discriminant, cases) {
     this.type = "SwitchStatement";
     this.discriminant = discriminant;
@@ -367,7 +361,7 @@ export class SwitchStatement extends Statement {
   }
 }
 
-export class SwitchStatementWithDefault extends Statement {
+export class SwitchStatementWithDefault {
   constructor(discriminant, preDefaultCases, defaultCase, postDefaultCases) {
     this.type = "SwitchStatementWithDefault";
     this.discriminant = discriminant;
@@ -377,14 +371,14 @@ export class SwitchStatementWithDefault extends Statement {
   }
 }
 
-export class ThrowStatement extends Statement {
+export class ThrowStatement {
   constructor(expression) {
     this.type = "ThrowStatement";
     this.expression = expression;
   }
 }
 
-export class TryCatchStatement extends Statement {
+export class TryCatchStatement {
   constructor(body, catchClause) {
     this.type = "TryCatchStatement";
     this.body = body;
@@ -392,7 +386,7 @@ export class TryCatchStatement extends Statement {
   }
 }
 
-export class TryFinallyStatement extends Statement {
+export class TryFinallyStatement {
   constructor(body, catchClause, finalizer) {
     this.type = "TryFinallyStatement";
     this.body = body;
@@ -401,7 +395,7 @@ export class TryFinallyStatement extends Statement {
   }
 }
 
-export class VariableDeclarationStatement extends Statement {
+export class VariableDeclarationStatement {
   constructor(declaration) {
     this.type = "VariableDeclarationStatement";
     this.declaration = declaration;
@@ -411,12 +405,12 @@ export class VariableDeclarationStatement extends Statement {
 export class WhileStatement extends IterationStatement {
   constructor(test, body) {
     this.type = "WhileStatement";
+    super(body);
     this.test = test;
-    this.body = body;
   }
 }
 
-export class WithStatement extends Statement {
+export class WithStatement {
   constructor(object, body) {
     this.type = "WithStatement";
     this.object = object;
@@ -427,14 +421,14 @@ export class WithStatement extends Statement {
 
 // directives
 
-export class UnknownDirective extends Directive {
+export class UnknownDirective {
   constructor(value) {
     this.type = "UnknownDirective";
     this.value = value;
   }
 }
 
-export class UseStrictDirective extends Directive {
+export class UseStrictDirective {
   constructor() {
     this.type = "UseStrictDirective";
   }
@@ -443,14 +437,14 @@ export class UseStrictDirective extends Directive {
 
 // other nodes
 
-export class Block extends Node {
+export class Block {
   constructor(statements) {
     this.type = "Block";
     this.statements = statements;
   }
 }
 
-export class CatchClause extends Node {
+export class CatchClause {
   constructor(binding, body) {
     this.type = "CatchClause";
     this.binding = binding;
@@ -458,21 +452,21 @@ export class CatchClause extends Node {
   }
 }
 
-export class Identifier extends Node {
+export class Identifier {
   constructor(name) {
     this.type = "Identifier";
     this.name = name;
   }
 }
 
-export class Script extends Node {
+export class Script {
   constructor(body) {
     this.type = "Script";
     this.body = body;
   }
 }
 
-export class SwitchCase extends Node {
+export class SwitchCase {
   constructor(test, consequent) {
     this.type = "SwitchCase";
     this.test = test;
@@ -480,14 +474,14 @@ export class SwitchCase extends Node {
   }
 }
 
-export class SwitchDefault extends Node {
+export class SwitchDefault {
   constructor(consequent) {
     this.type = "SwitchDefault";
     this.consequent = consequent;
   }
 }
 
-export class VariableDeclaration extends Node {
+export class VariableDeclaration {
   constructor(kind, declarators) {
     if (declarators.length < 1)
       throw new TypeError("VariableDeclaration declarators list must be non-empty.");
@@ -497,7 +491,7 @@ export class VariableDeclaration extends Node {
   }
 }
 
-export class VariableDeclarator extends Node {
+export class VariableDeclarator {
   constructor(binding, init) {
     this.type = "VariableDeclarator";
     this.binding = binding;
