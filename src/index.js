@@ -431,6 +431,8 @@ export class NewExpression {
   }
 }
 
+export class NewTargetExpression { }
+
 export class PostfixExpression extends UnaryExpression {
   constructor(operand, operator) {
     this.type = "PostfixExpression";
@@ -711,6 +713,8 @@ export class SpreadElement {
     this.expression = expression;
   }
 }
+
+export class Super { }
 
 export class SwitchCase {
   constructor(test, consequent) {
