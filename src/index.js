@@ -17,6 +17,22 @@
 
 // node classes
 
+export class SourceLocation {
+  constructor(offset, line, column) {
+    this.offset = offset;
+    this.line = line;
+    this.column = column;
+  }
+}
+
+export class SourceSpan {
+  constructor(start, end, source) {
+    this.start = start;
+    this.end = end;
+    this.source = source;
+  }
+}
+
 class IterationStatement {
   constructor(body) {
     this.body = body;
