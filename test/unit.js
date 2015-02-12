@@ -34,7 +34,9 @@ suite("unit", () => {
       assert(Shift[t]);
       let node = new Shift[t](...NONCES);
       assert(node instanceof Shift[t]);
-      assert.equal(typeof node.type, "string");
+      if (t !== "SourceLocation" && t !== "SourceSpan") {
+        assert.equal(typeof node.type, "string");
+      }
       members.forEach((member, index) => {
         assert.equal(node[member], NONCES[index], `${t}: ${member}`);
       });
@@ -98,6 +100,8 @@ suite("unit", () => {
     VariableDeclarator: ["binding", "init"],
     WhileStatement: ["test", "body"],
     WithStatement: ["object", "body"],
+    SourceLocation: ["offset", "line", "column"],
+    SourceSpan: ["start", "end", "source"],
   };
 
   suite("constructors", () => {
@@ -106,7 +110,7 @@ suite("unit", () => {
       let specCtors = Object.keys(SPEC).sort();
       shiftCtors.forEach((shiftCtor, i) => {
         assert.equal(shiftCtor, specCtors[i]);
-      })
+      });
       assert.equal(shiftCtors.length, specCtors.length);
     });
 
