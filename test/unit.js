@@ -34,7 +34,9 @@ suite("unit", () => {
       assert(Shift[t]);
       let node = new Shift[t](...NONCES);
       assert(node instanceof Shift[t]);
-      assert.equal(typeof node.type, "string");
+      if (t !== "SourceLocation" && t !== "SourceSpan") {
+        assert.equal(typeof node.type, "string");
+      }
       members.forEach((member, index) => {
         assert.equal(node[member], NONCES[index], `${t}: ${member}`);
       });
@@ -128,6 +130,8 @@ suite("unit", () => {
     WithStatement: ["object", "body"],
     YieldExpression: ["expression"],
     YieldGeneratorExpression: ["expression"],
+    SourceLocation: ["offset", "line", "column"],
+    SourceSpan: ["start", "end", "source"],
   };
 
   suite("constructors", () => {
