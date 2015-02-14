@@ -133,9 +133,9 @@ export class ClassExpression {
   }
 }
 
-export class ClassStatement {
+export class ClassDeclaration {
   constructor(name, super_, elements) {
-    this.type = "ClassStatement";
+    this.type = "ClassDeclaration";
     this.name = name;
     this.super = super_;
     this.elements = elements;
