@@ -60,7 +60,7 @@ suite("unit", () => {
     CatchClause: ["binding", "body"],
     ClassElement: ["isStatic", "method"],
     ClassExpression: ["name", "super", "elements"],
-    ClassStatement: ["name", "super", "elements"],
+    ClassDeclaration: ["name", "super", "elements"],
     ComputedMemberExpression: ["object", "expression"],
     ComputedPropertyName: ["value"],
     ConditionalExpression: ["test", "consequent", "alternate"],
