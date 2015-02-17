@@ -94,7 +94,7 @@ suite("unit", () => {
     LiteralInfinityExpression: [],
     LiteralNullExpression: [],
     LiteralNumericExpression: ["value"],
-    LiteralRegExpExpression: ["value"],
+    LiteralRegExpExpression: ["pattern", "flags"],
     LiteralStringExpression: ["value"],
     Method: ["isGenerator", "name", "parameters", "restParameter", "body"],
     Module: ["directives", "sourceElements"],

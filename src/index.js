@@ -366,9 +366,10 @@ export class LiteralNumericExpression {
 }
 
 export class LiteralRegExpExpression {
-  constructor(value) {
+  constructor(pattern, flags) {
     this.type = "LiteralRegExpExpression";
-    this.value = value;
+    this.pattern = pattern;
+    this.flags = flags;
   }
 }
 
