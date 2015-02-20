@@ -479,8 +479,9 @@ export class StaticMemberExpression extends MemberExpression {
 }
 
 export class TemplateString {
-  constructor(elements) {
+  constructor(tag, elements) {
     this.type = "TemplateString";
+    this.tag = tag;
     this.elements = elements;
   }
 }

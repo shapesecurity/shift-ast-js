@@ -120,7 +120,7 @@ suite("unit", () => {
     SwitchStatement: ["discriminant", "cases"],
     SwitchStatementWithDefault: ["discriminant", "preDefaultCases", "defaultCase", "postDefaultCases"],
     TemplateLiteral: ["value"],
-    TemplateString: ["elements"],
+    TemplateString: ["tag", "elements"],
     ThisExpression: [],
     ThrowStatement: ["expression"],
     TryCatchStatement: ["body", "catchClause"],
