@@ -161,72 +161,66 @@ export class Module {
   }
 }
 
-export class ImportModule extends ImportDeclaration {
-  constructor(moduleSpecifier) {
-    this.type = "ImportModule";
+export class Import extends ImportDeclaration {
+  constructor(defaultBinding, namedImports, moduleSpecifier) {
+    this.type = "Import";
     super(moduleSpecifier);
+    this.defaultBinding = defaultBinding;
+    this.namedImports = namedImports;
   }
 }
 
-export class ImportFrom extends ImportDeclaration {
-  constructor(importClause, moduleSpecifier) {
-    this.type = "ImportFrom";
+export class ImportNamespace extends ImportDeclaration {
+  constructor(defaultBinding, namespaceBinding, moduleSpecifier) {
+    this.type = "ImportNamespace";
     super(moduleSpecifier);
-    this.importClause = importClause;
-  }
-}
-
-export class ImportFromWithBinding extends ImportDeclaration {
-  constructor(bindingIdentifier, importClause, moduleSpecifier) {
-    this.type = "ImportFromWithBinding";
-    super(moduleSpecifier);
-    this.bindingIdentifier = bindingIdentifier;
-    this.importClause = importClause;
-  }
-}
-
-export class NamedImports {
-  constructor(importSpecifiers) {
-    this.type = "NamedImports";
-    this.importSpecifiers = importSpecifiers;
+    this.defaultBinding = defaultBinding;
+    this.namespaceBinding = namespaceBinding;
   }
 }
 
 export class ImportSpecifier {
-  constructor(identifier, bindingIdentifier) {
+  constructor(name, binding) {
     this.type = "ImportSpecifier";
-    this.identifier = identifier;
-    this.bindingIdentifier = bindingIdentifier;
-  }
-}
-
-export class ExportFrom {
-  constructor(exportSpecifiers, moduleSpecifier) {
-    this.type = "ExportFrom";
-    this.exportSpecifiers = exportSpecifiers;
-    this.moduleSpecifier = moduleSpecifier;
+    this.name = name;
+    this.binding = binding;
   }
 }
 
 export class Export {
-  constructor(target) {
+  constructor(declaration) {
     this.type = "Export";
-    this.target = target;
+    this.declaration = declaration;
+  }
+}
+
+export class ExportAllFrom {
+  constructor(moduleSpecifier) {
+    this.type = "ExportAllFrom";
+    this.moduleSpecifier = moduleSpecifier;
   }
 }
 
 export class ExportDefault {
-  constructor(target) {
+  constructor(value) {
     this.type = "ExportDefault";
-    this.target = target;
+    this.value = value;
+  }
+}
+
+export class ExportFrom {
+  constructor(namedExports, moduleSpecifier) {
+    this.type = "ExportFrom";
+    this.namedExports = namedExports;
+    this.moduleSpecifier = moduleSpecifier;
   }
 }
 
 export class ExportSpecifier {
-  constructor(identifier, as) {
+  constructor(name, exportedName) {
     this.type = "ExportSpecifier";
-    this.identifier = identifier;
-    this.as = as;
+    this.name = name;
+    this.exportedName = exportedName;
   }
 }
 
