@@ -13,13 +13,13 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --compilers js:./6to5-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "6to5 --modules commonStandard --source-maps-inline --out-dir dist src",
-    "generate-coverage": "istanbul cover _mocha -- --compilers js:./6to5-register --inline-diffs --check-leaks --ui tdd --reporter dot --recursive test",
+    "test": "mocha --compilers js:./babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "build": "babel --modules commonStrict --source-maps-inline --out-dir dist src",
+    "generate-coverage": "istanbul cover _mocha -- --compilers js:./babel-register --inline-diffs --check-leaks --ui tdd --reporter dot --recursive test",
     "check-coverage": "istanbul check-coverage --statements 96 --branches 54 --functions 100 --lines 97"
   },
   "devDependencies": {
-    "6to5": "3.5.3",
+    "babel": "4.3.0",
     "istanbul": "^0.3.5",
     "mocha": "^2.0.1"
   },
