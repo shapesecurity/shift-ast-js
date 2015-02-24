@@ -154,10 +154,9 @@ export class ClassElement {
 // modules
 
 export class Module {
-  constructor(directives, sourceElements) {
+  constructor(moduleItems) {
     this.type = "Module";
-    this.directives = directives;
-    this.sourceElements = sourceElements;
+    this.moduleItems = moduleItems;
   }
 }
 

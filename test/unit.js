@@ -97,7 +97,7 @@ suite("unit", () => {
     LiteralRegExpExpression: ["pattern", "flags"],
     LiteralStringExpression: ["value"],
     Method: ["isGenerator", "name", "parameters", "restParameter", "body"],
-    Module: ["directives", "sourceElements"],
+    Module: ["moduleItems"],
     NewExpression: ["callee", "arguments"],
     NewTargetExpression: [],
     ObjectBinding: ["properties"],
