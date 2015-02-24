@@ -154,9 +154,9 @@ export class ClassElement {
 // modules
 
 export class Module {
-  constructor(moduleItems) {
+  constructor(items) {
     this.type = "Module";
-    this.moduleItems = moduleItems;
+    this.items = items;
   }
 }
 
@@ -201,9 +201,9 @@ export class ExportAllFrom {
 }
 
 export class ExportDefault {
-  constructor(value) {
+  constructor(body) {
     this.type = "ExportDefault";
-    this.value = value;
+    this.body = body;
   }
 }
 
@@ -316,14 +316,14 @@ export class ShorthandProperty {
 }
 
 export class ComputedPropertyName {
-  constructor(value) {
+  constructor(expression) {
     this.type = "ComputedPropertyName";
-    this.value = value;
+    this.expression = expression;
   }
 }
 
 export class StaticPropertyName {
-  constructor( value) {
+  constructor(value) {
     this.type = "StaticPropertyName";
     this.value = value;
   }
@@ -471,9 +471,9 @@ export class StaticMemberExpression extends MemberExpression {
   }
 }
 
-export class TemplateString {
+export class TemplateExpression {
   constructor(tag, elements) {
-    this.type = "TemplateString";
+    this.type = "TemplateExpression";
     this.tag = tag;
     this.elements = elements;
   }
@@ -686,9 +686,9 @@ export class CatchClause {
 }
 
 export class Directive {
-  constructor(value) {
+  constructor(rawValue) {
     this.type = "Directive";
-    this.value = value;
+    this.rawValue = rawValue;
   }
 }
 
@@ -734,10 +734,10 @@ export class SwitchDefault {
   }
 }
 
-export class TemplateLiteral {
-  constructor(value) {
-    this.type = "TemplateLiteral";
-    this.value = value;
+export class TemplateElement {
+  constructor(rawValue) {
+    this.type = "TemplateElement";
+    this.rawValue = rawValue;
   }
 }
 
