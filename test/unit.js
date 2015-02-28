@@ -58,9 +58,9 @@ suite("unit", () => {
     BreakStatement: ["label"],
     CallExpression: ["callee", "arguments"],
     CatchClause: ["binding", "body"],
+    ClassDeclaration: ["name", "super", "elements"],
     ClassElement: ["isStatic", "method"],
     ClassExpression: ["name", "super", "elements"],
-    ClassDeclaration: ["name", "super", "elements"],
     ComputedMemberExpression: ["object", "expression"],
     ComputedPropertyName: ["expression"],
     ConditionalExpression: ["test", "consequent", "alternate"],
@@ -108,8 +108,6 @@ suite("unit", () => {
     Script: ["body"],
     Setter: ["name", "parameter", "body"],
     ShorthandProperty: ["name"],
-    SourceLocation: ["offset", "line", "column"],
-    SourceSpan: ["start", "end", "source"],
     SpreadElement: ["expression"],
     StaticMemberExpression: ["object", "property"],
     StaticPropertyName: ["value"],
@@ -132,6 +130,9 @@ suite("unit", () => {
     YieldExpression: ["expression"],
     YieldGeneratorExpression: ["expression"],
   };
+
+  SPEC.SourceLocation = ["offset", "line", "column"];
+  SPEC.SourceSpan = ["start", "end", "source"];
 
   suite("constructors", () => {
     test("all constructors are tested", () => {
