@@ -16,7 +16,11 @@
 
 import * as assert from "assert";
 
-import * as Shift from "../"
+import * as Shift from "../";
+
+import ShiftSpec from "shift-spec";
+
+Object.assign = require("object-assign");
 
 suite("unit", () => {
   suite("toJSON", () => {
@@ -43,93 +47,7 @@ suite("unit", () => {
     });
   }
 
-  const SPEC = {
-    ArrayBinding: ["elements", "restElement"],
-    ArrayExpression: ["elements"],
-    ArrowExpression: ["parameters", "restParameter", "body"],
-    AssignmentExpression: ["operator", "binding", "expression"],
-    BinaryExpression: ["operator", "left", "right"],
-    BindingIdentifier: ["identifier"],
-    BindingPropertyIdentifier: ["identifier", "init"],
-    BindingPropertyProperty: ["name", "binding"],
-    BindingWithDefault: ["binding", "init"],
-    Block: ["statements"],
-    BlockStatement: ["block"],
-    BreakStatement: ["label"],
-    CallExpression: ["callee", "arguments"],
-    CatchClause: ["binding", "body"],
-    ClassDeclaration: ["name", "super", "elements"],
-    ClassElement: ["isStatic", "method"],
-    ClassExpression: ["name", "super", "elements"],
-    ComputedMemberExpression: ["object", "expression"],
-    ComputedPropertyName: ["expression"],
-    ConditionalExpression: ["test", "consequent", "alternate"],
-    ContinueStatement: ["label"],
-    DataProperty: ["name", "expression"],
-    DebuggerStatement: [],
-    Directive: ["rawValue"],
-    DoWhileStatement: ["body", "test"],
-    EmptyStatement: [],
-    Export: ["declaration"],
-    ExportAllFrom: ["moduleSpecifier"],
-    ExportDefault: ["body"],
-    ExportFrom: ["namedExports", "moduleSpecifier"],
-    ExportSpecifier: ["name", "exportedName"],
-    ExpressionStatement: ["expression"],
-    ForInStatement: ["left", "right", "body"],
-    ForOfStatement: ["left", "right", "body"],
-    ForStatement: ["init", "test", "update", "body"],
-    FunctionBody: ["directives", "statements"],
-    FunctionDeclaration: ["isGenerator", "name", "parameters", "restParameter", "body"],
-    FunctionExpression: ["isGenerator", "name", "parameters", "restParameter", "body"],
-    Getter: ["name", "body"],
-    Identifier: ["name"],
-    IdentifierExpression: ["identifier"],
-    IfStatement: ["test", "consequent", "alternate"],
-    Import: ["defaultBinding", "namedImports", "moduleSpecifier"],
-    ImportNamespace: ["defaultBinding", "namespaceBinding", "moduleSpecifier"],
-    ImportSpecifier: ["name", "binding"],
-    LabeledStatement: ["label", "body"],
-    LiteralBooleanExpression: ["value"],
-    LiteralInfinityExpression: [],
-    LiteralNullExpression: [],
-    LiteralNumericExpression: ["value"],
-    LiteralRegExpExpression: ["pattern", "flags"],
-    LiteralStringExpression: ["value"],
-    Method: ["isGenerator", "name", "parameters", "restParameter", "body"],
-    Module: ["items"],
-    NewExpression: ["callee", "arguments"],
-    NewTargetExpression: [],
-    ObjectBinding: ["properties"],
-    ObjectExpression: ["properties"],
-    PostfixExpression: ["operand", "operator"],
-    PrefixExpression: ["operator", "operand"],
-    ReturnStatement: ["expression"],
-    Script: ["body"],
-    Setter: ["name", "parameter", "body"],
-    ShorthandProperty: ["name"],
-    SpreadElement: ["expression"],
-    StaticMemberExpression: ["object", "property"],
-    StaticPropertyName: ["value"],
-    Super: [],
-    SwitchCase: ["test", "consequent"],
-    SwitchDefault: ["consequent"],
-    SwitchStatement: ["discriminant", "cases"],
-    SwitchStatementWithDefault: ["discriminant", "preDefaultCases", "defaultCase", "postDefaultCases"],
-    TemplateElement: ["rawValue"],
-    TemplateExpression: ["tag", "elements"],
-    ThisExpression: [],
-    ThrowStatement: ["expression"],
-    TryCatchStatement: ["body", "catchClause"],
-    TryFinallyStatement: ["body", "catchClause", "finalizer"],
-    VariableDeclaration: ["kind", "declarators"],
-    VariableDeclarationStatement: ["declaration"],
-    VariableDeclarator: ["binding", "init"],
-    WhileStatement: ["test", "body"],
-    WithStatement: ["object", "body"],
-    YieldExpression: ["expression"],
-    YieldGeneratorExpression: ["expression"],
-  };
+  let SPEC = Object.assign({}, ShiftSpec());
 
   SPEC.SourceLocation = ["offset", "line", "column"];
   SPEC.SourceSpan = ["start", "end", "source"];
