@@ -1,6 +1,6 @@
 {
   "name": "shift-ast",
-  "version": "2.0.0-pre-001",
+  "version": "3.0.0",
   "description": "constructors for the Shift AST format",
   "author": "Shape Security Labs",
   "homepage": "https://github.com/shapesecurity/shift-ast-js",
@@ -13,15 +13,17 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha --compilers js:./babel-register --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "babel --modules commonStrict --source-maps-inline --out-dir dist src",
-    "generate-coverage": "istanbul cover _mocha -- --compilers js:./babel-register --inline-diffs --check-leaks --ui tdd --reporter dot --recursive test",
-    "check-coverage": "istanbul check-coverage --statements 96 --branches 54 --functions 100 --lines 97"
+    "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot test",
+    "build": "mkdir -p gen dist && babel-node src/generate.js && babel --out-dir dist gen",
+    "prepublish": "rm -rf gen dist && npm update && npm run build"
   },
   "devDependencies": {
-    "babel": "4.3.0",
-    "istanbul": "^0.3.5",
-    "mocha": "^2.0.1"
+    "babel-cli": "6.3.13",
+    "babel-register": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "esutils": "^2.0.2",
+    "mocha": "^2.3.4",
+    "shift-spec": "^2015.2.1"
   },
   "keywords": [
     "Shift",
