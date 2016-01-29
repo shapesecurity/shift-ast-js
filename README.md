@@ -24,10 +24,10 @@ npm install shift-ast
 
 ```js
 var AST = require("shift-ast");
-var myAstFragment = new AST.LabeledStatement(
-  new AST.Identifier("label"),
-  new AST.EmptyStatement
-);
+var myAstFragment = new AST.LabeledStatement({
+  label: "label",
+  body: new AST.EmptyStatement
+});
 ```
 
 
