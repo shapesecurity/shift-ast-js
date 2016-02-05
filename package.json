@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "mkdir -p gen dist && babel-node src/generate.js && babel --out-dir dist gen",
+    "build": "mkdir -p gen dist && babel-node src/generate.js && babel-node src/generate-checked.js && babel --out-dir dist gen",
     "prepublish": "rm -rf gen dist && npm update && npm run build"
   },
   "devDependencies": {
