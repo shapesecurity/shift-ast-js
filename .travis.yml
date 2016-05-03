@@ -1,3 +1,4 @@
+sudo: false
 language: node_js
 script:
   - curl https://raw.githubusercontent.com/shapesecurity/CLA/master/cla-travis.sh | bash
@@ -6,4 +7,4 @@ script:
 node_js:
   - "0.12"
   - "4"
-  - "5"
+  - "6"
