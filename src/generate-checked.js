@@ -56,14 +56,14 @@ function printType(type, flattenUnion = false) {
       }
       return `one of {${types}}`;
     case 'Enum':
-      return `one of {${type.values.map(x=>'"'+x+'"').join(', ')}}`;
+      return `one of {${type.values.map(x=>`"${x}"`).join(', ')}}`;
     default:
       return type.typeName;
   }
 }
 
-const ExpressionType = Spec.ExpressionStatement.fields[2].type;
-const StatementType = Spec.LabeledStatement.fields[3].type;
+const ExpressionType = Spec.ExpressionStatement.fields[1].type;
+const StatementType = Spec.LabeledStatement.fields[2].type;
 function typeCheck(name, type, {includeUndefCheck = true, isExpressionCheck = false, isStatementCheck = false} = {}) {
   if (!isExpressionCheck && type === ExpressionType) {
     return `isNotExpression(${name})`;

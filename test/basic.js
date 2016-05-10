@@ -20,10 +20,10 @@ var Spec = require('shift-spec').default;
 var assert = require('assert');
 
 function construct(type, AST) {
-  if (type === Spec.ExpressionStatement.fields[2].type) { // i.e. expression
+  if (type === Spec.ExpressionStatement.fields[1].type) { // i.e. expression
     return new AST.LiteralNullExpression;
   }
-  if (type === Spec.LabeledStatement.fields[3].type) { // i.e. statement
+  if (type === Spec.LabeledStatement.fields[2].type) { // i.e. statement
     return new AST.ExpressionStatement({expression: new AST.LiteralNullExpression});
   }
   switch (type.typeName) {
@@ -43,7 +43,7 @@ function construct(type, AST) {
       return type.values[0];
     default:
       var fieldsObj = {};
-      type.fields.filter(function (f) { return (f.name !== 'type' && f.name !== 'loc'); }).forEach(function (f) {
+      type.fields.filter(function (f) { return (f.name !== 'type'); }).forEach(function (f) {
         fieldsObj[f.name] = construct(f.type, AST);
       });
       return new AST[type.typeName](fieldsObj);
@@ -52,7 +52,7 @@ function construct(type, AST) {
 
 describe('ShiftAST', function() {
   it('has the appropriate number of types', function(){
-    assert.equal(Object.keys(ShiftAST).length, 88);
+    assert.equal(Object.keys(ShiftAST).length, 96);
   });
 
   it('can construct everything', function(){
@@ -76,7 +76,7 @@ describe('ShiftAST', function() {
 
 describe('ShiftAST/checked', function() {
   it('has the appropriate number of types', function(){
-    assert.equal(Object.keys(ShiftASTChecked).length, 88);
+    assert.equal(Object.keys(ShiftASTChecked).length, 96);
   });
 
   it('can construct everything', function(){
