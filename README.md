@@ -7,6 +7,9 @@ Shift AST Constructors
 This project provides constructors for
 [Shift format](https://github.com/shapesecurity/shift-spec) AST nodes.
 
+The resulting objects are suitable for use with the rest of the [Shift suite](http://shift-ast.org/).
+
+There is a version with typechecking available as `shift-ast/checked` for use during development.
 
 ## Status
 
@@ -23,7 +26,7 @@ npm install shift-ast
 ## Usage
 
 ```js
-var AST = require("shift-ast");
+var AST = require("shift-ast"); // or "shift-ast/checked"
 var myAstFragment = new AST.LabeledStatement({
   label: "label",
   body: new AST.EmptyStatement
