@@ -126,6 +126,22 @@ function isNotExpression(node) {
 function isNotStatement(node) {
   return ${typeCheck('node', StatementType, {isStatementCheck: true})};
 }
+
+function printActualType(arg) {
+  if (typeof arg !== 'object') {
+    return typeof arg;
+  }
+  if (Array.isArray(arg)) {
+    return \`[\${arg.map(printActualType).join(', ')}]\`;
+  }
+  if (arg === null) {
+    return null;
+  }
+  if (!arg.type) {
+    return JSON.stringify(arg);
+  }
+  return arg.type;
+}
 `;
 
 
@@ -139,7 +155,7 @@ for (let typename in Spec) {
       let fname = sanitize(f.name);
       return `
     if (${typeCheck(fname, f.type)}) {
-      throw new TypeError('Field "${f.name}" of ${typename} constructor is of incorrect type (expected ${printType(f.type)})');
+      throw new TypeError('Field "${f.name}" of ${typename} constructor is of incorrect type (expected ${printType(f.type)}, got ' + printActualType(${fname}) + ')');
     }`
       }).join('');
   } else {

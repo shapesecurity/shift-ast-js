@@ -24,13 +24,29 @@ function isNotStatement(node) {
   return node === undefined || (node.type !== 'BlockStatement') && (node.type !== 'BreakStatement') && (node.type !== 'ClassDeclaration') && (node.type !== 'ContinueStatement') && (node.type !== 'DebuggerStatement') && (node.type !== 'EmptyStatement') && (node.type !== 'ExpressionStatement') && (node.type !== 'FunctionDeclaration') && (node.type !== 'IfStatement') && ((node.type !== 'DoWhileStatement') && (node.type !== 'ForInStatement') && (node.type !== 'ForOfStatement') && (node.type !== 'ForStatement') && (node.type !== 'WhileStatement')) && (node.type !== 'LabeledStatement') && (node.type !== 'ReturnStatement') && (node.type !== 'SwitchStatement') && (node.type !== 'SwitchStatementWithDefault') && (node.type !== 'ThrowStatement') && (node.type !== 'TryCatchStatement') && (node.type !== 'TryFinallyStatement') && (node.type !== 'VariableDeclarationStatement') && (node.type !== 'WithStatement');
 }
 
+function printActualType(arg) {
+  if (typeof arg !== 'object') {
+    return typeof arg;
+  }
+  if (Array.isArray(arg)) {
+    return `[${arg.map(printActualType).join(', ')}]`;
+  }
+  if (arg === null) {
+    return null;
+  }
+  if (!arg.type) {
+    return JSON.stringify(arg);
+  }
+  return arg.type;
+}
+
 export class ArrayAssignmentTarget {
   constructor({elements, rest}) {
     if (elements === undefined || !Array.isArray(elements) || elements.some(f => f === undefined || f !== null && ((f.type !== 'AssignmentTargetWithDefault') && (((f.type !== 'ArrayAssignmentTarget') && (f.type !== 'ObjectAssignmentTarget')) && ((f.type !== 'AssignmentTargetIdentifier') && ((f.type !== 'ComputedMemberAssignmentTarget') && (f.type !== 'StaticMemberAssignmentTarget'))))))) {
-      throw new TypeError('Field "elements" of ArrayAssignmentTarget constructor is of incorrect type (expected [null or one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}])');
+      throw new TypeError('Field "elements" of ArrayAssignmentTarget constructor is of incorrect type (expected [null or one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}], got ' + printActualType(elements) + ')');
     }
     if (rest === undefined || rest !== null && (((rest.type !== 'ArrayAssignmentTarget') && (rest.type !== 'ObjectAssignmentTarget')) && ((rest.type !== 'AssignmentTargetIdentifier') && ((rest.type !== 'ComputedMemberAssignmentTarget') && (rest.type !== 'StaticMemberAssignmentTarget'))))) {
-      throw new TypeError('Field "rest" of ArrayAssignmentTarget constructor is of incorrect type (expected null or one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget})');
+      throw new TypeError('Field "rest" of ArrayAssignmentTarget constructor is of incorrect type (expected null or one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
     }
     this.type = 'ArrayAssignmentTarget';
     this.elements = elements;
@@ -41,10 +57,10 @@ export class ArrayAssignmentTarget {
 export class ArrayBinding {
   constructor({elements, rest}) {
     if (elements === undefined || !Array.isArray(elements) || elements.some(f => f === undefined || f !== null && ((f.type !== 'BindingWithDefault') && ((f.type !== 'BindingIdentifier') && ((f.type !== 'ArrayBinding') && (f.type !== 'ObjectBinding')))))) {
-      throw new TypeError('Field "elements" of ArrayBinding constructor is of incorrect type (expected [null or one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}])');
+      throw new TypeError('Field "elements" of ArrayBinding constructor is of incorrect type (expected [null or one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}], got ' + printActualType(elements) + ')');
     }
     if (rest === undefined || rest !== null && ((rest.type !== 'BindingIdentifier') && ((rest.type !== 'ArrayBinding') && (rest.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "rest" of ArrayBinding constructor is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding})');
+      throw new TypeError('Field "rest" of ArrayBinding constructor is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
     }
     this.type = 'ArrayBinding';
     this.elements = elements;
@@ -55,7 +71,7 @@ export class ArrayBinding {
 export class ArrayExpression {
   constructor({elements}) {
     if (elements === undefined || !Array.isArray(elements) || elements.some(f => f === undefined || f !== null && ((isNotExpression(f)) && (f.type !== 'SpreadElement')))) {
-      throw new TypeError('Field "elements" of ArrayExpression constructor is of incorrect type (expected [null or one of {Expression, SpreadElement}])');
+      throw new TypeError('Field "elements" of ArrayExpression constructor is of incorrect type (expected [null or one of {Expression, SpreadElement}], got ' + printActualType(elements) + ')');
     }
     this.type = 'ArrayExpression';
     this.elements = elements;
@@ -65,10 +81,10 @@ export class ArrayExpression {
 export class ArrowExpression {
   constructor({params, body}) {
     if (params === undefined || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of ArrowExpression constructor is of incorrect type (expected FormalParameters)');
+      throw new TypeError('Field "params" of ArrowExpression constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (body === undefined || (isNotExpression(body)) && (body.type !== 'FunctionBody')) {
-      throw new TypeError('Field "body" of ArrowExpression constructor is of incorrect type (expected one of {Expression, FunctionBody})');
+      throw new TypeError('Field "body" of ArrowExpression constructor is of incorrect type (expected one of {Expression, FunctionBody}, got ' + printActualType(body) + ')');
     }
     this.type = 'ArrowExpression';
     this.params = params;
@@ -79,10 +95,10 @@ export class ArrowExpression {
 export class AssignmentExpression {
   constructor({binding, expression}) {
     if (binding === undefined || ((binding.type !== 'ArrayAssignmentTarget') && (binding.type !== 'ObjectAssignmentTarget')) && ((binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget')))) {
-      throw new TypeError('Field "binding" of AssignmentExpression constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget})');
+      throw new TypeError('Field "binding" of AssignmentExpression constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of AssignmentExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of AssignmentExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'AssignmentExpression';
     this.binding = binding;
@@ -93,7 +109,7 @@ export class AssignmentExpression {
 export class AssignmentTargetIdentifier {
   constructor({name}) {
     if (name === undefined || typeof name !== 'string') {
-      throw new TypeError('Field "name" of AssignmentTargetIdentifier constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "name" of AssignmentTargetIdentifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'AssignmentTargetIdentifier';
     this.name = name;
@@ -103,10 +119,10 @@ export class AssignmentTargetIdentifier {
 export class AssignmentTargetPropertyIdentifier {
   constructor({binding, init}) {
     if (binding === undefined || binding.type !== 'AssignmentTargetIdentifier') {
-      throw new TypeError('Field "binding" of AssignmentTargetPropertyIdentifier constructor is of incorrect type (expected AssignmentTargetIdentifier)');
+      throw new TypeError('Field "binding" of AssignmentTargetPropertyIdentifier constructor is of incorrect type (expected AssignmentTargetIdentifier, got ' + printActualType(binding) + ')');
     }
     if (init === undefined || init !== null && (isNotExpression(init))) {
-      throw new TypeError('Field "init" of AssignmentTargetPropertyIdentifier constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "init" of AssignmentTargetPropertyIdentifier constructor is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'AssignmentTargetPropertyIdentifier';
     this.binding = binding;
@@ -117,10 +133,10 @@ export class AssignmentTargetPropertyIdentifier {
 export class AssignmentTargetPropertyProperty {
   constructor({name, binding}) {
     if (name === undefined || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of AssignmentTargetPropertyProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName})');
+      throw new TypeError('Field "name" of AssignmentTargetPropertyProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (binding === undefined || (binding.type !== 'AssignmentTargetWithDefault') && (((binding.type !== 'ArrayAssignmentTarget') && (binding.type !== 'ObjectAssignmentTarget')) && ((binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget'))))) {
-      throw new TypeError('Field "binding" of AssignmentTargetPropertyProperty constructor is of incorrect type (expected one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget})');
+      throw new TypeError('Field "binding" of AssignmentTargetPropertyProperty constructor is of incorrect type (expected one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     this.type = 'AssignmentTargetPropertyProperty';
     this.name = name;
@@ -131,10 +147,10 @@ export class AssignmentTargetPropertyProperty {
 export class AssignmentTargetWithDefault {
   constructor({binding, init}) {
     if (binding === undefined || ((binding.type !== 'ArrayAssignmentTarget') && (binding.type !== 'ObjectAssignmentTarget')) && ((binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget')))) {
-      throw new TypeError('Field "binding" of AssignmentTargetWithDefault constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget})');
+      throw new TypeError('Field "binding" of AssignmentTargetWithDefault constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     if (isNotExpression(init)) {
-      throw new TypeError('Field "init" of AssignmentTargetWithDefault constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "init" of AssignmentTargetWithDefault constructor is of incorrect type (expected Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'AssignmentTargetWithDefault';
     this.binding = binding;
@@ -145,13 +161,13 @@ export class AssignmentTargetWithDefault {
 export class BinaryExpression {
   constructor({left, operator, right}) {
     if (isNotExpression(left)) {
-      throw new TypeError('Field "left" of BinaryExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "left" of BinaryExpression constructor is of incorrect type (expected Expression, got ' + printActualType(left) + ')');
     }
     if (operator === undefined || ["==","!=","===","!==","<","<=",">",">=","in","instanceof","<<",">>",">>>","+","-","*","/","%","**",",","||","&&","|","^","&"].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of BinaryExpression constructor is of incorrect type (expected one of {"==", "!=", "===", "!==", "<", "<=", ">", ">=", "in", "instanceof", "<<", ">>", ">>>", "+", "-", "*", "/", "%", "**", ",", "||", "&&", "|", "^", "&"})');
+      throw new TypeError('Field "operator" of BinaryExpression constructor is of incorrect type (expected one of {"==", "!=", "===", "!==", "<", "<=", ">", ">=", "in", "instanceof", "<<", ">>", ">>>", "+", "-", "*", "/", "%", "**", ",", "||", "&&", "|", "^", "&"}, got ' + printActualType(operator) + ')');
     }
     if (isNotExpression(right)) {
-      throw new TypeError('Field "right" of BinaryExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "right" of BinaryExpression constructor is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
     }
     this.type = 'BinaryExpression';
     this.left = left;
@@ -163,7 +179,7 @@ export class BinaryExpression {
 export class BindingIdentifier {
   constructor({name}) {
     if (name === undefined || typeof name !== 'string') {
-      throw new TypeError('Field "name" of BindingIdentifier constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "name" of BindingIdentifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'BindingIdentifier';
     this.name = name;
@@ -173,10 +189,10 @@ export class BindingIdentifier {
 export class BindingPropertyIdentifier {
   constructor({binding, init}) {
     if (binding === undefined || binding.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "binding" of BindingPropertyIdentifier constructor is of incorrect type (expected BindingIdentifier)');
+      throw new TypeError('Field "binding" of BindingPropertyIdentifier constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(binding) + ')');
     }
     if (init === undefined || init !== null && (isNotExpression(init))) {
-      throw new TypeError('Field "init" of BindingPropertyIdentifier constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "init" of BindingPropertyIdentifier constructor is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'BindingPropertyIdentifier';
     this.binding = binding;
@@ -187,10 +203,10 @@ export class BindingPropertyIdentifier {
 export class BindingPropertyProperty {
   constructor({name, binding}) {
     if (name === undefined || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of BindingPropertyProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName})');
+      throw new TypeError('Field "name" of BindingPropertyProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (binding === undefined || (binding.type !== 'BindingWithDefault') && ((binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "binding" of BindingPropertyProperty constructor is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding})');
+      throw new TypeError('Field "binding" of BindingPropertyProperty constructor is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     this.type = 'BindingPropertyProperty';
     this.name = name;
@@ -201,10 +217,10 @@ export class BindingPropertyProperty {
 export class BindingWithDefault {
   constructor({binding, init}) {
     if (binding === undefined || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of BindingWithDefault constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding})');
+      throw new TypeError('Field "binding" of BindingWithDefault constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (isNotExpression(init)) {
-      throw new TypeError('Field "init" of BindingWithDefault constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "init" of BindingWithDefault constructor is of incorrect type (expected Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'BindingWithDefault';
     this.binding = binding;
@@ -215,7 +231,7 @@ export class BindingWithDefault {
 export class Block {
   constructor({statements}) {
     if (statements === undefined || !Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "statements" of Block constructor is of incorrect type (expected [Statement])');
+      throw new TypeError('Field "statements" of Block constructor is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
     }
     this.type = 'Block';
     this.statements = statements;
@@ -225,7 +241,7 @@ export class Block {
 export class BlockStatement {
   constructor({block}) {
     if (block === undefined || block.type !== 'Block') {
-      throw new TypeError('Field "block" of BlockStatement constructor is of incorrect type (expected Block)');
+      throw new TypeError('Field "block" of BlockStatement constructor is of incorrect type (expected Block, got ' + printActualType(block) + ')');
     }
     this.type = 'BlockStatement';
     this.block = block;
@@ -235,7 +251,7 @@ export class BlockStatement {
 export class BreakStatement {
   constructor({label}) {
     if (label === undefined || label !== null && (typeof label !== 'string')) {
-      throw new TypeError('Field "label" of BreakStatement constructor is of incorrect type (expected null or string)');
+      throw new TypeError('Field "label" of BreakStatement constructor is of incorrect type (expected null or string, got ' + printActualType(label) + ')');
     }
     this.type = 'BreakStatement';
     this.label = label;
@@ -245,10 +261,10 @@ export class BreakStatement {
 export class CallExpression {
   constructor({callee, arguments: _arguments}) {
     if (callee === undefined || (isNotExpression(callee)) && (callee.type !== 'Super')) {
-      throw new TypeError('Field "callee" of CallExpression constructor is of incorrect type (expected one of {Expression, Super})');
+      throw new TypeError('Field "callee" of CallExpression constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(callee) + ')');
     }
     if (_arguments === undefined || !Array.isArray(_arguments) || _arguments.some(f => f === undefined || (isNotExpression(f)) && (f.type !== 'SpreadElement'))) {
-      throw new TypeError('Field "arguments" of CallExpression constructor is of incorrect type (expected [one of {Expression, SpreadElement}])');
+      throw new TypeError('Field "arguments" of CallExpression constructor is of incorrect type (expected [one of {Expression, SpreadElement}], got ' + printActualType(_arguments) + ')');
     }
     this.type = 'CallExpression';
     this.callee = callee;
@@ -259,10 +275,10 @@ export class CallExpression {
 export class CatchClause {
   constructor({binding, body}) {
     if (binding === undefined || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of CatchClause constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding})');
+      throw new TypeError('Field "binding" of CatchClause constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (body === undefined || body.type !== 'Block') {
-      throw new TypeError('Field "body" of CatchClause constructor is of incorrect type (expected Block)');
+      throw new TypeError('Field "body" of CatchClause constructor is of incorrect type (expected Block, got ' + printActualType(body) + ')');
     }
     this.type = 'CatchClause';
     this.binding = binding;
@@ -273,13 +289,13 @@ export class CatchClause {
 export class ClassDeclaration {
   constructor({name, super: _super, elements}) {
     if (name === undefined || name.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "name" of ClassDeclaration constructor is of incorrect type (expected BindingIdentifier)');
+      throw new TypeError('Field "name" of ClassDeclaration constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (_super === undefined || _super !== null && (isNotExpression(_super))) {
-      throw new TypeError('Field "super" of ClassDeclaration constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "super" of ClassDeclaration constructor is of incorrect type (expected null or Expression, got ' + printActualType(_super) + ')');
     }
     if (elements === undefined || !Array.isArray(elements) || elements.some(f => f === undefined || f.type !== 'ClassElement')) {
-      throw new TypeError('Field "elements" of ClassDeclaration constructor is of incorrect type (expected [ClassElement])');
+      throw new TypeError('Field "elements" of ClassDeclaration constructor is of incorrect type (expected [ClassElement], got ' + printActualType(elements) + ')');
     }
     this.type = 'ClassDeclaration';
     this.name = name;
@@ -291,10 +307,10 @@ export class ClassDeclaration {
 export class ClassElement {
   constructor({isStatic, method}) {
     if (isStatic === undefined || typeof isStatic !== 'boolean') {
-      throw new TypeError('Field "isStatic" of ClassElement constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "isStatic" of ClassElement constructor is of incorrect type (expected boolean, got ' + printActualType(isStatic) + ')');
     }
     if (method === undefined || (method.type !== 'Getter') && (method.type !== 'Method') && (method.type !== 'Setter')) {
-      throw new TypeError('Field "method" of ClassElement constructor is of incorrect type (expected one of {Getter, Method, Setter})');
+      throw new TypeError('Field "method" of ClassElement constructor is of incorrect type (expected one of {Getter, Method, Setter}, got ' + printActualType(method) + ')');
     }
     this.type = 'ClassElement';
     this.isStatic = isStatic;
@@ -305,13 +321,13 @@ export class ClassElement {
 export class ClassExpression {
   constructor({name, super: _super, elements}) {
     if (name === undefined || name !== null && (name.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "name" of ClassExpression constructor is of incorrect type (expected null or BindingIdentifier)');
+      throw new TypeError('Field "name" of ClassExpression constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (_super === undefined || _super !== null && (isNotExpression(_super))) {
-      throw new TypeError('Field "super" of ClassExpression constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "super" of ClassExpression constructor is of incorrect type (expected null or Expression, got ' + printActualType(_super) + ')');
     }
     if (elements === undefined || !Array.isArray(elements) || elements.some(f => f === undefined || f.type !== 'ClassElement')) {
-      throw new TypeError('Field "elements" of ClassExpression constructor is of incorrect type (expected [ClassElement])');
+      throw new TypeError('Field "elements" of ClassExpression constructor is of incorrect type (expected [ClassElement], got ' + printActualType(elements) + ')');
     }
     this.type = 'ClassExpression';
     this.name = name;
@@ -323,13 +339,13 @@ export class ClassExpression {
 export class CompoundAssignmentExpression {
   constructor({binding, operator, expression}) {
     if (binding === undefined || (binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget'))) {
-      throw new TypeError('Field "binding" of CompoundAssignmentExpression constructor is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget})');
+      throw new TypeError('Field "binding" of CompoundAssignmentExpression constructor is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     if (operator === undefined || ["+=","-=","*=","/=","%=","**=","<<=",">>=",">>>=","|=","^=","&="].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of CompoundAssignmentExpression constructor is of incorrect type (expected one of {"+=", "-=", "*=", "/=", "%=", "**=", "<<=", ">>=", ">>>=", "|=", "^=", "&="})');
+      throw new TypeError('Field "operator" of CompoundAssignmentExpression constructor is of incorrect type (expected one of {"+=", "-=", "*=", "/=", "%=", "**=", "<<=", ">>=", ">>>=", "|=", "^=", "&="}, got ' + printActualType(operator) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of CompoundAssignmentExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of CompoundAssignmentExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'CompoundAssignmentExpression';
     this.binding = binding;
@@ -341,10 +357,10 @@ export class CompoundAssignmentExpression {
 export class ComputedMemberAssignmentTarget {
   constructor({object, expression}) {
     if (object === undefined || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of ComputedMemberAssignmentTarget constructor is of incorrect type (expected one of {Expression, Super})');
+      throw new TypeError('Field "object" of ComputedMemberAssignmentTarget constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ComputedMemberAssignmentTarget constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of ComputedMemberAssignmentTarget constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ComputedMemberAssignmentTarget';
     this.object = object;
@@ -355,10 +371,10 @@ export class ComputedMemberAssignmentTarget {
 export class ComputedMemberExpression {
   constructor({object, expression}) {
     if (object === undefined || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of ComputedMemberExpression constructor is of incorrect type (expected one of {Expression, Super})');
+      throw new TypeError('Field "object" of ComputedMemberExpression constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ComputedMemberExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of ComputedMemberExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ComputedMemberExpression';
     this.object = object;
@@ -369,7 +385,7 @@ export class ComputedMemberExpression {
 export class ComputedPropertyName {
   constructor({expression}) {
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ComputedPropertyName constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of ComputedPropertyName constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ComputedPropertyName';
     this.expression = expression;
@@ -379,13 +395,13 @@ export class ComputedPropertyName {
 export class ConditionalExpression {
   constructor({test, consequent, alternate}) {
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of ConditionalExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "test" of ConditionalExpression constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     if (isNotExpression(consequent)) {
-      throw new TypeError('Field "consequent" of ConditionalExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "consequent" of ConditionalExpression constructor is of incorrect type (expected Expression, got ' + printActualType(consequent) + ')');
     }
     if (isNotExpression(alternate)) {
-      throw new TypeError('Field "alternate" of ConditionalExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "alternate" of ConditionalExpression constructor is of incorrect type (expected Expression, got ' + printActualType(alternate) + ')');
     }
     this.type = 'ConditionalExpression';
     this.test = test;
@@ -397,7 +413,7 @@ export class ConditionalExpression {
 export class ContinueStatement {
   constructor({label}) {
     if (label === undefined || label !== null && (typeof label !== 'string')) {
-      throw new TypeError('Field "label" of ContinueStatement constructor is of incorrect type (expected null or string)');
+      throw new TypeError('Field "label" of ContinueStatement constructor is of incorrect type (expected null or string, got ' + printActualType(label) + ')');
     }
     this.type = 'ContinueStatement';
     this.label = label;
@@ -407,10 +423,10 @@ export class ContinueStatement {
 export class DataProperty {
   constructor({name, expression}) {
     if (name === undefined || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of DataProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName})');
+      throw new TypeError('Field "name" of DataProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of DataProperty constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of DataProperty constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'DataProperty';
     this.name = name;
@@ -427,7 +443,7 @@ export class DebuggerStatement {
 export class Directive {
   constructor({rawValue}) {
     if (rawValue === undefined || typeof rawValue !== 'string') {
-      throw new TypeError('Field "rawValue" of Directive constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "rawValue" of Directive constructor is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
     }
     this.type = 'Directive';
     this.rawValue = rawValue;
@@ -437,10 +453,10 @@ export class Directive {
 export class DoWhileStatement {
   constructor({body, test}) {
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of DoWhileStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "body" of DoWhileStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of DoWhileStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "test" of DoWhileStatement constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     this.type = 'DoWhileStatement';
     this.body = body;
@@ -457,7 +473,7 @@ export class EmptyStatement {
 export class Export {
   constructor({declaration}) {
     if (declaration === undefined || (declaration.type !== 'ClassDeclaration') && (declaration.type !== 'FunctionDeclaration') && (declaration.type !== 'VariableDeclaration')) {
-      throw new TypeError('Field "declaration" of Export constructor is of incorrect type (expected one of {ClassDeclaration, FunctionDeclaration, VariableDeclaration})');
+      throw new TypeError('Field "declaration" of Export constructor is of incorrect type (expected one of {ClassDeclaration, FunctionDeclaration, VariableDeclaration}, got ' + printActualType(declaration) + ')');
     }
     this.type = 'Export';
     this.declaration = declaration;
@@ -467,7 +483,7 @@ export class Export {
 export class ExportAllFrom {
   constructor({moduleSpecifier}) {
     if (moduleSpecifier === undefined || typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of ExportAllFrom constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "moduleSpecifier" of ExportAllFrom constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ExportAllFrom';
     this.moduleSpecifier = moduleSpecifier;
@@ -477,7 +493,7 @@ export class ExportAllFrom {
 export class ExportDefault {
   constructor({body}) {
     if (body === undefined || (body.type !== 'ClassDeclaration') && (isNotExpression(body)) && (body.type !== 'FunctionDeclaration')) {
-      throw new TypeError('Field "body" of ExportDefault constructor is of incorrect type (expected one of {ClassDeclaration, Expression, FunctionDeclaration})');
+      throw new TypeError('Field "body" of ExportDefault constructor is of incorrect type (expected one of {ClassDeclaration, Expression, FunctionDeclaration}, got ' + printActualType(body) + ')');
     }
     this.type = 'ExportDefault';
     this.body = body;
@@ -487,10 +503,10 @@ export class ExportDefault {
 export class ExportFrom {
   constructor({namedExports, moduleSpecifier}) {
     if (namedExports === undefined || !Array.isArray(namedExports) || namedExports.some(f => f === undefined || f.type !== 'ExportFromSpecifier')) {
-      throw new TypeError('Field "namedExports" of ExportFrom constructor is of incorrect type (expected [ExportFromSpecifier])');
+      throw new TypeError('Field "namedExports" of ExportFrom constructor is of incorrect type (expected [ExportFromSpecifier], got ' + printActualType(namedExports) + ')');
     }
     if (moduleSpecifier === undefined || typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of ExportFrom constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "moduleSpecifier" of ExportFrom constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ExportFrom';
     this.namedExports = namedExports;
@@ -501,10 +517,10 @@ export class ExportFrom {
 export class ExportFromSpecifier {
   constructor({name, exportedName}) {
     if (name === undefined || typeof name !== 'string') {
-      throw new TypeError('Field "name" of ExportFromSpecifier constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "name" of ExportFromSpecifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     if (exportedName === undefined || exportedName !== null && (typeof exportedName !== 'string')) {
-      throw new TypeError('Field "exportedName" of ExportFromSpecifier constructor is of incorrect type (expected null or string)');
+      throw new TypeError('Field "exportedName" of ExportFromSpecifier constructor is of incorrect type (expected null or string, got ' + printActualType(exportedName) + ')');
     }
     this.type = 'ExportFromSpecifier';
     this.name = name;
@@ -515,10 +531,10 @@ export class ExportFromSpecifier {
 export class ExportLocalSpecifier {
   constructor({name, exportedName}) {
     if (name === undefined || name.type !== 'IdentifierExpression') {
-      throw new TypeError('Field "name" of ExportLocalSpecifier constructor is of incorrect type (expected IdentifierExpression)');
+      throw new TypeError('Field "name" of ExportLocalSpecifier constructor is of incorrect type (expected IdentifierExpression, got ' + printActualType(name) + ')');
     }
     if (exportedName === undefined || exportedName !== null && (typeof exportedName !== 'string')) {
-      throw new TypeError('Field "exportedName" of ExportLocalSpecifier constructor is of incorrect type (expected null or string)');
+      throw new TypeError('Field "exportedName" of ExportLocalSpecifier constructor is of incorrect type (expected null or string, got ' + printActualType(exportedName) + ')');
     }
     this.type = 'ExportLocalSpecifier';
     this.name = name;
@@ -529,7 +545,7 @@ export class ExportLocalSpecifier {
 export class ExportLocals {
   constructor({namedExports}) {
     if (namedExports === undefined || !Array.isArray(namedExports) || namedExports.some(f => f === undefined || f.type !== 'ExportLocalSpecifier')) {
-      throw new TypeError('Field "namedExports" of ExportLocals constructor is of incorrect type (expected [ExportLocalSpecifier])');
+      throw new TypeError('Field "namedExports" of ExportLocals constructor is of incorrect type (expected [ExportLocalSpecifier], got ' + printActualType(namedExports) + ')');
     }
     this.type = 'ExportLocals';
     this.namedExports = namedExports;
@@ -539,7 +555,7 @@ export class ExportLocals {
 export class ExpressionStatement {
   constructor({expression}) {
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ExpressionStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of ExpressionStatement constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ExpressionStatement';
     this.expression = expression;
@@ -549,13 +565,13 @@ export class ExpressionStatement {
 export class ForInStatement {
   constructor({left, right, body}) {
     if (left === undefined || (((left.type !== 'ArrayAssignmentTarget') && (left.type !== 'ObjectAssignmentTarget')) && ((left.type !== 'AssignmentTargetIdentifier') && ((left.type !== 'ComputedMemberAssignmentTarget') && (left.type !== 'StaticMemberAssignmentTarget')))) && (left.type !== 'VariableDeclaration')) {
-      throw new TypeError('Field "left" of ForInStatement constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration})');
+      throw new TypeError('Field "left" of ForInStatement constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration}, got ' + printActualType(left) + ')');
     }
     if (isNotExpression(right)) {
-      throw new TypeError('Field "right" of ForInStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "right" of ForInStatement constructor is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of ForInStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "body" of ForInStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'ForInStatement';
     this.left = left;
@@ -567,13 +583,13 @@ export class ForInStatement {
 export class ForOfStatement {
   constructor({left, right, body}) {
     if (left === undefined || (((left.type !== 'ArrayAssignmentTarget') && (left.type !== 'ObjectAssignmentTarget')) && ((left.type !== 'AssignmentTargetIdentifier') && ((left.type !== 'ComputedMemberAssignmentTarget') && (left.type !== 'StaticMemberAssignmentTarget')))) && (left.type !== 'VariableDeclaration')) {
-      throw new TypeError('Field "left" of ForOfStatement constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration})');
+      throw new TypeError('Field "left" of ForOfStatement constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration}, got ' + printActualType(left) + ')');
     }
     if (isNotExpression(right)) {
-      throw new TypeError('Field "right" of ForOfStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "right" of ForOfStatement constructor is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of ForOfStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "body" of ForOfStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'ForOfStatement';
     this.left = left;
@@ -585,16 +601,16 @@ export class ForOfStatement {
 export class ForStatement {
   constructor({init, test, update, body}) {
     if (init === undefined || init !== null && ((isNotExpression(init)) && (init.type !== 'VariableDeclaration'))) {
-      throw new TypeError('Field "init" of ForStatement constructor is of incorrect type (expected null or one of {Expression, VariableDeclaration})');
+      throw new TypeError('Field "init" of ForStatement constructor is of incorrect type (expected null or one of {Expression, VariableDeclaration}, got ' + printActualType(init) + ')');
     }
     if (test === undefined || test !== null && (isNotExpression(test))) {
-      throw new TypeError('Field "test" of ForStatement constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "test" of ForStatement constructor is of incorrect type (expected null or Expression, got ' + printActualType(test) + ')');
     }
     if (update === undefined || update !== null && (isNotExpression(update))) {
-      throw new TypeError('Field "update" of ForStatement constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "update" of ForStatement constructor is of incorrect type (expected null or Expression, got ' + printActualType(update) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of ForStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "body" of ForStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'ForStatement';
     this.init = init;
@@ -607,10 +623,10 @@ export class ForStatement {
 export class FormalParameters {
   constructor({items, rest}) {
     if (items === undefined || !Array.isArray(items) || items.some(f => f === undefined || (f.type !== 'BindingWithDefault') && ((f.type !== 'BindingIdentifier') && ((f.type !== 'ArrayBinding') && (f.type !== 'ObjectBinding'))))) {
-      throw new TypeError('Field "items" of FormalParameters constructor is of incorrect type (expected [one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}])');
+      throw new TypeError('Field "items" of FormalParameters constructor is of incorrect type (expected [one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}], got ' + printActualType(items) + ')');
     }
     if (rest === undefined || rest !== null && ((rest.type !== 'BindingIdentifier') && ((rest.type !== 'ArrayBinding') && (rest.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "rest" of FormalParameters constructor is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding})');
+      throw new TypeError('Field "rest" of FormalParameters constructor is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
     }
     this.type = 'FormalParameters';
     this.items = items;
@@ -621,10 +637,10 @@ export class FormalParameters {
 export class FunctionBody {
   constructor({directives, statements}) {
     if (directives === undefined || !Array.isArray(directives) || directives.some(f => f === undefined || f.type !== 'Directive')) {
-      throw new TypeError('Field "directives" of FunctionBody constructor is of incorrect type (expected [Directive])');
+      throw new TypeError('Field "directives" of FunctionBody constructor is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
     }
     if (statements === undefined || !Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "statements" of FunctionBody constructor is of incorrect type (expected [Statement])');
+      throw new TypeError('Field "statements" of FunctionBody constructor is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
     }
     this.type = 'FunctionBody';
     this.directives = directives;
@@ -635,16 +651,16 @@ export class FunctionBody {
 export class FunctionDeclaration {
   constructor({isGenerator, name, params, body}) {
     if (isGenerator === undefined || typeof isGenerator !== 'boolean') {
-      throw new TypeError('Field "isGenerator" of FunctionDeclaration constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "isGenerator" of FunctionDeclaration constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (name === undefined || name.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "name" of FunctionDeclaration constructor is of incorrect type (expected BindingIdentifier)');
+      throw new TypeError('Field "name" of FunctionDeclaration constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (params === undefined || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of FunctionDeclaration constructor is of incorrect type (expected FormalParameters)');
+      throw new TypeError('Field "params" of FunctionDeclaration constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (body === undefined || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of FunctionDeclaration constructor is of incorrect type (expected FunctionBody)');
+      throw new TypeError('Field "body" of FunctionDeclaration constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'FunctionDeclaration';
     this.isGenerator = isGenerator;
@@ -657,16 +673,16 @@ export class FunctionDeclaration {
 export class FunctionExpression {
   constructor({isGenerator, name, params, body}) {
     if (isGenerator === undefined || typeof isGenerator !== 'boolean') {
-      throw new TypeError('Field "isGenerator" of FunctionExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "isGenerator" of FunctionExpression constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (name === undefined || name !== null && (name.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "name" of FunctionExpression constructor is of incorrect type (expected null or BindingIdentifier)');
+      throw new TypeError('Field "name" of FunctionExpression constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (params === undefined || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of FunctionExpression constructor is of incorrect type (expected FormalParameters)');
+      throw new TypeError('Field "params" of FunctionExpression constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (body === undefined || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of FunctionExpression constructor is of incorrect type (expected FunctionBody)');
+      throw new TypeError('Field "body" of FunctionExpression constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'FunctionExpression';
     this.isGenerator = isGenerator;
@@ -679,10 +695,10 @@ export class FunctionExpression {
 export class Getter {
   constructor({name, body}) {
     if (name === undefined || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of Getter constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName})');
+      throw new TypeError('Field "name" of Getter constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (body === undefined || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of Getter constructor is of incorrect type (expected FunctionBody)');
+      throw new TypeError('Field "body" of Getter constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'Getter';
     this.name = name;
@@ -693,7 +709,7 @@ export class Getter {
 export class IdentifierExpression {
   constructor({name}) {
     if (name === undefined || typeof name !== 'string') {
-      throw new TypeError('Field "name" of IdentifierExpression constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "name" of IdentifierExpression constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'IdentifierExpression';
     this.name = name;
@@ -703,13 +719,13 @@ export class IdentifierExpression {
 export class IfStatement {
   constructor({test, consequent, alternate}) {
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of IfStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "test" of IfStatement constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     if (isNotStatement(consequent)) {
-      throw new TypeError('Field "consequent" of IfStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "consequent" of IfStatement constructor is of incorrect type (expected Statement, got ' + printActualType(consequent) + ')');
     }
     if (alternate === undefined || alternate !== null && (isNotStatement(alternate))) {
-      throw new TypeError('Field "alternate" of IfStatement constructor is of incorrect type (expected null or Statement)');
+      throw new TypeError('Field "alternate" of IfStatement constructor is of incorrect type (expected null or Statement, got ' + printActualType(alternate) + ')');
     }
     this.type = 'IfStatement';
     this.test = test;
@@ -721,13 +737,13 @@ export class IfStatement {
 export class Import {
   constructor({defaultBinding, namedImports, moduleSpecifier}) {
     if (defaultBinding === undefined || defaultBinding !== null && (defaultBinding.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "defaultBinding" of Import constructor is of incorrect type (expected null or BindingIdentifier)');
+      throw new TypeError('Field "defaultBinding" of Import constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(defaultBinding) + ')');
     }
     if (namedImports === undefined || !Array.isArray(namedImports) || namedImports.some(f => f === undefined || f.type !== 'ImportSpecifier')) {
-      throw new TypeError('Field "namedImports" of Import constructor is of incorrect type (expected [ImportSpecifier])');
+      throw new TypeError('Field "namedImports" of Import constructor is of incorrect type (expected [ImportSpecifier], got ' + printActualType(namedImports) + ')');
     }
     if (moduleSpecifier === undefined || typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of Import constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "moduleSpecifier" of Import constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'Import';
     this.defaultBinding = defaultBinding;
@@ -739,13 +755,13 @@ export class Import {
 export class ImportNamespace {
   constructor({defaultBinding, namespaceBinding, moduleSpecifier}) {
     if (defaultBinding === undefined || defaultBinding !== null && (defaultBinding.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "defaultBinding" of ImportNamespace constructor is of incorrect type (expected null or BindingIdentifier)');
+      throw new TypeError('Field "defaultBinding" of ImportNamespace constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(defaultBinding) + ')');
     }
     if (namespaceBinding === undefined || namespaceBinding.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "namespaceBinding" of ImportNamespace constructor is of incorrect type (expected BindingIdentifier)');
+      throw new TypeError('Field "namespaceBinding" of ImportNamespace constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(namespaceBinding) + ')');
     }
     if (moduleSpecifier === undefined || typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of ImportNamespace constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "moduleSpecifier" of ImportNamespace constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ImportNamespace';
     this.defaultBinding = defaultBinding;
@@ -757,10 +773,10 @@ export class ImportNamespace {
 export class ImportSpecifier {
   constructor({name, binding}) {
     if (name === undefined || name !== null && (typeof name !== 'string')) {
-      throw new TypeError('Field "name" of ImportSpecifier constructor is of incorrect type (expected null or string)');
+      throw new TypeError('Field "name" of ImportSpecifier constructor is of incorrect type (expected null or string, got ' + printActualType(name) + ')');
     }
     if (binding === undefined || binding.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "binding" of ImportSpecifier constructor is of incorrect type (expected BindingIdentifier)');
+      throw new TypeError('Field "binding" of ImportSpecifier constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(binding) + ')');
     }
     this.type = 'ImportSpecifier';
     this.name = name;
@@ -771,10 +787,10 @@ export class ImportSpecifier {
 export class LabeledStatement {
   constructor({label, body}) {
     if (label === undefined || typeof label !== 'string') {
-      throw new TypeError('Field "label" of LabeledStatement constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "label" of LabeledStatement constructor is of incorrect type (expected string, got ' + printActualType(label) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of LabeledStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "body" of LabeledStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'LabeledStatement';
     this.label = label;
@@ -785,7 +801,7 @@ export class LabeledStatement {
 export class LiteralBooleanExpression {
   constructor({value}) {
     if (value === undefined || typeof value !== 'boolean') {
-      throw new TypeError('Field "value" of LiteralBooleanExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "value" of LiteralBooleanExpression constructor is of incorrect type (expected boolean, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralBooleanExpression';
     this.value = value;
@@ -807,7 +823,7 @@ export class LiteralNullExpression {
 export class LiteralNumericExpression {
   constructor({value}) {
     if (value === undefined || typeof value !== 'number') {
-      throw new TypeError('Field "value" of LiteralNumericExpression constructor is of incorrect type (expected number)');
+      throw new TypeError('Field "value" of LiteralNumericExpression constructor is of incorrect type (expected number, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralNumericExpression';
     this.value = value;
@@ -817,22 +833,22 @@ export class LiteralNumericExpression {
 export class LiteralRegExpExpression {
   constructor({pattern, global, ignoreCase, multiLine, sticky, unicode}) {
     if (pattern === undefined || typeof pattern !== 'string') {
-      throw new TypeError('Field "pattern" of LiteralRegExpExpression constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "pattern" of LiteralRegExpExpression constructor is of incorrect type (expected string, got ' + printActualType(pattern) + ')');
     }
     if (global === undefined || typeof global !== 'boolean') {
-      throw new TypeError('Field "global" of LiteralRegExpExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "global" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(global) + ')');
     }
     if (ignoreCase === undefined || typeof ignoreCase !== 'boolean') {
-      throw new TypeError('Field "ignoreCase" of LiteralRegExpExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "ignoreCase" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(ignoreCase) + ')');
     }
     if (multiLine === undefined || typeof multiLine !== 'boolean') {
-      throw new TypeError('Field "multiLine" of LiteralRegExpExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "multiLine" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(multiLine) + ')');
     }
     if (sticky === undefined || typeof sticky !== 'boolean') {
-      throw new TypeError('Field "sticky" of LiteralRegExpExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "sticky" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(sticky) + ')');
     }
     if (unicode === undefined || typeof unicode !== 'boolean') {
-      throw new TypeError('Field "unicode" of LiteralRegExpExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "unicode" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(unicode) + ')');
     }
     this.type = 'LiteralRegExpExpression';
     this.pattern = pattern;
@@ -847,7 +863,7 @@ export class LiteralRegExpExpression {
 export class LiteralStringExpression {
   constructor({value}) {
     if (value === undefined || typeof value !== 'string') {
-      throw new TypeError('Field "value" of LiteralStringExpression constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "value" of LiteralStringExpression constructor is of incorrect type (expected string, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralStringExpression';
     this.value = value;
@@ -857,16 +873,16 @@ export class LiteralStringExpression {
 export class Method {
   constructor({isGenerator, name, params, body}) {
     if (isGenerator === undefined || typeof isGenerator !== 'boolean') {
-      throw new TypeError('Field "isGenerator" of Method constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "isGenerator" of Method constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (name === undefined || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of Method constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName})');
+      throw new TypeError('Field "name" of Method constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (params === undefined || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of Method constructor is of incorrect type (expected FormalParameters)');
+      throw new TypeError('Field "params" of Method constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (body === undefined || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of Method constructor is of incorrect type (expected FunctionBody)');
+      throw new TypeError('Field "body" of Method constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'Method';
     this.isGenerator = isGenerator;
@@ -879,10 +895,10 @@ export class Method {
 export class Module {
   constructor({directives, items}) {
     if (directives === undefined || !Array.isArray(directives) || directives.some(f => f === undefined || f.type !== 'Directive')) {
-      throw new TypeError('Field "directives" of Module constructor is of incorrect type (expected [Directive])');
+      throw new TypeError('Field "directives" of Module constructor is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
     }
     if (items === undefined || !Array.isArray(items) || items.some(f => f === undefined || ((f.type !== 'Export') && (f.type !== 'ExportAllFrom') && (f.type !== 'ExportDefault') && (f.type !== 'ExportFrom') && (f.type !== 'ExportLocals')) && ((f.type !== 'Import') && (f.type !== 'ImportNamespace')) && (isNotStatement(f)))) {
-      throw new TypeError('Field "items" of Module constructor is of incorrect type (expected [one of {Export, ExportAllFrom, ExportDefault, ExportFrom, ExportLocals, Import, ImportNamespace, Statement}])');
+      throw new TypeError('Field "items" of Module constructor is of incorrect type (expected [one of {Export, ExportAllFrom, ExportDefault, ExportFrom, ExportLocals, Import, ImportNamespace, Statement}], got ' + printActualType(items) + ')');
     }
     this.type = 'Module';
     this.directives = directives;
@@ -893,10 +909,10 @@ export class Module {
 export class NewExpression {
   constructor({callee, arguments: _arguments}) {
     if (isNotExpression(callee)) {
-      throw new TypeError('Field "callee" of NewExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "callee" of NewExpression constructor is of incorrect type (expected Expression, got ' + printActualType(callee) + ')');
     }
     if (_arguments === undefined || !Array.isArray(_arguments) || _arguments.some(f => f === undefined || (isNotExpression(f)) && (f.type !== 'SpreadElement'))) {
-      throw new TypeError('Field "arguments" of NewExpression constructor is of incorrect type (expected [one of {Expression, SpreadElement}])');
+      throw new TypeError('Field "arguments" of NewExpression constructor is of incorrect type (expected [one of {Expression, SpreadElement}], got ' + printActualType(_arguments) + ')');
     }
     this.type = 'NewExpression';
     this.callee = callee;
@@ -913,7 +929,7 @@ export class NewTargetExpression {
 export class ObjectAssignmentTarget {
   constructor({properties}) {
     if (properties === undefined || !Array.isArray(properties) || properties.some(f => f === undefined || (f.type !== 'AssignmentTargetPropertyIdentifier') && (f.type !== 'AssignmentTargetPropertyProperty'))) {
-      throw new TypeError('Field "properties" of ObjectAssignmentTarget constructor is of incorrect type (expected [one of {AssignmentTargetPropertyIdentifier, AssignmentTargetPropertyProperty}])');
+      throw new TypeError('Field "properties" of ObjectAssignmentTarget constructor is of incorrect type (expected [one of {AssignmentTargetPropertyIdentifier, AssignmentTargetPropertyProperty}], got ' + printActualType(properties) + ')');
     }
     this.type = 'ObjectAssignmentTarget';
     this.properties = properties;
@@ -923,7 +939,7 @@ export class ObjectAssignmentTarget {
 export class ObjectBinding {
   constructor({properties}) {
     if (properties === undefined || !Array.isArray(properties) || properties.some(f => f === undefined || (f.type !== 'BindingPropertyIdentifier') && (f.type !== 'BindingPropertyProperty'))) {
-      throw new TypeError('Field "properties" of ObjectBinding constructor is of incorrect type (expected [one of {BindingPropertyIdentifier, BindingPropertyProperty}])');
+      throw new TypeError('Field "properties" of ObjectBinding constructor is of incorrect type (expected [one of {BindingPropertyIdentifier, BindingPropertyProperty}], got ' + printActualType(properties) + ')');
     }
     this.type = 'ObjectBinding';
     this.properties = properties;
@@ -933,7 +949,7 @@ export class ObjectBinding {
 export class ObjectExpression {
   constructor({properties}) {
     if (properties === undefined || !Array.isArray(properties) || properties.some(f => f === undefined || ((f.type !== 'DataProperty') && ((f.type !== 'Getter') && (f.type !== 'Method') && (f.type !== 'Setter'))) && (f.type !== 'ShorthandProperty'))) {
-      throw new TypeError('Field "properties" of ObjectExpression constructor is of incorrect type (expected [one of {DataProperty, Getter, Method, Setter, ShorthandProperty}])');
+      throw new TypeError('Field "properties" of ObjectExpression constructor is of incorrect type (expected [one of {DataProperty, Getter, Method, Setter, ShorthandProperty}], got ' + printActualType(properties) + ')');
     }
     this.type = 'ObjectExpression';
     this.properties = properties;
@@ -943,7 +959,7 @@ export class ObjectExpression {
 export class ReturnStatement {
   constructor({expression}) {
     if (expression === undefined || expression !== null && (isNotExpression(expression))) {
-      throw new TypeError('Field "expression" of ReturnStatement constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "expression" of ReturnStatement constructor is of incorrect type (expected null or Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ReturnStatement';
     this.expression = expression;
@@ -953,10 +969,10 @@ export class ReturnStatement {
 export class Script {
   constructor({directives, statements}) {
     if (directives === undefined || !Array.isArray(directives) || directives.some(f => f === undefined || f.type !== 'Directive')) {
-      throw new TypeError('Field "directives" of Script constructor is of incorrect type (expected [Directive])');
+      throw new TypeError('Field "directives" of Script constructor is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
     }
     if (statements === undefined || !Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "statements" of Script constructor is of incorrect type (expected [Statement])');
+      throw new TypeError('Field "statements" of Script constructor is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
     }
     this.type = 'Script';
     this.directives = directives;
@@ -967,13 +983,13 @@ export class Script {
 export class Setter {
   constructor({name, param, body}) {
     if (name === undefined || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of Setter constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName})');
+      throw new TypeError('Field "name" of Setter constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (param === undefined || (param.type !== 'BindingWithDefault') && ((param.type !== 'BindingIdentifier') && ((param.type !== 'ArrayBinding') && (param.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "param" of Setter constructor is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding})');
+      throw new TypeError('Field "param" of Setter constructor is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(param) + ')');
     }
     if (body === undefined || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of Setter constructor is of incorrect type (expected FunctionBody)');
+      throw new TypeError('Field "body" of Setter constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'Setter';
     this.name = name;
@@ -985,7 +1001,7 @@ export class Setter {
 export class ShorthandProperty {
   constructor({name}) {
     if (name === undefined || name.type !== 'IdentifierExpression') {
-      throw new TypeError('Field "name" of ShorthandProperty constructor is of incorrect type (expected IdentifierExpression)');
+      throw new TypeError('Field "name" of ShorthandProperty constructor is of incorrect type (expected IdentifierExpression, got ' + printActualType(name) + ')');
     }
     this.type = 'ShorthandProperty';
     this.name = name;
@@ -995,7 +1011,7 @@ export class ShorthandProperty {
 export class SpreadElement {
   constructor({expression}) {
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of SpreadElement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of SpreadElement constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'SpreadElement';
     this.expression = expression;
@@ -1005,10 +1021,10 @@ export class SpreadElement {
 export class StaticMemberAssignmentTarget {
   constructor({object, property}) {
     if (object === undefined || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of StaticMemberAssignmentTarget constructor is of incorrect type (expected one of {Expression, Super})');
+      throw new TypeError('Field "object" of StaticMemberAssignmentTarget constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (property === undefined || typeof property !== 'string') {
-      throw new TypeError('Field "property" of StaticMemberAssignmentTarget constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "property" of StaticMemberAssignmentTarget constructor is of incorrect type (expected string, got ' + printActualType(property) + ')');
     }
     this.type = 'StaticMemberAssignmentTarget';
     this.object = object;
@@ -1019,10 +1035,10 @@ export class StaticMemberAssignmentTarget {
 export class StaticMemberExpression {
   constructor({object, property}) {
     if (object === undefined || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of StaticMemberExpression constructor is of incorrect type (expected one of {Expression, Super})');
+      throw new TypeError('Field "object" of StaticMemberExpression constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (property === undefined || typeof property !== 'string') {
-      throw new TypeError('Field "property" of StaticMemberExpression constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "property" of StaticMemberExpression constructor is of incorrect type (expected string, got ' + printActualType(property) + ')');
     }
     this.type = 'StaticMemberExpression';
     this.object = object;
@@ -1033,7 +1049,7 @@ export class StaticMemberExpression {
 export class StaticPropertyName {
   constructor({value}) {
     if (value === undefined || typeof value !== 'string') {
-      throw new TypeError('Field "value" of StaticPropertyName constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "value" of StaticPropertyName constructor is of incorrect type (expected string, got ' + printActualType(value) + ')');
     }
     this.type = 'StaticPropertyName';
     this.value = value;
@@ -1049,10 +1065,10 @@ export class Super {
 export class SwitchCase {
   constructor({test, consequent}) {
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of SwitchCase constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "test" of SwitchCase constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     if (consequent === undefined || !Array.isArray(consequent) || consequent.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "consequent" of SwitchCase constructor is of incorrect type (expected [Statement])');
+      throw new TypeError('Field "consequent" of SwitchCase constructor is of incorrect type (expected [Statement], got ' + printActualType(consequent) + ')');
     }
     this.type = 'SwitchCase';
     this.test = test;
@@ -1063,7 +1079,7 @@ export class SwitchCase {
 export class SwitchDefault {
   constructor({consequent}) {
     if (consequent === undefined || !Array.isArray(consequent) || consequent.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "consequent" of SwitchDefault constructor is of incorrect type (expected [Statement])');
+      throw new TypeError('Field "consequent" of SwitchDefault constructor is of incorrect type (expected [Statement], got ' + printActualType(consequent) + ')');
     }
     this.type = 'SwitchDefault';
     this.consequent = consequent;
@@ -1073,10 +1089,10 @@ export class SwitchDefault {
 export class SwitchStatement {
   constructor({discriminant, cases}) {
     if (isNotExpression(discriminant)) {
-      throw new TypeError('Field "discriminant" of SwitchStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "discriminant" of SwitchStatement constructor is of incorrect type (expected Expression, got ' + printActualType(discriminant) + ')');
     }
     if (cases === undefined || !Array.isArray(cases) || cases.some(f => f === undefined || f.type !== 'SwitchCase')) {
-      throw new TypeError('Field "cases" of SwitchStatement constructor is of incorrect type (expected [SwitchCase])');
+      throw new TypeError('Field "cases" of SwitchStatement constructor is of incorrect type (expected [SwitchCase], got ' + printActualType(cases) + ')');
     }
     this.type = 'SwitchStatement';
     this.discriminant = discriminant;
@@ -1087,16 +1103,16 @@ export class SwitchStatement {
 export class SwitchStatementWithDefault {
   constructor({discriminant, preDefaultCases, defaultCase, postDefaultCases}) {
     if (isNotExpression(discriminant)) {
-      throw new TypeError('Field "discriminant" of SwitchStatementWithDefault constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "discriminant" of SwitchStatementWithDefault constructor is of incorrect type (expected Expression, got ' + printActualType(discriminant) + ')');
     }
     if (preDefaultCases === undefined || !Array.isArray(preDefaultCases) || preDefaultCases.some(f => f === undefined || f.type !== 'SwitchCase')) {
-      throw new TypeError('Field "preDefaultCases" of SwitchStatementWithDefault constructor is of incorrect type (expected [SwitchCase])');
+      throw new TypeError('Field "preDefaultCases" of SwitchStatementWithDefault constructor is of incorrect type (expected [SwitchCase], got ' + printActualType(preDefaultCases) + ')');
     }
     if (defaultCase === undefined || defaultCase.type !== 'SwitchDefault') {
-      throw new TypeError('Field "defaultCase" of SwitchStatementWithDefault constructor is of incorrect type (expected SwitchDefault)');
+      throw new TypeError('Field "defaultCase" of SwitchStatementWithDefault constructor is of incorrect type (expected SwitchDefault, got ' + printActualType(defaultCase) + ')');
     }
     if (postDefaultCases === undefined || !Array.isArray(postDefaultCases) || postDefaultCases.some(f => f === undefined || f.type !== 'SwitchCase')) {
-      throw new TypeError('Field "postDefaultCases" of SwitchStatementWithDefault constructor is of incorrect type (expected [SwitchCase])');
+      throw new TypeError('Field "postDefaultCases" of SwitchStatementWithDefault constructor is of incorrect type (expected [SwitchCase], got ' + printActualType(postDefaultCases) + ')');
     }
     this.type = 'SwitchStatementWithDefault';
     this.discriminant = discriminant;
@@ -1109,7 +1125,7 @@ export class SwitchStatementWithDefault {
 export class TemplateElement {
   constructor({rawValue}) {
     if (rawValue === undefined || typeof rawValue !== 'string') {
-      throw new TypeError('Field "rawValue" of TemplateElement constructor is of incorrect type (expected string)');
+      throw new TypeError('Field "rawValue" of TemplateElement constructor is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
     }
     this.type = 'TemplateElement';
     this.rawValue = rawValue;
@@ -1119,10 +1135,10 @@ export class TemplateElement {
 export class TemplateExpression {
   constructor({tag, elements}) {
     if (tag === undefined || tag !== null && (isNotExpression(tag))) {
-      throw new TypeError('Field "tag" of TemplateExpression constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "tag" of TemplateExpression constructor is of incorrect type (expected null or Expression, got ' + printActualType(tag) + ')');
     }
     if (elements === undefined || !Array.isArray(elements) || elements.some(f => f === undefined || (isNotExpression(f)) && (f.type !== 'TemplateElement'))) {
-      throw new TypeError('Field "elements" of TemplateExpression constructor is of incorrect type (expected [one of {Expression, TemplateElement}])');
+      throw new TypeError('Field "elements" of TemplateExpression constructor is of incorrect type (expected [one of {Expression, TemplateElement}], got ' + printActualType(elements) + ')');
     }
     this.type = 'TemplateExpression';
     this.tag = tag;
@@ -1139,7 +1155,7 @@ export class ThisExpression {
 export class ThrowStatement {
   constructor({expression}) {
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ThrowStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of ThrowStatement constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ThrowStatement';
     this.expression = expression;
@@ -1149,10 +1165,10 @@ export class ThrowStatement {
 export class TryCatchStatement {
   constructor({body, catchClause}) {
     if (body === undefined || body.type !== 'Block') {
-      throw new TypeError('Field "body" of TryCatchStatement constructor is of incorrect type (expected Block)');
+      throw new TypeError('Field "body" of TryCatchStatement constructor is of incorrect type (expected Block, got ' + printActualType(body) + ')');
     }
     if (catchClause === undefined || catchClause.type !== 'CatchClause') {
-      throw new TypeError('Field "catchClause" of TryCatchStatement constructor is of incorrect type (expected CatchClause)');
+      throw new TypeError('Field "catchClause" of TryCatchStatement constructor is of incorrect type (expected CatchClause, got ' + printActualType(catchClause) + ')');
     }
     this.type = 'TryCatchStatement';
     this.body = body;
@@ -1163,13 +1179,13 @@ export class TryCatchStatement {
 export class TryFinallyStatement {
   constructor({body, catchClause, finalizer}) {
     if (body === undefined || body.type !== 'Block') {
-      throw new TypeError('Field "body" of TryFinallyStatement constructor is of incorrect type (expected Block)');
+      throw new TypeError('Field "body" of TryFinallyStatement constructor is of incorrect type (expected Block, got ' + printActualType(body) + ')');
     }
     if (catchClause === undefined || catchClause !== null && (catchClause.type !== 'CatchClause')) {
-      throw new TypeError('Field "catchClause" of TryFinallyStatement constructor is of incorrect type (expected null or CatchClause)');
+      throw new TypeError('Field "catchClause" of TryFinallyStatement constructor is of incorrect type (expected null or CatchClause, got ' + printActualType(catchClause) + ')');
     }
     if (finalizer === undefined || finalizer.type !== 'Block') {
-      throw new TypeError('Field "finalizer" of TryFinallyStatement constructor is of incorrect type (expected Block)');
+      throw new TypeError('Field "finalizer" of TryFinallyStatement constructor is of incorrect type (expected Block, got ' + printActualType(finalizer) + ')');
     }
     this.type = 'TryFinallyStatement';
     this.body = body;
@@ -1181,10 +1197,10 @@ export class TryFinallyStatement {
 export class UnaryExpression {
   constructor({operator, operand}) {
     if (operator === undefined || ["+","-","!","~","typeof","void","delete"].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of UnaryExpression constructor is of incorrect type (expected one of {"+", "-", "!", "~", "typeof", "void", "delete"})');
+      throw new TypeError('Field "operator" of UnaryExpression constructor is of incorrect type (expected one of {"+", "-", "!", "~", "typeof", "void", "delete"}, got ' + printActualType(operator) + ')');
     }
     if (isNotExpression(operand)) {
-      throw new TypeError('Field "operand" of UnaryExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "operand" of UnaryExpression constructor is of incorrect type (expected Expression, got ' + printActualType(operand) + ')');
     }
     this.type = 'UnaryExpression';
     this.operator = operator;
@@ -1195,13 +1211,13 @@ export class UnaryExpression {
 export class UpdateExpression {
   constructor({isPrefix, operator, operand}) {
     if (isPrefix === undefined || typeof isPrefix !== 'boolean') {
-      throw new TypeError('Field "isPrefix" of UpdateExpression constructor is of incorrect type (expected boolean)');
+      throw new TypeError('Field "isPrefix" of UpdateExpression constructor is of incorrect type (expected boolean, got ' + printActualType(isPrefix) + ')');
     }
     if (operator === undefined || ["++","--"].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of UpdateExpression constructor is of incorrect type (expected one of {"++", "--"})');
+      throw new TypeError('Field "operator" of UpdateExpression constructor is of incorrect type (expected one of {"++", "--"}, got ' + printActualType(operator) + ')');
     }
     if (operand === undefined || (operand.type !== 'AssignmentTargetIdentifier') && ((operand.type !== 'ComputedMemberAssignmentTarget') && (operand.type !== 'StaticMemberAssignmentTarget'))) {
-      throw new TypeError('Field "operand" of UpdateExpression constructor is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget})');
+      throw new TypeError('Field "operand" of UpdateExpression constructor is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(operand) + ')');
     }
     this.type = 'UpdateExpression';
     this.isPrefix = isPrefix;
@@ -1213,10 +1229,10 @@ export class UpdateExpression {
 export class VariableDeclaration {
   constructor({kind, declarators}) {
     if (kind === undefined || ["var","let","const"].indexOf(kind) === -1) {
-      throw new TypeError('Field "kind" of VariableDeclaration constructor is of incorrect type (expected one of {"var", "let", "const"})');
+      throw new TypeError('Field "kind" of VariableDeclaration constructor is of incorrect type (expected one of {"var", "let", "const"}, got ' + printActualType(kind) + ')');
     }
     if (declarators === undefined || !Array.isArray(declarators) || declarators.some(f => f === undefined || f.type !== 'VariableDeclarator')) {
-      throw new TypeError('Field "declarators" of VariableDeclaration constructor is of incorrect type (expected [VariableDeclarator])');
+      throw new TypeError('Field "declarators" of VariableDeclaration constructor is of incorrect type (expected [VariableDeclarator], got ' + printActualType(declarators) + ')');
     }
     this.type = 'VariableDeclaration';
     this.kind = kind;
@@ -1227,7 +1243,7 @@ export class VariableDeclaration {
 export class VariableDeclarationStatement {
   constructor({declaration}) {
     if (declaration === undefined || declaration.type !== 'VariableDeclaration') {
-      throw new TypeError('Field "declaration" of VariableDeclarationStatement constructor is of incorrect type (expected VariableDeclaration)');
+      throw new TypeError('Field "declaration" of VariableDeclarationStatement constructor is of incorrect type (expected VariableDeclaration, got ' + printActualType(declaration) + ')');
     }
     this.type = 'VariableDeclarationStatement';
     this.declaration = declaration;
@@ -1237,10 +1253,10 @@ export class VariableDeclarationStatement {
 export class VariableDeclarator {
   constructor({binding, init}) {
     if (binding === undefined || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of VariableDeclarator constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding})');
+      throw new TypeError('Field "binding" of VariableDeclarator constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (init === undefined || init !== null && (isNotExpression(init))) {
-      throw new TypeError('Field "init" of VariableDeclarator constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "init" of VariableDeclarator constructor is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'VariableDeclarator';
     this.binding = binding;
@@ -1251,10 +1267,10 @@ export class VariableDeclarator {
 export class WhileStatement {
   constructor({test, body}) {
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of WhileStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "test" of WhileStatement constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of WhileStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "body" of WhileStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'WhileStatement';
     this.test = test;
@@ -1265,10 +1281,10 @@ export class WhileStatement {
 export class WithStatement {
   constructor({object, body}) {
     if (isNotExpression(object)) {
-      throw new TypeError('Field "object" of WithStatement constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "object" of WithStatement constructor is of incorrect type (expected Expression, got ' + printActualType(object) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of WithStatement constructor is of incorrect type (expected Statement)');
+      throw new TypeError('Field "body" of WithStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'WithStatement';
     this.object = object;
@@ -1279,7 +1295,7 @@ export class WithStatement {
 export class YieldExpression {
   constructor({expression}) {
     if (expression === undefined || expression !== null && (isNotExpression(expression))) {
-      throw new TypeError('Field "expression" of YieldExpression constructor is of incorrect type (expected null or Expression)');
+      throw new TypeError('Field "expression" of YieldExpression constructor is of incorrect type (expected null or Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'YieldExpression';
     this.expression = expression;
@@ -1289,7 +1305,7 @@ export class YieldExpression {
 export class YieldGeneratorExpression {
   constructor({expression}) {
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of YieldGeneratorExpression constructor is of incorrect type (expected Expression)');
+      throw new TypeError('Field "expression" of YieldGeneratorExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'YieldGeneratorExpression';
     this.expression = expression;
