@@ -1,8 +1,11 @@
 sudo: false
 language: node_js
+before_install:
+  - nvm install stable
 script:
   - curl https://raw.githubusercontent.com/shapesecurity/CLA/master/cla-travis.sh | bash
   - npm run build
+  - nvm install $TRAVIS_NODE_VERSION
   - npm test
 node_js:
   - "0.12"
