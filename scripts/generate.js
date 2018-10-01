@@ -56,7 +56,7 @@ for (let typename of Object.keys(Spec)) {
   let fields = type.fields.filter(f => f.name !== 'type');
   let param;
   if (fields.length > 0) {
-    param = '{' + fields.map(f => parameterize(f.name)).join(', ') + '}';
+    param = '{ ' + fields.map(f => parameterize(f.name)).join(', ') + ' }';
   } else {
     param = '';
   }

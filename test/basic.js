@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-var ShiftAST = require('../');
-var ShiftASTChecked = require('../checked');
-var Spec = require('shift-spec').default;
-var assert = require('assert');
+let ShiftAST = require('../');
+let ShiftASTChecked = require('../checked');
+let Spec = require('shift-spec').default;
+let assert = require('assert');
 
 function construct(type, AST) {
   if (type === Spec.ExpressionStatement.fields[1].type) { // i.e. expression
     return new AST.LiteralNullExpression;
   }
   if (type === Spec.LabeledStatement.fields[2].type) { // i.e. statement
-    return new AST.ExpressionStatement({expression: new AST.LiteralNullExpression});
+    return new AST.ExpressionStatement({ expression: new AST.LiteralNullExpression });
   }
   switch (type.typeName) {
     case 'Boolean':
@@ -41,57 +41,60 @@ function construct(type, AST) {
       return construct(type.arguments[0], AST);
     case 'Enum':
       return type.values[0];
-    default:
-      var fieldsObj = {};
-      type.fields.filter(function (f) { return (f.name !== 'type'); }).forEach(function (f) {
+    default: {
+      let fieldsObj = {};
+      type.fields.filter(f => {
+        return f.name !== 'type';
+      }).forEach(f => {
         fieldsObj[f.name] = construct(f.type, AST);
       });
       return new AST[type.typeName](fieldsObj);
+    }
   }
 }
 
-describe('ShiftAST', function() {
-  it('has the appropriate number of types', function(){
+describe('ShiftAST', () => {
+  it('has the appropriate number of types', () => {
     assert.equal(Object.keys(ShiftAST).length, 96);
   });
 
-  it('can construct everything', function(){
-    for (var t in ShiftAST) {
-      var n = construct(Spec[t], ShiftAST);
+  it('can construct everything', () => {
+    for (let t of Object.keys(ShiftAST)) {
+      let n = construct(Spec[t], ShiftAST);
       assert(n instanceof ShiftAST[t]);
       assert.equal(n.type, t);
-    };
+    }
   });
 
-  it('correctly creates an IfStatement', function(){
-    var test = new ShiftAST.LiteralBooleanExpression({value: true});
-    var consequent = new ShiftAST.ExpressionStatement({expression: new ShiftAST.LiteralNullExpression});
-    var alternate = new ShiftAST.ThrowStatement({expression: new ShiftAST.LiteralNumericExpression({value: 1})});
-    var _if = new ShiftAST.IfStatement({test: test, consequent: consequent, alternate: alternate});
+  it('correctly creates an IfStatement', () => {
+    let test = new ShiftAST.LiteralBooleanExpression({ value: true });
+    let consequent = new ShiftAST.ExpressionStatement({ expression: new ShiftAST.LiteralNullExpression });
+    let alternate = new ShiftAST.ThrowStatement({ expression: new ShiftAST.LiteralNumericExpression({ value: 1 }) });
+    let _if = new ShiftAST.IfStatement({ test, consequent, alternate });
     assert.equal(_if.test, test);
     assert.equal(_if.consequent, consequent);
     assert.equal(_if.alternate, alternate);
   });
 });
 
-describe('ShiftAST/checked', function() {
-  it('has the appropriate number of types', function(){
+describe('ShiftAST/checked', () => {
+  it('has the appropriate number of types', () => {
     assert.equal(Object.keys(ShiftASTChecked).length, 96);
   });
 
-  it('can construct everything', function(){
-    for (var t in ShiftASTChecked) {
-      var n = construct(Spec[t], ShiftASTChecked);
+  it('can construct everything', () => {
+    for (let t of Object.keys(ShiftASTChecked)) {
+      let n = construct(Spec[t], ShiftASTChecked);
       assert(n instanceof ShiftASTChecked[t]);
       assert.equal(n.type, t);
-    };
+    }
   });
 
-  it('correctly creates an IfStatement', function(){
-    var test = new ShiftASTChecked.LiteralBooleanExpression({value: true});
-    var consequent = new ShiftASTChecked.ExpressionStatement({expression: new ShiftASTChecked.LiteralNullExpression});
-    var alternate = new ShiftASTChecked.ThrowStatement({expression: new ShiftASTChecked.LiteralNumericExpression({value: 1})});
-    var _if = new ShiftASTChecked.IfStatement({test: test, consequent: consequent, alternate: alternate});
+  it('correctly creates an IfStatement', () => {
+    let test = new ShiftASTChecked.LiteralBooleanExpression({ value: true });
+    let consequent = new ShiftASTChecked.ExpressionStatement({ expression: new ShiftASTChecked.LiteralNullExpression });
+    let alternate = new ShiftASTChecked.ThrowStatement({ expression: new ShiftASTChecked.LiteralNumericExpression({ value: 1 }) });
+    let _if = new ShiftASTChecked.IfStatement({ test, consequent, alternate });
     assert.equal(_if.test, test);
     assert.equal(_if.consequent, consequent);
     assert.equal(_if.alternate, alternate);

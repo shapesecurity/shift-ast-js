@@ -5,6 +5,9 @@ module.exports = {
     node: true,
     browser: false,
   },
+  parserOptions: {
+    sourceType: 'module',
+  },
   plugins: [],
   rules: {
     'arrow-parens': ['error', 'as-needed'],
@@ -51,7 +54,6 @@ module.exports = {
     'no-return-assign': 'error',
     'no-self-compare': 'error',
     'no-sequences': 'error',
-    'no-shadow': ['error', { builtinGlobals: true }],
     'no-shadow-restricted-names': 'error',
     'no-spaced-func': 'error',
     'no-trailing-spaces': 'error',

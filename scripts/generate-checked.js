@@ -73,7 +73,7 @@ function typeCheck(name, type, { includeUndefCheck = true, isExpressionCheck = f
   if (!isStatementCheck && type === StatementType) {
     return `isNotStatement(${name})`;
   }
-  let check = includeUndefCheck ? `${name} === undefined || ` : '';
+  let check = includeUndefCheck ? `typeof ${name} === 'undefined' || ` : '';
   switch (type.typeName) {
     case 'Boolean':
       check += `typeof ${name} !== 'boolean'`;
@@ -94,7 +94,7 @@ function typeCheck(name, type, { includeUndefCheck = true, isExpressionCheck = f
       check += type.arguments.map(t => `(${typeCheck(name, t, { includeUndefCheck: false })})`).join(' && ');
       break;
     case 'Enum':
-      check += `${JSON.stringify(type.values)}.indexOf(${name}) === -1`;
+      check += `[${type.values.map(o => `'${o}'`).join(', ')}].indexOf(${name}) === -1`;
       break;
     default:
       check += `${name}.type !== '${type.typeName}'`;
@@ -152,7 +152,7 @@ for (let typename of Object.keys(Spec)) {
   let fields = type.fields.filter(f => f.name !== 'type' && f.name !== 'loc');
   let param, paramCheck;
   if (fields.length > 0) {
-    param = '{' + fields.map(f => parameterize(f.name)).join(', ') + '}';
+    param = '{ ' + fields.map(f => parameterize(f.name)).join(', ') + ' }';
     paramCheck = fields.map(f => {
       let fname = sanitize(f.name);
       return `
