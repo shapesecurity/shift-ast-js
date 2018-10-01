@@ -17,7 +17,7 @@
     "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot test",
     "build": "mkdir -p gen dist && babel-node src/generate.js && babel-node src/generate-checked.js && babel --out-dir dist gen",
     "lint": "eslint src",
-    "prepublish": "rm -rf gen dist && npm update && npm run build"
+    "prepare": "rm -rf gen dist && npm update && npm run build"
   },
   "devDependencies": {
     "babel-cli": "6.3.13",
