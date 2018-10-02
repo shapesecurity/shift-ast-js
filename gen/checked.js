@@ -306,7 +306,7 @@ export class ClassDeclaration {
 
 export class ClassElement {
   constructor({ isStatic, method }) {
-    if (typeof isStatic === 'undefined' || typeof isStatic !== 'boolean') {
+    if (typeof isStatic !== 'boolean') {
       throw new TypeError('Field "isStatic" of ClassElement constructor is of incorrect type (expected boolean, got ' + printActualType(isStatic) + ')');
     }
     if (typeof method === 'undefined' || (method.type !== 'Getter') && (method.type !== 'Method') && (method.type !== 'Setter')) {
@@ -650,7 +650,7 @@ export class FunctionBody {
 
 export class FunctionDeclaration {
   constructor({ isGenerator, name, params, body }) {
-    if (typeof isGenerator === 'undefined' || typeof isGenerator !== 'boolean') {
+    if (typeof isGenerator !== 'boolean') {
       throw new TypeError('Field "isGenerator" of FunctionDeclaration constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (typeof name === 'undefined' || name.type !== 'BindingIdentifier') {
@@ -672,7 +672,7 @@ export class FunctionDeclaration {
 
 export class FunctionExpression {
   constructor({ isGenerator, name, params, body }) {
-    if (typeof isGenerator === 'undefined' || typeof isGenerator !== 'boolean') {
+    if (typeof isGenerator !== 'boolean') {
       throw new TypeError('Field "isGenerator" of FunctionExpression constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (typeof name === 'undefined' || name !== null && (name.type !== 'BindingIdentifier')) {
@@ -800,7 +800,7 @@ export class LabeledStatement {
 
 export class LiteralBooleanExpression {
   constructor({ value }) {
-    if (typeof value === 'undefined' || typeof value !== 'boolean') {
+    if (typeof value !== 'boolean') {
       throw new TypeError('Field "value" of LiteralBooleanExpression constructor is of incorrect type (expected boolean, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralBooleanExpression';
@@ -835,19 +835,19 @@ export class LiteralRegExpExpression {
     if (typeof pattern === 'undefined' || typeof pattern !== 'string') {
       throw new TypeError('Field "pattern" of LiteralRegExpExpression constructor is of incorrect type (expected string, got ' + printActualType(pattern) + ')');
     }
-    if (typeof global === 'undefined' || typeof global !== 'boolean') {
+    if (typeof global !== 'boolean') {
       throw new TypeError('Field "global" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(global) + ')');
     }
-    if (typeof ignoreCase === 'undefined' || typeof ignoreCase !== 'boolean') {
+    if (typeof ignoreCase !== 'boolean') {
       throw new TypeError('Field "ignoreCase" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(ignoreCase) + ')');
     }
-    if (typeof multiLine === 'undefined' || typeof multiLine !== 'boolean') {
+    if (typeof multiLine !== 'boolean') {
       throw new TypeError('Field "multiLine" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(multiLine) + ')');
     }
-    if (typeof sticky === 'undefined' || typeof sticky !== 'boolean') {
+    if (typeof sticky !== 'boolean') {
       throw new TypeError('Field "sticky" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(sticky) + ')');
     }
-    if (typeof unicode === 'undefined' || typeof unicode !== 'boolean') {
+    if (typeof unicode !== 'boolean') {
       throw new TypeError('Field "unicode" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(unicode) + ')');
     }
     this.type = 'LiteralRegExpExpression';
@@ -872,7 +872,7 @@ export class LiteralStringExpression {
 
 export class Method {
   constructor({ isGenerator, name, params, body }) {
-    if (typeof isGenerator === 'undefined' || typeof isGenerator !== 'boolean') {
+    if (typeof isGenerator !== 'boolean') {
       throw new TypeError('Field "isGenerator" of Method constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (typeof name === 'undefined' || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
@@ -1210,7 +1210,7 @@ export class UnaryExpression {
 
 export class UpdateExpression {
   constructor({ isPrefix, operator, operand }) {
-    if (typeof isPrefix === 'undefined' || typeof isPrefix !== 'boolean') {
+    if (typeof isPrefix !== 'boolean') {
       throw new TypeError('Field "isPrefix" of UpdateExpression constructor is of incorrect type (expected boolean, got ' + printActualType(isPrefix) + ')');
     }
     if (typeof operator === 'undefined' || ['++', '--'].indexOf(operator) === -1) {

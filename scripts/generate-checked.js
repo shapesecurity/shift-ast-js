@@ -73,7 +73,7 @@ function typeCheck(name, type, { includeUndefCheck = true, isExpressionCheck = f
   if (!isStatementCheck && type === StatementType) {
     return `isNotStatement(${name})`;
   }
-  let check = includeUndefCheck ? `typeof ${name} === 'undefined' || ` : '';
+  let check = includeUndefCheck && type.typeName !== 'Boolean' && type.typeName !== 'number' && type.typeName !== 'string' ? `typeof ${name} === 'undefined' || ` : '';
   switch (type.typeName) {
     case 'Boolean':
       check += `typeof ${name} !== 'boolean'`;
