@@ -1,13 +1,12 @@
 sudo: false
 language: node_js
-before_install:
-  - nvm install stable
 script:
   - curl https://raw.githubusercontent.com/shapesecurity/CLA/master/cla-travis.sh | bash
   - npm run build
-  - nvm install $TRAVIS_NODE_VERSION
+  - if [ -n "$(git status --porcelain)" ]; then echo "repo is dirty"; exit 1; fi
   - npm test
+  - npm run lint
 node_js:
-  - "0.12"
-  - "4"
   - "6"
+  - "8"
+  - "10"

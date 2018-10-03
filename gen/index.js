@@ -17,7 +17,7 @@
  */
 
 export class ArrayAssignmentTarget {
-  constructor({elements, rest}) {
+  constructor({ elements, rest }) {
     this.type = 'ArrayAssignmentTarget';
     this.elements = elements;
     this.rest = rest;
@@ -25,7 +25,7 @@ export class ArrayAssignmentTarget {
 }
 
 export class ArrayBinding {
-  constructor({elements, rest}) {
+  constructor({ elements, rest }) {
     this.type = 'ArrayBinding';
     this.elements = elements;
     this.rest = rest;
@@ -33,14 +33,14 @@ export class ArrayBinding {
 }
 
 export class ArrayExpression {
-  constructor({elements}) {
+  constructor({ elements }) {
     this.type = 'ArrayExpression';
     this.elements = elements;
   }
 }
 
 export class ArrowExpression {
-  constructor({params, body}) {
+  constructor({ params, body }) {
     this.type = 'ArrowExpression';
     this.params = params;
     this.body = body;
@@ -48,7 +48,7 @@ export class ArrowExpression {
 }
 
 export class AssignmentExpression {
-  constructor({binding, expression}) {
+  constructor({ binding, expression }) {
     this.type = 'AssignmentExpression';
     this.binding = binding;
     this.expression = expression;
@@ -56,14 +56,14 @@ export class AssignmentExpression {
 }
 
 export class AssignmentTargetIdentifier {
-  constructor({name}) {
+  constructor({ name }) {
     this.type = 'AssignmentTargetIdentifier';
     this.name = name;
   }
 }
 
 export class AssignmentTargetPropertyIdentifier {
-  constructor({binding, init}) {
+  constructor({ binding, init }) {
     this.type = 'AssignmentTargetPropertyIdentifier';
     this.binding = binding;
     this.init = init;
@@ -71,7 +71,7 @@ export class AssignmentTargetPropertyIdentifier {
 }
 
 export class AssignmentTargetPropertyProperty {
-  constructor({name, binding}) {
+  constructor({ name, binding }) {
     this.type = 'AssignmentTargetPropertyProperty';
     this.name = name;
     this.binding = binding;
@@ -79,7 +79,7 @@ export class AssignmentTargetPropertyProperty {
 }
 
 export class AssignmentTargetWithDefault {
-  constructor({binding, init}) {
+  constructor({ binding, init }) {
     this.type = 'AssignmentTargetWithDefault';
     this.binding = binding;
     this.init = init;
@@ -87,7 +87,7 @@ export class AssignmentTargetWithDefault {
 }
 
 export class BinaryExpression {
-  constructor({left, operator, right}) {
+  constructor({ left, operator, right }) {
     this.type = 'BinaryExpression';
     this.left = left;
     this.operator = operator;
@@ -96,14 +96,14 @@ export class BinaryExpression {
 }
 
 export class BindingIdentifier {
-  constructor({name}) {
+  constructor({ name }) {
     this.type = 'BindingIdentifier';
     this.name = name;
   }
 }
 
 export class BindingPropertyIdentifier {
-  constructor({binding, init}) {
+  constructor({ binding, init }) {
     this.type = 'BindingPropertyIdentifier';
     this.binding = binding;
     this.init = init;
@@ -111,7 +111,7 @@ export class BindingPropertyIdentifier {
 }
 
 export class BindingPropertyProperty {
-  constructor({name, binding}) {
+  constructor({ name, binding }) {
     this.type = 'BindingPropertyProperty';
     this.name = name;
     this.binding = binding;
@@ -119,7 +119,7 @@ export class BindingPropertyProperty {
 }
 
 export class BindingWithDefault {
-  constructor({binding, init}) {
+  constructor({ binding, init }) {
     this.type = 'BindingWithDefault';
     this.binding = binding;
     this.init = init;
@@ -127,28 +127,28 @@ export class BindingWithDefault {
 }
 
 export class Block {
-  constructor({statements}) {
+  constructor({ statements }) {
     this.type = 'Block';
     this.statements = statements;
   }
 }
 
 export class BlockStatement {
-  constructor({block}) {
+  constructor({ block }) {
     this.type = 'BlockStatement';
     this.block = block;
   }
 }
 
 export class BreakStatement {
-  constructor({label}) {
+  constructor({ label }) {
     this.type = 'BreakStatement';
     this.label = label;
   }
 }
 
 export class CallExpression {
-  constructor({callee, arguments: _arguments}) {
+  constructor({ callee, arguments: _arguments }) {
     this.type = 'CallExpression';
     this.callee = callee;
     this.arguments = _arguments;
@@ -156,7 +156,7 @@ export class CallExpression {
 }
 
 export class CatchClause {
-  constructor({binding, body}) {
+  constructor({ binding, body }) {
     this.type = 'CatchClause';
     this.binding = binding;
     this.body = body;
@@ -164,7 +164,7 @@ export class CatchClause {
 }
 
 export class ClassDeclaration {
-  constructor({name, super: _super, elements}) {
+  constructor({ name, super: _super, elements }) {
     this.type = 'ClassDeclaration';
     this.name = name;
     this.super = _super;
@@ -173,7 +173,7 @@ export class ClassDeclaration {
 }
 
 export class ClassElement {
-  constructor({isStatic, method}) {
+  constructor({ isStatic, method }) {
     this.type = 'ClassElement';
     this.isStatic = isStatic;
     this.method = method;
@@ -181,7 +181,7 @@ export class ClassElement {
 }
 
 export class ClassExpression {
-  constructor({name, super: _super, elements}) {
+  constructor({ name, super: _super, elements }) {
     this.type = 'ClassExpression';
     this.name = name;
     this.super = _super;
@@ -190,7 +190,7 @@ export class ClassExpression {
 }
 
 export class CompoundAssignmentExpression {
-  constructor({binding, operator, expression}) {
+  constructor({ binding, operator, expression }) {
     this.type = 'CompoundAssignmentExpression';
     this.binding = binding;
     this.operator = operator;
@@ -199,7 +199,7 @@ export class CompoundAssignmentExpression {
 }
 
 export class ComputedMemberAssignmentTarget {
-  constructor({object, expression}) {
+  constructor({ object, expression }) {
     this.type = 'ComputedMemberAssignmentTarget';
     this.object = object;
     this.expression = expression;
@@ -207,7 +207,7 @@ export class ComputedMemberAssignmentTarget {
 }
 
 export class ComputedMemberExpression {
-  constructor({object, expression}) {
+  constructor({ object, expression }) {
     this.type = 'ComputedMemberExpression';
     this.object = object;
     this.expression = expression;
@@ -215,14 +215,14 @@ export class ComputedMemberExpression {
 }
 
 export class ComputedPropertyName {
-  constructor({expression}) {
+  constructor({ expression }) {
     this.type = 'ComputedPropertyName';
     this.expression = expression;
   }
 }
 
 export class ConditionalExpression {
-  constructor({test, consequent, alternate}) {
+  constructor({ test, consequent, alternate }) {
     this.type = 'ConditionalExpression';
     this.test = test;
     this.consequent = consequent;
@@ -231,14 +231,14 @@ export class ConditionalExpression {
 }
 
 export class ContinueStatement {
-  constructor({label}) {
+  constructor({ label }) {
     this.type = 'ContinueStatement';
     this.label = label;
   }
 }
 
 export class DataProperty {
-  constructor({name, expression}) {
+  constructor({ name, expression }) {
     this.type = 'DataProperty';
     this.name = name;
     this.expression = expression;
@@ -252,14 +252,14 @@ export class DebuggerStatement {
 }
 
 export class Directive {
-  constructor({rawValue}) {
+  constructor({ rawValue }) {
     this.type = 'Directive';
     this.rawValue = rawValue;
   }
 }
 
 export class DoWhileStatement {
-  constructor({body, test}) {
+  constructor({ body, test }) {
     this.type = 'DoWhileStatement';
     this.body = body;
     this.test = test;
@@ -273,28 +273,28 @@ export class EmptyStatement {
 }
 
 export class Export {
-  constructor({declaration}) {
+  constructor({ declaration }) {
     this.type = 'Export';
     this.declaration = declaration;
   }
 }
 
 export class ExportAllFrom {
-  constructor({moduleSpecifier}) {
+  constructor({ moduleSpecifier }) {
     this.type = 'ExportAllFrom';
     this.moduleSpecifier = moduleSpecifier;
   }
 }
 
 export class ExportDefault {
-  constructor({body}) {
+  constructor({ body }) {
     this.type = 'ExportDefault';
     this.body = body;
   }
 }
 
 export class ExportFrom {
-  constructor({namedExports, moduleSpecifier}) {
+  constructor({ namedExports, moduleSpecifier }) {
     this.type = 'ExportFrom';
     this.namedExports = namedExports;
     this.moduleSpecifier = moduleSpecifier;
@@ -302,7 +302,7 @@ export class ExportFrom {
 }
 
 export class ExportFromSpecifier {
-  constructor({name, exportedName}) {
+  constructor({ name, exportedName }) {
     this.type = 'ExportFromSpecifier';
     this.name = name;
     this.exportedName = exportedName;
@@ -310,7 +310,7 @@ export class ExportFromSpecifier {
 }
 
 export class ExportLocalSpecifier {
-  constructor({name, exportedName}) {
+  constructor({ name, exportedName }) {
     this.type = 'ExportLocalSpecifier';
     this.name = name;
     this.exportedName = exportedName;
@@ -318,21 +318,21 @@ export class ExportLocalSpecifier {
 }
 
 export class ExportLocals {
-  constructor({namedExports}) {
+  constructor({ namedExports }) {
     this.type = 'ExportLocals';
     this.namedExports = namedExports;
   }
 }
 
 export class ExpressionStatement {
-  constructor({expression}) {
+  constructor({ expression }) {
     this.type = 'ExpressionStatement';
     this.expression = expression;
   }
 }
 
 export class ForInStatement {
-  constructor({left, right, body}) {
+  constructor({ left, right, body }) {
     this.type = 'ForInStatement';
     this.left = left;
     this.right = right;
@@ -341,7 +341,7 @@ export class ForInStatement {
 }
 
 export class ForOfStatement {
-  constructor({left, right, body}) {
+  constructor({ left, right, body }) {
     this.type = 'ForOfStatement';
     this.left = left;
     this.right = right;
@@ -350,7 +350,7 @@ export class ForOfStatement {
 }
 
 export class ForStatement {
-  constructor({init, test, update, body}) {
+  constructor({ init, test, update, body }) {
     this.type = 'ForStatement';
     this.init = init;
     this.test = test;
@@ -360,7 +360,7 @@ export class ForStatement {
 }
 
 export class FormalParameters {
-  constructor({items, rest}) {
+  constructor({ items, rest }) {
     this.type = 'FormalParameters';
     this.items = items;
     this.rest = rest;
@@ -368,7 +368,7 @@ export class FormalParameters {
 }
 
 export class FunctionBody {
-  constructor({directives, statements}) {
+  constructor({ directives, statements }) {
     this.type = 'FunctionBody';
     this.directives = directives;
     this.statements = statements;
@@ -376,7 +376,7 @@ export class FunctionBody {
 }
 
 export class FunctionDeclaration {
-  constructor({isGenerator, name, params, body}) {
+  constructor({ isGenerator, name, params, body }) {
     this.type = 'FunctionDeclaration';
     this.isGenerator = isGenerator;
     this.name = name;
@@ -386,7 +386,7 @@ export class FunctionDeclaration {
 }
 
 export class FunctionExpression {
-  constructor({isGenerator, name, params, body}) {
+  constructor({ isGenerator, name, params, body }) {
     this.type = 'FunctionExpression';
     this.isGenerator = isGenerator;
     this.name = name;
@@ -396,7 +396,7 @@ export class FunctionExpression {
 }
 
 export class Getter {
-  constructor({name, body}) {
+  constructor({ name, body }) {
     this.type = 'Getter';
     this.name = name;
     this.body = body;
@@ -404,14 +404,14 @@ export class Getter {
 }
 
 export class IdentifierExpression {
-  constructor({name}) {
+  constructor({ name }) {
     this.type = 'IdentifierExpression';
     this.name = name;
   }
 }
 
 export class IfStatement {
-  constructor({test, consequent, alternate}) {
+  constructor({ test, consequent, alternate }) {
     this.type = 'IfStatement';
     this.test = test;
     this.consequent = consequent;
@@ -420,7 +420,7 @@ export class IfStatement {
 }
 
 export class Import {
-  constructor({defaultBinding, namedImports, moduleSpecifier}) {
+  constructor({ defaultBinding, namedImports, moduleSpecifier }) {
     this.type = 'Import';
     this.defaultBinding = defaultBinding;
     this.namedImports = namedImports;
@@ -429,7 +429,7 @@ export class Import {
 }
 
 export class ImportNamespace {
-  constructor({defaultBinding, namespaceBinding, moduleSpecifier}) {
+  constructor({ defaultBinding, namespaceBinding, moduleSpecifier }) {
     this.type = 'ImportNamespace';
     this.defaultBinding = defaultBinding;
     this.namespaceBinding = namespaceBinding;
@@ -438,7 +438,7 @@ export class ImportNamespace {
 }
 
 export class ImportSpecifier {
-  constructor({name, binding}) {
+  constructor({ name, binding }) {
     this.type = 'ImportSpecifier';
     this.name = name;
     this.binding = binding;
@@ -446,7 +446,7 @@ export class ImportSpecifier {
 }
 
 export class LabeledStatement {
-  constructor({label, body}) {
+  constructor({ label, body }) {
     this.type = 'LabeledStatement';
     this.label = label;
     this.body = body;
@@ -454,7 +454,7 @@ export class LabeledStatement {
 }
 
 export class LiteralBooleanExpression {
-  constructor({value}) {
+  constructor({ value }) {
     this.type = 'LiteralBooleanExpression';
     this.value = value;
   }
@@ -473,14 +473,14 @@ export class LiteralNullExpression {
 }
 
 export class LiteralNumericExpression {
-  constructor({value}) {
+  constructor({ value }) {
     this.type = 'LiteralNumericExpression';
     this.value = value;
   }
 }
 
 export class LiteralRegExpExpression {
-  constructor({pattern, global, ignoreCase, multiLine, sticky, unicode}) {
+  constructor({ pattern, global, ignoreCase, multiLine, sticky, unicode }) {
     this.type = 'LiteralRegExpExpression';
     this.pattern = pattern;
     this.global = global;
@@ -492,14 +492,14 @@ export class LiteralRegExpExpression {
 }
 
 export class LiteralStringExpression {
-  constructor({value}) {
+  constructor({ value }) {
     this.type = 'LiteralStringExpression';
     this.value = value;
   }
 }
 
 export class Method {
-  constructor({isGenerator, name, params, body}) {
+  constructor({ isGenerator, name, params, body }) {
     this.type = 'Method';
     this.isGenerator = isGenerator;
     this.name = name;
@@ -509,7 +509,7 @@ export class Method {
 }
 
 export class Module {
-  constructor({directives, items}) {
+  constructor({ directives, items }) {
     this.type = 'Module';
     this.directives = directives;
     this.items = items;
@@ -517,7 +517,7 @@ export class Module {
 }
 
 export class NewExpression {
-  constructor({callee, arguments: _arguments}) {
+  constructor({ callee, arguments: _arguments }) {
     this.type = 'NewExpression';
     this.callee = callee;
     this.arguments = _arguments;
@@ -531,35 +531,35 @@ export class NewTargetExpression {
 }
 
 export class ObjectAssignmentTarget {
-  constructor({properties}) {
+  constructor({ properties }) {
     this.type = 'ObjectAssignmentTarget';
     this.properties = properties;
   }
 }
 
 export class ObjectBinding {
-  constructor({properties}) {
+  constructor({ properties }) {
     this.type = 'ObjectBinding';
     this.properties = properties;
   }
 }
 
 export class ObjectExpression {
-  constructor({properties}) {
+  constructor({ properties }) {
     this.type = 'ObjectExpression';
     this.properties = properties;
   }
 }
 
 export class ReturnStatement {
-  constructor({expression}) {
+  constructor({ expression }) {
     this.type = 'ReturnStatement';
     this.expression = expression;
   }
 }
 
 export class Script {
-  constructor({directives, statements}) {
+  constructor({ directives, statements }) {
     this.type = 'Script';
     this.directives = directives;
     this.statements = statements;
@@ -567,7 +567,7 @@ export class Script {
 }
 
 export class Setter {
-  constructor({name, param, body}) {
+  constructor({ name, param, body }) {
     this.type = 'Setter';
     this.name = name;
     this.param = param;
@@ -576,21 +576,21 @@ export class Setter {
 }
 
 export class ShorthandProperty {
-  constructor({name}) {
+  constructor({ name }) {
     this.type = 'ShorthandProperty';
     this.name = name;
   }
 }
 
 export class SpreadElement {
-  constructor({expression}) {
+  constructor({ expression }) {
     this.type = 'SpreadElement';
     this.expression = expression;
   }
 }
 
 export class StaticMemberAssignmentTarget {
-  constructor({object, property}) {
+  constructor({ object, property }) {
     this.type = 'StaticMemberAssignmentTarget';
     this.object = object;
     this.property = property;
@@ -598,7 +598,7 @@ export class StaticMemberAssignmentTarget {
 }
 
 export class StaticMemberExpression {
-  constructor({object, property}) {
+  constructor({ object, property }) {
     this.type = 'StaticMemberExpression';
     this.object = object;
     this.property = property;
@@ -606,7 +606,7 @@ export class StaticMemberExpression {
 }
 
 export class StaticPropertyName {
-  constructor({value}) {
+  constructor({ value }) {
     this.type = 'StaticPropertyName';
     this.value = value;
   }
@@ -619,7 +619,7 @@ export class Super {
 }
 
 export class SwitchCase {
-  constructor({test, consequent}) {
+  constructor({ test, consequent }) {
     this.type = 'SwitchCase';
     this.test = test;
     this.consequent = consequent;
@@ -627,14 +627,14 @@ export class SwitchCase {
 }
 
 export class SwitchDefault {
-  constructor({consequent}) {
+  constructor({ consequent }) {
     this.type = 'SwitchDefault';
     this.consequent = consequent;
   }
 }
 
 export class SwitchStatement {
-  constructor({discriminant, cases}) {
+  constructor({ discriminant, cases }) {
     this.type = 'SwitchStatement';
     this.discriminant = discriminant;
     this.cases = cases;
@@ -642,7 +642,7 @@ export class SwitchStatement {
 }
 
 export class SwitchStatementWithDefault {
-  constructor({discriminant, preDefaultCases, defaultCase, postDefaultCases}) {
+  constructor({ discriminant, preDefaultCases, defaultCase, postDefaultCases }) {
     this.type = 'SwitchStatementWithDefault';
     this.discriminant = discriminant;
     this.preDefaultCases = preDefaultCases;
@@ -652,14 +652,14 @@ export class SwitchStatementWithDefault {
 }
 
 export class TemplateElement {
-  constructor({rawValue}) {
+  constructor({ rawValue }) {
     this.type = 'TemplateElement';
     this.rawValue = rawValue;
   }
 }
 
 export class TemplateExpression {
-  constructor({tag, elements}) {
+  constructor({ tag, elements }) {
     this.type = 'TemplateExpression';
     this.tag = tag;
     this.elements = elements;
@@ -673,14 +673,14 @@ export class ThisExpression {
 }
 
 export class ThrowStatement {
-  constructor({expression}) {
+  constructor({ expression }) {
     this.type = 'ThrowStatement';
     this.expression = expression;
   }
 }
 
 export class TryCatchStatement {
-  constructor({body, catchClause}) {
+  constructor({ body, catchClause }) {
     this.type = 'TryCatchStatement';
     this.body = body;
     this.catchClause = catchClause;
@@ -688,7 +688,7 @@ export class TryCatchStatement {
 }
 
 export class TryFinallyStatement {
-  constructor({body, catchClause, finalizer}) {
+  constructor({ body, catchClause, finalizer }) {
     this.type = 'TryFinallyStatement';
     this.body = body;
     this.catchClause = catchClause;
@@ -697,7 +697,7 @@ export class TryFinallyStatement {
 }
 
 export class UnaryExpression {
-  constructor({operator, operand}) {
+  constructor({ operator, operand }) {
     this.type = 'UnaryExpression';
     this.operator = operator;
     this.operand = operand;
@@ -705,7 +705,7 @@ export class UnaryExpression {
 }
 
 export class UpdateExpression {
-  constructor({isPrefix, operator, operand}) {
+  constructor({ isPrefix, operator, operand }) {
     this.type = 'UpdateExpression';
     this.isPrefix = isPrefix;
     this.operator = operator;
@@ -714,7 +714,7 @@ export class UpdateExpression {
 }
 
 export class VariableDeclaration {
-  constructor({kind, declarators}) {
+  constructor({ kind, declarators }) {
     this.type = 'VariableDeclaration';
     this.kind = kind;
     this.declarators = declarators;
@@ -722,14 +722,14 @@ export class VariableDeclaration {
 }
 
 export class VariableDeclarationStatement {
-  constructor({declaration}) {
+  constructor({ declaration }) {
     this.type = 'VariableDeclarationStatement';
     this.declaration = declaration;
   }
 }
 
 export class VariableDeclarator {
-  constructor({binding, init}) {
+  constructor({ binding, init }) {
     this.type = 'VariableDeclarator';
     this.binding = binding;
     this.init = init;
@@ -737,7 +737,7 @@ export class VariableDeclarator {
 }
 
 export class WhileStatement {
-  constructor({test, body}) {
+  constructor({ test, body }) {
     this.type = 'WhileStatement';
     this.test = test;
     this.body = body;
@@ -745,7 +745,7 @@ export class WhileStatement {
 }
 
 export class WithStatement {
-  constructor({object, body}) {
+  constructor({ object, body }) {
     this.type = 'WithStatement';
     this.object = object;
     this.body = body;
@@ -753,14 +753,14 @@ export class WithStatement {
 }
 
 export class YieldExpression {
-  constructor({expression}) {
+  constructor({ expression }) {
     this.type = 'YieldExpression';
     this.expression = expression;
   }
 }
 
 export class YieldGeneratorExpression {
-  constructor({expression}) {
+  constructor({ expression }) {
     this.type = 'YieldGeneratorExpression';
     this.expression = expression;
   }
