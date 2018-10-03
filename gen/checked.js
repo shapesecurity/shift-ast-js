@@ -108,7 +108,7 @@ export class AssignmentExpression {
 
 export class AssignmentTargetIdentifier {
   constructor({ name }) {
-    if (typeof name === 'undefined' || typeof name !== 'string') {
+    if (typeof name !== 'string') {
       throw new TypeError('Field "name" of AssignmentTargetIdentifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'AssignmentTargetIdentifier';
@@ -178,7 +178,7 @@ export class BinaryExpression {
 
 export class BindingIdentifier {
   constructor({ name }) {
-    if (typeof name === 'undefined' || typeof name !== 'string') {
+    if (typeof name !== 'string') {
       throw new TypeError('Field "name" of BindingIdentifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'BindingIdentifier';
@@ -442,7 +442,7 @@ export class DebuggerStatement {
 
 export class Directive {
   constructor({ rawValue }) {
-    if (typeof rawValue === 'undefined' || typeof rawValue !== 'string') {
+    if (typeof rawValue !== 'string') {
       throw new TypeError('Field "rawValue" of Directive constructor is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
     }
     this.type = 'Directive';
@@ -482,7 +482,7 @@ export class Export {
 
 export class ExportAllFrom {
   constructor({ moduleSpecifier }) {
-    if (typeof moduleSpecifier === 'undefined' || typeof moduleSpecifier !== 'string') {
+    if (typeof moduleSpecifier !== 'string') {
       throw new TypeError('Field "moduleSpecifier" of ExportAllFrom constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ExportAllFrom';
@@ -505,7 +505,7 @@ export class ExportFrom {
     if (typeof namedExports === 'undefined' || !Array.isArray(namedExports) || namedExports.some(f => typeof f === 'undefined' || f.type !== 'ExportFromSpecifier')) {
       throw new TypeError('Field "namedExports" of ExportFrom constructor is of incorrect type (expected [ExportFromSpecifier], got ' + printActualType(namedExports) + ')');
     }
-    if (typeof moduleSpecifier === 'undefined' || typeof moduleSpecifier !== 'string') {
+    if (typeof moduleSpecifier !== 'string') {
       throw new TypeError('Field "moduleSpecifier" of ExportFrom constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ExportFrom';
@@ -516,7 +516,7 @@ export class ExportFrom {
 
 export class ExportFromSpecifier {
   constructor({ name, exportedName }) {
-    if (typeof name === 'undefined' || typeof name !== 'string') {
+    if (typeof name !== 'string') {
       throw new TypeError('Field "name" of ExportFromSpecifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     if (typeof exportedName === 'undefined' || exportedName !== null && (typeof exportedName !== 'string')) {
@@ -708,7 +708,7 @@ export class Getter {
 
 export class IdentifierExpression {
   constructor({ name }) {
-    if (typeof name === 'undefined' || typeof name !== 'string') {
+    if (typeof name !== 'string') {
       throw new TypeError('Field "name" of IdentifierExpression constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'IdentifierExpression';
@@ -742,7 +742,7 @@ export class Import {
     if (typeof namedImports === 'undefined' || !Array.isArray(namedImports) || namedImports.some(f => typeof f === 'undefined' || f.type !== 'ImportSpecifier')) {
       throw new TypeError('Field "namedImports" of Import constructor is of incorrect type (expected [ImportSpecifier], got ' + printActualType(namedImports) + ')');
     }
-    if (typeof moduleSpecifier === 'undefined' || typeof moduleSpecifier !== 'string') {
+    if (typeof moduleSpecifier !== 'string') {
       throw new TypeError('Field "moduleSpecifier" of Import constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'Import';
@@ -760,7 +760,7 @@ export class ImportNamespace {
     if (typeof namespaceBinding === 'undefined' || namespaceBinding.type !== 'BindingIdentifier') {
       throw new TypeError('Field "namespaceBinding" of ImportNamespace constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(namespaceBinding) + ')');
     }
-    if (typeof moduleSpecifier === 'undefined' || typeof moduleSpecifier !== 'string') {
+    if (typeof moduleSpecifier !== 'string') {
       throw new TypeError('Field "moduleSpecifier" of ImportNamespace constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ImportNamespace';
@@ -786,7 +786,7 @@ export class ImportSpecifier {
 
 export class LabeledStatement {
   constructor({ label, body }) {
-    if (typeof label === 'undefined' || typeof label !== 'string') {
+    if (typeof label !== 'string') {
       throw new TypeError('Field "label" of LabeledStatement constructor is of incorrect type (expected string, got ' + printActualType(label) + ')');
     }
     if (isNotStatement(body)) {
@@ -822,7 +822,7 @@ export class LiteralNullExpression {
 
 export class LiteralNumericExpression {
   constructor({ value }) {
-    if (typeof value === 'undefined' || typeof value !== 'number') {
+    if (typeof value !== 'number') {
       throw new TypeError('Field "value" of LiteralNumericExpression constructor is of incorrect type (expected number, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralNumericExpression';
@@ -832,7 +832,7 @@ export class LiteralNumericExpression {
 
 export class LiteralRegExpExpression {
   constructor({ pattern, global, ignoreCase, multiLine, sticky, unicode }) {
-    if (typeof pattern === 'undefined' || typeof pattern !== 'string') {
+    if (typeof pattern !== 'string') {
       throw new TypeError('Field "pattern" of LiteralRegExpExpression constructor is of incorrect type (expected string, got ' + printActualType(pattern) + ')');
     }
     if (typeof global !== 'boolean') {
@@ -862,7 +862,7 @@ export class LiteralRegExpExpression {
 
 export class LiteralStringExpression {
   constructor({ value }) {
-    if (typeof value === 'undefined' || typeof value !== 'string') {
+    if (typeof value !== 'string') {
       throw new TypeError('Field "value" of LiteralStringExpression constructor is of incorrect type (expected string, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralStringExpression';
@@ -1023,7 +1023,7 @@ export class StaticMemberAssignmentTarget {
     if (typeof object === 'undefined' || (isNotExpression(object)) && (object.type !== 'Super')) {
       throw new TypeError('Field "object" of StaticMemberAssignmentTarget constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
-    if (typeof property === 'undefined' || typeof property !== 'string') {
+    if (typeof property !== 'string') {
       throw new TypeError('Field "property" of StaticMemberAssignmentTarget constructor is of incorrect type (expected string, got ' + printActualType(property) + ')');
     }
     this.type = 'StaticMemberAssignmentTarget';
@@ -1037,7 +1037,7 @@ export class StaticMemberExpression {
     if (typeof object === 'undefined' || (isNotExpression(object)) && (object.type !== 'Super')) {
       throw new TypeError('Field "object" of StaticMemberExpression constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
-    if (typeof property === 'undefined' || typeof property !== 'string') {
+    if (typeof property !== 'string') {
       throw new TypeError('Field "property" of StaticMemberExpression constructor is of incorrect type (expected string, got ' + printActualType(property) + ')');
     }
     this.type = 'StaticMemberExpression';
@@ -1048,7 +1048,7 @@ export class StaticMemberExpression {
 
 export class StaticPropertyName {
   constructor({ value }) {
-    if (typeof value === 'undefined' || typeof value !== 'string') {
+    if (typeof value !== 'string') {
       throw new TypeError('Field "value" of StaticPropertyName constructor is of incorrect type (expected string, got ' + printActualType(value) + ')');
     }
     this.type = 'StaticPropertyName';
@@ -1124,7 +1124,7 @@ export class SwitchStatementWithDefault {
 
 export class TemplateElement {
   constructor({ rawValue }) {
-    if (typeof rawValue === 'undefined' || typeof rawValue !== 'string') {
+    if (typeof rawValue !== 'string') {
       throw new TypeError('Field "rawValue" of TemplateElement constructor is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
     }
     this.type = 'TemplateElement';
