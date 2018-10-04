@@ -73,7 +73,9 @@ function typeCheck(name, type, { includeUndefCheck = true, isExpressionCheck = f
   if (!isStatementCheck && type === StatementType) {
     return `isNotStatement(${name})`;
   }
-  let check = includeUndefCheck && type.typeName !== 'Boolean' && type.typeName !== 'Number' && type.typeName !== 'String' ? `typeof ${name} === 'undefined' || ` : '';
+  let check = includeUndefCheck && type.typeName !== 'Boolean' && type.typeName !== 'Number' && type.typeName !== 'String' && type.typeName !== 'List'
+    ? `typeof ${name} === 'undefined' || `
+    : '';
   switch (type.typeName) {
     case 'Boolean':
       check += `typeof ${name} !== 'boolean'`;
@@ -144,33 +146,55 @@ function printActualType(arg) {
   }
   return arg.type;
 }
+
+function arrayEquals(a, b) {
+  return a.length === b.length && a.every((v, i) => v === b[i]);
+}
 `;
 
 
 for (let typename of Object.keys(Spec)) {
   let type = Spec[typename];
   let fields = type.fields.filter(f => f.name !== 'type' && f.name !== 'loc');
-  let param, paramCheck;
-  if (fields.length > 0) {
-    param = '{ ' + fields.map(f => parameterize(f.name)).join(', ') + ' }';
-    paramCheck = fields.map(f => {
-      let fname = sanitize(f.name);
-      return `
-    if (${typeCheck(fname, f.type)}) {
-      throw new TypeError('Field "${f.name}" of ${typename} constructor is of incorrect type (expected ${printType(f.type)}, got ' + printActualType(${fname}) + ')');
-    }`;
-    }).join('');
-  } else {
-    param = '';
-    paramCheck = '';
-  }
-  content += `
+  if (fields.length === 0) {
+    content += `
 export class ${typename} {
-  constructor(${param}) {${paramCheck}
-    this.type = '${typename}';${fields.map(f => `\n    this.${f.name} = ${sanitize(f.name)};`).join('')}
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('${typename} constructor takes no arguments');
+    }
+    this.type = '${typename}';
   }
 }
 `;
+  } else {
+    let expectedArgs = '{' + fields.map(f => f.name).join(', ') + '}';
+    let expectedArgsSorted = '[' + fields.map(f => '\'' + f.name + '\'').sort().join(', ') + ']';
+    let param = '{ ' + fields.map(f => parameterize(f.name)).join(', ') + ' }';
+    let paramCheck = fields.map(f => {
+      let fname = sanitize(f.name);
+      return `if (${typeCheck(fname, f.type)}) {
+      throw new TypeError('Field "${f.name}" of ${typename} constructor argument is of incorrect type (expected ${printType(f.type)}, got ' + printActualType(${fname}) + ')');
+    }`;
+    }).join('\n    ');
+    content += `
+export class ${typename} {
+  constructor(arg, ...extraArgs) {
+    const ${param} = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('${typename} constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ${expectedArgsSorted})) {
+      throw new TypeError('Argument to ${typename} constructor has wrong keys: expected ${expectedArgs.replace(/'/g, '\\\'')}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    ${paramCheck}
+    this.type = '${typename}';
+    ${fields.map(f => `this.${f.name} = ${sanitize(f.name)};`).join('\n    ')}
+  }
+}
+`;
+
+  }
 }
 
 require('fs').writeFileSync('gen/checked.js', content, 'utf-8');

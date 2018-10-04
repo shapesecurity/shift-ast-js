@@ -99,4 +99,28 @@ describe('ShiftAST/checked', () => {
     assert.equal(_if.consequent, consequent);
     assert.equal(_if.alternate, alternate);
   });
+
+  it('allows passing nothing or an empty argument for simple constructors', () => {
+    new ShiftASTChecked.LiteralNullExpression();
+    new ShiftASTChecked.LiteralNullExpression({});
+  });
+
+  it('forbids passing too few arguments', () => {
+    assert.throws(() => new ShiftASTChecked.LiteralNumericExpression());
+  });
+
+  it('forbids passing extra arguments', () => {
+    assert.throws(() => new ShiftASTChecked.LiteralNullExpression(null));
+    assert.throws(() => new ShiftASTChecked.LiteralNullExpression({}, {}));
+    assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({ value: 0 }, {}));
+  });
+
+  it('forbids passing a bag with missing properties', () => {
+    assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({}));
+  });
+
+  it('forbids passing a bag with extra properties', () => {
+    assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({ notValue: 0 }));
+    assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({ value: 0, notValue: 0 }));
+  });
 });
