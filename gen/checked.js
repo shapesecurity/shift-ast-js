@@ -17,7 +17,7 @@
  */
 
 function isNotExpression(node) {
-  return typeof node === 'undefined' || (node.type !== 'ArrayExpression') && (node.type !== 'ArrowExpression') && (node.type !== 'AssignmentExpression') && (node.type !== 'BinaryExpression') && (node.type !== 'CallExpression') && (node.type !== 'ClassExpression') && (node.type !== 'CompoundAssignmentExpression') && (node.type !== 'ConditionalExpression') && (node.type !== 'FunctionExpression') && (node.type !== 'IdentifierExpression') && (node.type !== 'LiteralBooleanExpression') && (node.type !== 'LiteralInfinityExpression') && (node.type !== 'LiteralNullExpression') && (node.type !== 'LiteralNumericExpression') && (node.type !== 'LiteralRegExpExpression') && (node.type !== 'LiteralStringExpression') && ((node.type !== 'ComputedMemberExpression') && (node.type !== 'StaticMemberExpression')) && (node.type !== 'NewExpression') && (node.type !== 'NewTargetExpression') && (node.type !== 'ObjectExpression') && (node.type !== 'TemplateExpression') && (node.type !== 'ThisExpression') && (node.type !== 'UnaryExpression') && (node.type !== 'UpdateExpression') && (node.type !== 'YieldExpression') && (node.type !== 'YieldGeneratorExpression');
+  return typeof node === 'undefined' || (node.type !== 'ArrayExpression') && (node.type !== 'ArrowExpression') && (node.type !== 'AssignmentExpression') && (node.type !== 'AwaitExpression') && (node.type !== 'BinaryExpression') && (node.type !== 'CallExpression') && (node.type !== 'ClassExpression') && (node.type !== 'CompoundAssignmentExpression') && (node.type !== 'ConditionalExpression') && (node.type !== 'FunctionExpression') && (node.type !== 'IdentifierExpression') && (node.type !== 'LiteralBooleanExpression') && (node.type !== 'LiteralInfinityExpression') && (node.type !== 'LiteralNullExpression') && (node.type !== 'LiteralNumericExpression') && (node.type !== 'LiteralRegExpExpression') && (node.type !== 'LiteralStringExpression') && ((node.type !== 'ComputedMemberExpression') && (node.type !== 'StaticMemberExpression')) && (node.type !== 'NewExpression') && (node.type !== 'NewTargetExpression') && (node.type !== 'ObjectExpression') && (node.type !== 'TemplateExpression') && (node.type !== 'ThisExpression') && (node.type !== 'UnaryExpression') && (node.type !== 'UpdateExpression') && (node.type !== 'YieldExpression') && (node.type !== 'YieldGeneratorExpression');
 }
 
 function isNotStatement(node) {
@@ -105,12 +105,15 @@ export class ArrayExpression {
 
 export class ArrowExpression {
   constructor(arg, ...extraArgs) {
-    const { params, body } = arg;
+    const { isAsync, params, body } = arg;
     if (extraArgs.length !== 0) {
       throw new TypeError('ArrowExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'params'])) {
-      throw new TypeError('Argument to ArrowExpression constructor has wrong keys: expected {params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isAsync', 'params'])) {
+      throw new TypeError('Argument to ArrowExpression constructor has wrong keys: expected {isAsync, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof isAsync !== 'boolean') {
+      throw new TypeError('Field "isAsync" of ArrowExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(isAsync) + ')');
     }
     if (typeof params === 'undefined' || params.type !== 'FormalParameters') {
       throw new TypeError('Field "params" of ArrowExpression constructor argument is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
@@ -119,6 +122,7 @@ export class ArrowExpression {
       throw new TypeError('Field "body" of ArrowExpression constructor argument is of incorrect type (expected one of {Expression, FunctionBody}, got ' + printActualType(body) + ')');
     }
     this.type = 'ArrowExpression';
+    this.isAsync = isAsync;
     this.params = params;
     this.body = body;
   }
@@ -222,6 +226,23 @@ export class AssignmentTargetWithDefault {
     this.type = 'AssignmentTargetWithDefault';
     this.binding = binding;
     this.init = init;
+  }
+}
+
+export class AwaitExpression {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('AwaitExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to AwaitExpression constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (isNotExpression(expression)) {
+      throw new TypeError('Field "expression" of AwaitExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+    }
+    this.type = 'AwaitExpression';
+    this.expression = expression;
   }
 }
 
@@ -968,12 +989,15 @@ export class FunctionBody {
 
 export class FunctionDeclaration {
   constructor(arg, ...extraArgs) {
-    const { isGenerator, name, params, body } = arg;
+    const { isAsync, isGenerator, name, params, body } = arg;
     if (extraArgs.length !== 0) {
       throw new TypeError('FunctionDeclaration constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isGenerator', 'name', 'params'])) {
-      throw new TypeError('Argument to FunctionDeclaration constructor has wrong keys: expected {isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isAsync', 'isGenerator', 'name', 'params'])) {
+      throw new TypeError('Argument to FunctionDeclaration constructor has wrong keys: expected {isAsync, isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof isAsync !== 'boolean') {
+      throw new TypeError('Field "isAsync" of FunctionDeclaration constructor argument is of incorrect type (expected boolean, got ' + printActualType(isAsync) + ')');
     }
     if (typeof isGenerator !== 'boolean') {
       throw new TypeError('Field "isGenerator" of FunctionDeclaration constructor argument is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
@@ -988,6 +1012,7 @@ export class FunctionDeclaration {
       throw new TypeError('Field "body" of FunctionDeclaration constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'FunctionDeclaration';
+    this.isAsync = isAsync;
     this.isGenerator = isGenerator;
     this.name = name;
     this.params = params;
@@ -997,12 +1022,15 @@ export class FunctionDeclaration {
 
 export class FunctionExpression {
   constructor(arg, ...extraArgs) {
-    const { isGenerator, name, params, body } = arg;
+    const { isAsync, isGenerator, name, params, body } = arg;
     if (extraArgs.length !== 0) {
       throw new TypeError('FunctionExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isGenerator', 'name', 'params'])) {
-      throw new TypeError('Argument to FunctionExpression constructor has wrong keys: expected {isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isAsync', 'isGenerator', 'name', 'params'])) {
+      throw new TypeError('Argument to FunctionExpression constructor has wrong keys: expected {isAsync, isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof isAsync !== 'boolean') {
+      throw new TypeError('Field "isAsync" of FunctionExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(isAsync) + ')');
     }
     if (typeof isGenerator !== 'boolean') {
       throw new TypeError('Field "isGenerator" of FunctionExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
@@ -1017,6 +1045,7 @@ export class FunctionExpression {
       throw new TypeError('Field "body" of FunctionExpression constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'FunctionExpression';
+    this.isAsync = isAsync;
     this.isGenerator = isGenerator;
     this.name = name;
     this.params = params;
@@ -1287,12 +1316,15 @@ export class LiteralStringExpression {
 
 export class Method {
   constructor(arg, ...extraArgs) {
-    const { isGenerator, name, params, body } = arg;
+    const { isAsync, isGenerator, name, params, body } = arg;
     if (extraArgs.length !== 0) {
       throw new TypeError('Method constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isGenerator', 'name', 'params'])) {
-      throw new TypeError('Argument to Method constructor has wrong keys: expected {isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isAsync', 'isGenerator', 'name', 'params'])) {
+      throw new TypeError('Argument to Method constructor has wrong keys: expected {isAsync, isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof isAsync !== 'boolean') {
+      throw new TypeError('Field "isAsync" of Method constructor argument is of incorrect type (expected boolean, got ' + printActualType(isAsync) + ')');
     }
     if (typeof isGenerator !== 'boolean') {
       throw new TypeError('Field "isGenerator" of Method constructor argument is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
@@ -1307,6 +1339,7 @@ export class Method {
       throw new TypeError('Field "body" of Method constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'Method';
+    this.isAsync = isAsync;
     this.isGenerator = isGenerator;
     this.name = name;
     this.params = params;
