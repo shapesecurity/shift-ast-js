@@ -40,13 +40,24 @@ function printActualType(arg) {
   return arg.type;
 }
 
+function arrayEquals(a, b) {
+  return a.length === b.length && a.every((v, i) => v === b[i]);
+}
+
 export class ArrayAssignmentTarget {
-  constructor({ elements, rest }) {
-    if (typeof elements === 'undefined' || !Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f !== null && ((f.type !== 'AssignmentTargetWithDefault') && (((f.type !== 'ArrayAssignmentTarget') && (f.type !== 'ObjectAssignmentTarget')) && ((f.type !== 'AssignmentTargetIdentifier') && ((f.type !== 'ComputedMemberAssignmentTarget') && (f.type !== 'StaticMemberAssignmentTarget'))))))) {
-      throw new TypeError('Field "elements" of ArrayAssignmentTarget constructor is of incorrect type (expected [null or one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}], got ' + printActualType(elements) + ')');
+  constructor(arg, ...extraArgs) {
+    const { elements, rest } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ArrayAssignmentTarget constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['elements', 'rest'])) {
+      throw new TypeError('Argument to ArrayAssignmentTarget constructor has wrong keys: expected {elements, rest}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f !== null && ((f.type !== 'AssignmentTargetWithDefault') && (((f.type !== 'ArrayAssignmentTarget') && (f.type !== 'ObjectAssignmentTarget')) && ((f.type !== 'AssignmentTargetIdentifier') && ((f.type !== 'ComputedMemberAssignmentTarget') && (f.type !== 'StaticMemberAssignmentTarget'))))))) {
+      throw new TypeError('Field "elements" of ArrayAssignmentTarget constructor argument is of incorrect type (expected [null or one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}], got ' + printActualType(elements) + ')');
     }
     if (typeof rest === 'undefined' || rest !== null && (((rest.type !== 'ArrayAssignmentTarget') && (rest.type !== 'ObjectAssignmentTarget')) && ((rest.type !== 'AssignmentTargetIdentifier') && ((rest.type !== 'ComputedMemberAssignmentTarget') && (rest.type !== 'StaticMemberAssignmentTarget'))))) {
-      throw new TypeError('Field "rest" of ArrayAssignmentTarget constructor is of incorrect type (expected null or one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
+      throw new TypeError('Field "rest" of ArrayAssignmentTarget constructor argument is of incorrect type (expected null or one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
     }
     this.type = 'ArrayAssignmentTarget';
     this.elements = elements;
@@ -55,12 +66,19 @@ export class ArrayAssignmentTarget {
 }
 
 export class ArrayBinding {
-  constructor({ elements, rest }) {
-    if (typeof elements === 'undefined' || !Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f !== null && ((f.type !== 'BindingWithDefault') && ((f.type !== 'BindingIdentifier') && ((f.type !== 'ArrayBinding') && (f.type !== 'ObjectBinding')))))) {
-      throw new TypeError('Field "elements" of ArrayBinding constructor is of incorrect type (expected [null or one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}], got ' + printActualType(elements) + ')');
+  constructor(arg, ...extraArgs) {
+    const { elements, rest } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ArrayBinding constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['elements', 'rest'])) {
+      throw new TypeError('Argument to ArrayBinding constructor has wrong keys: expected {elements, rest}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f !== null && ((f.type !== 'BindingWithDefault') && ((f.type !== 'BindingIdentifier') && ((f.type !== 'ArrayBinding') && (f.type !== 'ObjectBinding')))))) {
+      throw new TypeError('Field "elements" of ArrayBinding constructor argument is of incorrect type (expected [null or one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}], got ' + printActualType(elements) + ')');
     }
     if (typeof rest === 'undefined' || rest !== null && ((rest.type !== 'BindingIdentifier') && ((rest.type !== 'ArrayBinding') && (rest.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "rest" of ArrayBinding constructor is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
+      throw new TypeError('Field "rest" of ArrayBinding constructor argument is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
     }
     this.type = 'ArrayBinding';
     this.elements = elements;
@@ -69,9 +87,16 @@ export class ArrayBinding {
 }
 
 export class ArrayExpression {
-  constructor({ elements }) {
-    if (typeof elements === 'undefined' || !Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f !== null && ((isNotExpression(f)) && (f.type !== 'SpreadElement')))) {
-      throw new TypeError('Field "elements" of ArrayExpression constructor is of incorrect type (expected [null or one of {Expression, SpreadElement}], got ' + printActualType(elements) + ')');
+  constructor(arg, ...extraArgs) {
+    const { elements } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ArrayExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['elements'])) {
+      throw new TypeError('Argument to ArrayExpression constructor has wrong keys: expected {elements}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f !== null && ((isNotExpression(f)) && (f.type !== 'SpreadElement')))) {
+      throw new TypeError('Field "elements" of ArrayExpression constructor argument is of incorrect type (expected [null or one of {Expression, SpreadElement}], got ' + printActualType(elements) + ')');
     }
     this.type = 'ArrayExpression';
     this.elements = elements;
@@ -79,12 +104,19 @@ export class ArrayExpression {
 }
 
 export class ArrowExpression {
-  constructor({ params, body }) {
+  constructor(arg, ...extraArgs) {
+    const { params, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ArrowExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'params'])) {
+      throw new TypeError('Argument to ArrowExpression constructor has wrong keys: expected {params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof params === 'undefined' || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of ArrowExpression constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
+      throw new TypeError('Field "params" of ArrowExpression constructor argument is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (typeof body === 'undefined' || (isNotExpression(body)) && (body.type !== 'FunctionBody')) {
-      throw new TypeError('Field "body" of ArrowExpression constructor is of incorrect type (expected one of {Expression, FunctionBody}, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of ArrowExpression constructor argument is of incorrect type (expected one of {Expression, FunctionBody}, got ' + printActualType(body) + ')');
     }
     this.type = 'ArrowExpression';
     this.params = params;
@@ -93,12 +125,19 @@ export class ArrowExpression {
 }
 
 export class AssignmentExpression {
-  constructor({ binding, expression }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('AssignmentExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'expression'])) {
+      throw new TypeError('Argument to AssignmentExpression constructor has wrong keys: expected {binding, expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || ((binding.type !== 'ArrayAssignmentTarget') && (binding.type !== 'ObjectAssignmentTarget')) && ((binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget')))) {
-      throw new TypeError('Field "binding" of AssignmentExpression constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of AssignmentExpression constructor argument is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of AssignmentExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of AssignmentExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'AssignmentExpression';
     this.binding = binding;
@@ -107,9 +146,16 @@ export class AssignmentExpression {
 }
 
 export class AssignmentTargetIdentifier {
-  constructor({ name }) {
+  constructor(arg, ...extraArgs) {
+    const { name } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('AssignmentTargetIdentifier constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['name'])) {
+      throw new TypeError('Argument to AssignmentTargetIdentifier constructor has wrong keys: expected {name}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name !== 'string') {
-      throw new TypeError('Field "name" of AssignmentTargetIdentifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of AssignmentTargetIdentifier constructor argument is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'AssignmentTargetIdentifier';
     this.name = name;
@@ -117,12 +163,19 @@ export class AssignmentTargetIdentifier {
 }
 
 export class AssignmentTargetPropertyIdentifier {
-  constructor({ binding, init }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, init } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('AssignmentTargetPropertyIdentifier constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'init'])) {
+      throw new TypeError('Argument to AssignmentTargetPropertyIdentifier constructor has wrong keys: expected {binding, init}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || binding.type !== 'AssignmentTargetIdentifier') {
-      throw new TypeError('Field "binding" of AssignmentTargetPropertyIdentifier constructor is of incorrect type (expected AssignmentTargetIdentifier, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of AssignmentTargetPropertyIdentifier constructor argument is of incorrect type (expected AssignmentTargetIdentifier, got ' + printActualType(binding) + ')');
     }
     if (typeof init === 'undefined' || init !== null && (isNotExpression(init))) {
-      throw new TypeError('Field "init" of AssignmentTargetPropertyIdentifier constructor is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
+      throw new TypeError('Field "init" of AssignmentTargetPropertyIdentifier constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'AssignmentTargetPropertyIdentifier';
     this.binding = binding;
@@ -131,12 +184,19 @@ export class AssignmentTargetPropertyIdentifier {
 }
 
 export class AssignmentTargetPropertyProperty {
-  constructor({ name, binding }) {
+  constructor(arg, ...extraArgs) {
+    const { name, binding } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('AssignmentTargetPropertyProperty constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'name'])) {
+      throw new TypeError('Argument to AssignmentTargetPropertyProperty constructor has wrong keys: expected {name, binding}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of AssignmentTargetPropertyProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of AssignmentTargetPropertyProperty constructor argument is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (typeof binding === 'undefined' || (binding.type !== 'AssignmentTargetWithDefault') && (((binding.type !== 'ArrayAssignmentTarget') && (binding.type !== 'ObjectAssignmentTarget')) && ((binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget'))))) {
-      throw new TypeError('Field "binding" of AssignmentTargetPropertyProperty constructor is of incorrect type (expected one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of AssignmentTargetPropertyProperty constructor argument is of incorrect type (expected one of {AssignmentTargetWithDefault, ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     this.type = 'AssignmentTargetPropertyProperty';
     this.name = name;
@@ -145,12 +205,19 @@ export class AssignmentTargetPropertyProperty {
 }
 
 export class AssignmentTargetWithDefault {
-  constructor({ binding, init }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, init } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('AssignmentTargetWithDefault constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'init'])) {
+      throw new TypeError('Argument to AssignmentTargetWithDefault constructor has wrong keys: expected {binding, init}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || ((binding.type !== 'ArrayAssignmentTarget') && (binding.type !== 'ObjectAssignmentTarget')) && ((binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget')))) {
-      throw new TypeError('Field "binding" of AssignmentTargetWithDefault constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of AssignmentTargetWithDefault constructor argument is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     if (isNotExpression(init)) {
-      throw new TypeError('Field "init" of AssignmentTargetWithDefault constructor is of incorrect type (expected Expression, got ' + printActualType(init) + ')');
+      throw new TypeError('Field "init" of AssignmentTargetWithDefault constructor argument is of incorrect type (expected Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'AssignmentTargetWithDefault';
     this.binding = binding;
@@ -159,15 +226,22 @@ export class AssignmentTargetWithDefault {
 }
 
 export class BinaryExpression {
-  constructor({ left, operator, right }) {
+  constructor(arg, ...extraArgs) {
+    const { left, operator, right } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('BinaryExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['left', 'operator', 'right'])) {
+      throw new TypeError('Argument to BinaryExpression constructor has wrong keys: expected {left, operator, right}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(left)) {
-      throw new TypeError('Field "left" of BinaryExpression constructor is of incorrect type (expected Expression, got ' + printActualType(left) + ')');
+      throw new TypeError('Field "left" of BinaryExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(left) + ')');
     }
     if (typeof operator === 'undefined' || ['==', '!=', '===', '!==', '<', '<=', '>', '>=', 'in', 'instanceof', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', ',', '||', '&&', '|', '^', '&'].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of BinaryExpression constructor is of incorrect type (expected one of {"==", "!=", "===", "!==", "<", "<=", ">", ">=", "in", "instanceof", "<<", ">>", ">>>", "+", "-", "*", "/", "%", "**", ",", "||", "&&", "|", "^", "&"}, got ' + printActualType(operator) + ')');
+      throw new TypeError('Field "operator" of BinaryExpression constructor argument is of incorrect type (expected one of {"==", "!=", "===", "!==", "<", "<=", ">", ">=", "in", "instanceof", "<<", ">>", ">>>", "+", "-", "*", "/", "%", "**", ",", "||", "&&", "|", "^", "&"}, got ' + printActualType(operator) + ')');
     }
     if (isNotExpression(right)) {
-      throw new TypeError('Field "right" of BinaryExpression constructor is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
+      throw new TypeError('Field "right" of BinaryExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
     }
     this.type = 'BinaryExpression';
     this.left = left;
@@ -177,9 +251,16 @@ export class BinaryExpression {
 }
 
 export class BindingIdentifier {
-  constructor({ name }) {
+  constructor(arg, ...extraArgs) {
+    const { name } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('BindingIdentifier constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['name'])) {
+      throw new TypeError('Argument to BindingIdentifier constructor has wrong keys: expected {name}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name !== 'string') {
-      throw new TypeError('Field "name" of BindingIdentifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of BindingIdentifier constructor argument is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'BindingIdentifier';
     this.name = name;
@@ -187,12 +268,19 @@ export class BindingIdentifier {
 }
 
 export class BindingPropertyIdentifier {
-  constructor({ binding, init }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, init } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('BindingPropertyIdentifier constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'init'])) {
+      throw new TypeError('Argument to BindingPropertyIdentifier constructor has wrong keys: expected {binding, init}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || binding.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "binding" of BindingPropertyIdentifier constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of BindingPropertyIdentifier constructor argument is of incorrect type (expected BindingIdentifier, got ' + printActualType(binding) + ')');
     }
     if (typeof init === 'undefined' || init !== null && (isNotExpression(init))) {
-      throw new TypeError('Field "init" of BindingPropertyIdentifier constructor is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
+      throw new TypeError('Field "init" of BindingPropertyIdentifier constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'BindingPropertyIdentifier';
     this.binding = binding;
@@ -201,12 +289,19 @@ export class BindingPropertyIdentifier {
 }
 
 export class BindingPropertyProperty {
-  constructor({ name, binding }) {
+  constructor(arg, ...extraArgs) {
+    const { name, binding } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('BindingPropertyProperty constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'name'])) {
+      throw new TypeError('Argument to BindingPropertyProperty constructor has wrong keys: expected {name, binding}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of BindingPropertyProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of BindingPropertyProperty constructor argument is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (typeof binding === 'undefined' || (binding.type !== 'BindingWithDefault') && ((binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "binding" of BindingPropertyProperty constructor is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of BindingPropertyProperty constructor argument is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     this.type = 'BindingPropertyProperty';
     this.name = name;
@@ -215,12 +310,19 @@ export class BindingPropertyProperty {
 }
 
 export class BindingWithDefault {
-  constructor({ binding, init }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, init } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('BindingWithDefault constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'init'])) {
+      throw new TypeError('Argument to BindingWithDefault constructor has wrong keys: expected {binding, init}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of BindingWithDefault constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of BindingWithDefault constructor argument is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (isNotExpression(init)) {
-      throw new TypeError('Field "init" of BindingWithDefault constructor is of incorrect type (expected Expression, got ' + printActualType(init) + ')');
+      throw new TypeError('Field "init" of BindingWithDefault constructor argument is of incorrect type (expected Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'BindingWithDefault';
     this.binding = binding;
@@ -229,9 +331,16 @@ export class BindingWithDefault {
 }
 
 export class Block {
-  constructor({ statements }) {
-    if (typeof statements === 'undefined' || !Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "statements" of Block constructor is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
+  constructor(arg, ...extraArgs) {
+    const { statements } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Block constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['statements'])) {
+      throw new TypeError('Argument to Block constructor has wrong keys: expected {statements}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
+      throw new TypeError('Field "statements" of Block constructor argument is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
     }
     this.type = 'Block';
     this.statements = statements;
@@ -239,9 +348,16 @@ export class Block {
 }
 
 export class BlockStatement {
-  constructor({ block }) {
+  constructor(arg, ...extraArgs) {
+    const { block } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('BlockStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['block'])) {
+      throw new TypeError('Argument to BlockStatement constructor has wrong keys: expected {block}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof block === 'undefined' || block.type !== 'Block') {
-      throw new TypeError('Field "block" of BlockStatement constructor is of incorrect type (expected Block, got ' + printActualType(block) + ')');
+      throw new TypeError('Field "block" of BlockStatement constructor argument is of incorrect type (expected Block, got ' + printActualType(block) + ')');
     }
     this.type = 'BlockStatement';
     this.block = block;
@@ -249,9 +365,16 @@ export class BlockStatement {
 }
 
 export class BreakStatement {
-  constructor({ label }) {
+  constructor(arg, ...extraArgs) {
+    const { label } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('BreakStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['label'])) {
+      throw new TypeError('Argument to BreakStatement constructor has wrong keys: expected {label}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof label === 'undefined' || label !== null && (typeof label !== 'string')) {
-      throw new TypeError('Field "label" of BreakStatement constructor is of incorrect type (expected null or string, got ' + printActualType(label) + ')');
+      throw new TypeError('Field "label" of BreakStatement constructor argument is of incorrect type (expected null or string, got ' + printActualType(label) + ')');
     }
     this.type = 'BreakStatement';
     this.label = label;
@@ -259,12 +382,19 @@ export class BreakStatement {
 }
 
 export class CallExpression {
-  constructor({ callee, arguments: _arguments }) {
-    if (typeof callee === 'undefined' || (isNotExpression(callee)) && (callee.type !== 'Super')) {
-      throw new TypeError('Field "callee" of CallExpression constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(callee) + ')');
+  constructor(arg, ...extraArgs) {
+    const { callee, arguments: _arguments } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('CallExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof _arguments === 'undefined' || !Array.isArray(_arguments) || _arguments.some(f => typeof f === 'undefined' || (isNotExpression(f)) && (f.type !== 'SpreadElement'))) {
-      throw new TypeError('Field "arguments" of CallExpression constructor is of incorrect type (expected [one of {Expression, SpreadElement}], got ' + printActualType(_arguments) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['arguments', 'callee'])) {
+      throw new TypeError('Argument to CallExpression constructor has wrong keys: expected {callee, arguments}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof callee === 'undefined' || (isNotExpression(callee)) && (callee.type !== 'Super')) {
+      throw new TypeError('Field "callee" of CallExpression constructor argument is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(callee) + ')');
+    }
+    if (!Array.isArray(_arguments) || _arguments.some(f => typeof f === 'undefined' || (isNotExpression(f)) && (f.type !== 'SpreadElement'))) {
+      throw new TypeError('Field "arguments" of CallExpression constructor argument is of incorrect type (expected [one of {Expression, SpreadElement}], got ' + printActualType(_arguments) + ')');
     }
     this.type = 'CallExpression';
     this.callee = callee;
@@ -273,12 +403,19 @@ export class CallExpression {
 }
 
 export class CatchClause {
-  constructor({ binding, body }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('CatchClause constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'body'])) {
+      throw new TypeError('Argument to CatchClause constructor has wrong keys: expected {binding, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of CatchClause constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of CatchClause constructor argument is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'Block') {
-      throw new TypeError('Field "body" of CatchClause constructor is of incorrect type (expected Block, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of CatchClause constructor argument is of incorrect type (expected Block, got ' + printActualType(body) + ')');
     }
     this.type = 'CatchClause';
     this.binding = binding;
@@ -287,15 +424,22 @@ export class CatchClause {
 }
 
 export class ClassDeclaration {
-  constructor({ name, super: _super, elements }) {
+  constructor(arg, ...extraArgs) {
+    const { name, super: _super, elements } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ClassDeclaration constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['elements', 'name', 'super'])) {
+      throw new TypeError('Argument to ClassDeclaration constructor has wrong keys: expected {name, super, elements}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || name.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "name" of ClassDeclaration constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of ClassDeclaration constructor argument is of incorrect type (expected BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (typeof _super === 'undefined' || _super !== null && (isNotExpression(_super))) {
-      throw new TypeError('Field "super" of ClassDeclaration constructor is of incorrect type (expected null or Expression, got ' + printActualType(_super) + ')');
+      throw new TypeError('Field "super" of ClassDeclaration constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(_super) + ')');
     }
-    if (typeof elements === 'undefined' || !Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f.type !== 'ClassElement')) {
-      throw new TypeError('Field "elements" of ClassDeclaration constructor is of incorrect type (expected [ClassElement], got ' + printActualType(elements) + ')');
+    if (!Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f.type !== 'ClassElement')) {
+      throw new TypeError('Field "elements" of ClassDeclaration constructor argument is of incorrect type (expected [ClassElement], got ' + printActualType(elements) + ')');
     }
     this.type = 'ClassDeclaration';
     this.name = name;
@@ -305,12 +449,19 @@ export class ClassDeclaration {
 }
 
 export class ClassElement {
-  constructor({ isStatic, method }) {
+  constructor(arg, ...extraArgs) {
+    const { isStatic, method } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ClassElement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['isStatic', 'method'])) {
+      throw new TypeError('Argument to ClassElement constructor has wrong keys: expected {isStatic, method}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof isStatic !== 'boolean') {
-      throw new TypeError('Field "isStatic" of ClassElement constructor is of incorrect type (expected boolean, got ' + printActualType(isStatic) + ')');
+      throw new TypeError('Field "isStatic" of ClassElement constructor argument is of incorrect type (expected boolean, got ' + printActualType(isStatic) + ')');
     }
     if (typeof method === 'undefined' || (method.type !== 'Getter') && (method.type !== 'Method') && (method.type !== 'Setter')) {
-      throw new TypeError('Field "method" of ClassElement constructor is of incorrect type (expected one of {Getter, Method, Setter}, got ' + printActualType(method) + ')');
+      throw new TypeError('Field "method" of ClassElement constructor argument is of incorrect type (expected one of {Getter, Method, Setter}, got ' + printActualType(method) + ')');
     }
     this.type = 'ClassElement';
     this.isStatic = isStatic;
@@ -319,15 +470,22 @@ export class ClassElement {
 }
 
 export class ClassExpression {
-  constructor({ name, super: _super, elements }) {
+  constructor(arg, ...extraArgs) {
+    const { name, super: _super, elements } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ClassExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['elements', 'name', 'super'])) {
+      throw new TypeError('Argument to ClassExpression constructor has wrong keys: expected {name, super, elements}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || name !== null && (name.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "name" of ClassExpression constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of ClassExpression constructor argument is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (typeof _super === 'undefined' || _super !== null && (isNotExpression(_super))) {
-      throw new TypeError('Field "super" of ClassExpression constructor is of incorrect type (expected null or Expression, got ' + printActualType(_super) + ')');
+      throw new TypeError('Field "super" of ClassExpression constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(_super) + ')');
     }
-    if (typeof elements === 'undefined' || !Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f.type !== 'ClassElement')) {
-      throw new TypeError('Field "elements" of ClassExpression constructor is of incorrect type (expected [ClassElement], got ' + printActualType(elements) + ')');
+    if (!Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || f.type !== 'ClassElement')) {
+      throw new TypeError('Field "elements" of ClassExpression constructor argument is of incorrect type (expected [ClassElement], got ' + printActualType(elements) + ')');
     }
     this.type = 'ClassExpression';
     this.name = name;
@@ -337,15 +495,22 @@ export class ClassExpression {
 }
 
 export class CompoundAssignmentExpression {
-  constructor({ binding, operator, expression }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, operator, expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('CompoundAssignmentExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'expression', 'operator'])) {
+      throw new TypeError('Argument to CompoundAssignmentExpression constructor has wrong keys: expected {binding, operator, expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || (binding.type !== 'AssignmentTargetIdentifier') && ((binding.type !== 'ComputedMemberAssignmentTarget') && (binding.type !== 'StaticMemberAssignmentTarget'))) {
-      throw new TypeError('Field "binding" of CompoundAssignmentExpression constructor is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of CompoundAssignmentExpression constructor argument is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(binding) + ')');
     }
     if (typeof operator === 'undefined' || ['+=', '-=', '*=', '/=', '%=', '**=', '<<=', '>>=', '>>>=', '|=', '^=', '&='].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of CompoundAssignmentExpression constructor is of incorrect type (expected one of {"+=", "-=", "*=", "/=", "%=", "**=", "<<=", ">>=", ">>>=", "|=", "^=", "&="}, got ' + printActualType(operator) + ')');
+      throw new TypeError('Field "operator" of CompoundAssignmentExpression constructor argument is of incorrect type (expected one of {"+=", "-=", "*=", "/=", "%=", "**=", "<<=", ">>=", ">>>=", "|=", "^=", "&="}, got ' + printActualType(operator) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of CompoundAssignmentExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of CompoundAssignmentExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'CompoundAssignmentExpression';
     this.binding = binding;
@@ -355,12 +520,19 @@ export class CompoundAssignmentExpression {
 }
 
 export class ComputedMemberAssignmentTarget {
-  constructor({ object, expression }) {
+  constructor(arg, ...extraArgs) {
+    const { object, expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ComputedMemberAssignmentTarget constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression', 'object'])) {
+      throw new TypeError('Argument to ComputedMemberAssignmentTarget constructor has wrong keys: expected {object, expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof object === 'undefined' || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of ComputedMemberAssignmentTarget constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
+      throw new TypeError('Field "object" of ComputedMemberAssignmentTarget constructor argument is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ComputedMemberAssignmentTarget constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of ComputedMemberAssignmentTarget constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ComputedMemberAssignmentTarget';
     this.object = object;
@@ -369,12 +541,19 @@ export class ComputedMemberAssignmentTarget {
 }
 
 export class ComputedMemberExpression {
-  constructor({ object, expression }) {
+  constructor(arg, ...extraArgs) {
+    const { object, expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ComputedMemberExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression', 'object'])) {
+      throw new TypeError('Argument to ComputedMemberExpression constructor has wrong keys: expected {object, expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof object === 'undefined' || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of ComputedMemberExpression constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
+      throw new TypeError('Field "object" of ComputedMemberExpression constructor argument is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ComputedMemberExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of ComputedMemberExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ComputedMemberExpression';
     this.object = object;
@@ -383,9 +562,16 @@ export class ComputedMemberExpression {
 }
 
 export class ComputedPropertyName {
-  constructor({ expression }) {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ComputedPropertyName constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to ComputedPropertyName constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ComputedPropertyName constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of ComputedPropertyName constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ComputedPropertyName';
     this.expression = expression;
@@ -393,15 +579,22 @@ export class ComputedPropertyName {
 }
 
 export class ConditionalExpression {
-  constructor({ test, consequent, alternate }) {
+  constructor(arg, ...extraArgs) {
+    const { test, consequent, alternate } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ConditionalExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['alternate', 'consequent', 'test'])) {
+      throw new TypeError('Argument to ConditionalExpression constructor has wrong keys: expected {test, consequent, alternate}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of ConditionalExpression constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
+      throw new TypeError('Field "test" of ConditionalExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     if (isNotExpression(consequent)) {
-      throw new TypeError('Field "consequent" of ConditionalExpression constructor is of incorrect type (expected Expression, got ' + printActualType(consequent) + ')');
+      throw new TypeError('Field "consequent" of ConditionalExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(consequent) + ')');
     }
     if (isNotExpression(alternate)) {
-      throw new TypeError('Field "alternate" of ConditionalExpression constructor is of incorrect type (expected Expression, got ' + printActualType(alternate) + ')');
+      throw new TypeError('Field "alternate" of ConditionalExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(alternate) + ')');
     }
     this.type = 'ConditionalExpression';
     this.test = test;
@@ -411,9 +604,16 @@ export class ConditionalExpression {
 }
 
 export class ContinueStatement {
-  constructor({ label }) {
+  constructor(arg, ...extraArgs) {
+    const { label } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ContinueStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['label'])) {
+      throw new TypeError('Argument to ContinueStatement constructor has wrong keys: expected {label}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof label === 'undefined' || label !== null && (typeof label !== 'string')) {
-      throw new TypeError('Field "label" of ContinueStatement constructor is of incorrect type (expected null or string, got ' + printActualType(label) + ')');
+      throw new TypeError('Field "label" of ContinueStatement constructor argument is of incorrect type (expected null or string, got ' + printActualType(label) + ')');
     }
     this.type = 'ContinueStatement';
     this.label = label;
@@ -421,12 +621,19 @@ export class ContinueStatement {
 }
 
 export class DataProperty {
-  constructor({ name, expression }) {
+  constructor(arg, ...extraArgs) {
+    const { name, expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('DataProperty constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression', 'name'])) {
+      throw new TypeError('Argument to DataProperty constructor has wrong keys: expected {name, expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of DataProperty constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of DataProperty constructor argument is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of DataProperty constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of DataProperty constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'DataProperty';
     this.name = name;
@@ -435,15 +642,25 @@ export class DataProperty {
 }
 
 export class DebuggerStatement {
-  constructor() {
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('DebuggerStatement constructor takes no arguments');
+    }
     this.type = 'DebuggerStatement';
   }
 }
 
 export class Directive {
-  constructor({ rawValue }) {
+  constructor(arg, ...extraArgs) {
+    const { rawValue } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Directive constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['rawValue'])) {
+      throw new TypeError('Argument to Directive constructor has wrong keys: expected {rawValue}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof rawValue !== 'string') {
-      throw new TypeError('Field "rawValue" of Directive constructor is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
+      throw new TypeError('Field "rawValue" of Directive constructor argument is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
     }
     this.type = 'Directive';
     this.rawValue = rawValue;
@@ -451,12 +668,19 @@ export class Directive {
 }
 
 export class DoWhileStatement {
-  constructor({ body, test }) {
+  constructor(arg, ...extraArgs) {
+    const { body, test } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('DoWhileStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'test'])) {
+      throw new TypeError('Argument to DoWhileStatement constructor has wrong keys: expected {body, test}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of DoWhileStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of DoWhileStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of DoWhileStatement constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
+      throw new TypeError('Field "test" of DoWhileStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     this.type = 'DoWhileStatement';
     this.body = body;
@@ -465,15 +689,25 @@ export class DoWhileStatement {
 }
 
 export class EmptyStatement {
-  constructor() {
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('EmptyStatement constructor takes no arguments');
+    }
     this.type = 'EmptyStatement';
   }
 }
 
 export class Export {
-  constructor({ declaration }) {
+  constructor(arg, ...extraArgs) {
+    const { declaration } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Export constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['declaration'])) {
+      throw new TypeError('Argument to Export constructor has wrong keys: expected {declaration}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof declaration === 'undefined' || (declaration.type !== 'ClassDeclaration') && (declaration.type !== 'FunctionDeclaration') && (declaration.type !== 'VariableDeclaration')) {
-      throw new TypeError('Field "declaration" of Export constructor is of incorrect type (expected one of {ClassDeclaration, FunctionDeclaration, VariableDeclaration}, got ' + printActualType(declaration) + ')');
+      throw new TypeError('Field "declaration" of Export constructor argument is of incorrect type (expected one of {ClassDeclaration, FunctionDeclaration, VariableDeclaration}, got ' + printActualType(declaration) + ')');
     }
     this.type = 'Export';
     this.declaration = declaration;
@@ -481,9 +715,16 @@ export class Export {
 }
 
 export class ExportAllFrom {
-  constructor({ moduleSpecifier }) {
+  constructor(arg, ...extraArgs) {
+    const { moduleSpecifier } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ExportAllFrom constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['moduleSpecifier'])) {
+      throw new TypeError('Argument to ExportAllFrom constructor has wrong keys: expected {moduleSpecifier}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of ExportAllFrom constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
+      throw new TypeError('Field "moduleSpecifier" of ExportAllFrom constructor argument is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ExportAllFrom';
     this.moduleSpecifier = moduleSpecifier;
@@ -491,9 +732,16 @@ export class ExportAllFrom {
 }
 
 export class ExportDefault {
-  constructor({ body }) {
+  constructor(arg, ...extraArgs) {
+    const { body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ExportDefault constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body'])) {
+      throw new TypeError('Argument to ExportDefault constructor has wrong keys: expected {body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof body === 'undefined' || (body.type !== 'ClassDeclaration') && (isNotExpression(body)) && (body.type !== 'FunctionDeclaration')) {
-      throw new TypeError('Field "body" of ExportDefault constructor is of incorrect type (expected one of {ClassDeclaration, Expression, FunctionDeclaration}, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of ExportDefault constructor argument is of incorrect type (expected one of {ClassDeclaration, Expression, FunctionDeclaration}, got ' + printActualType(body) + ')');
     }
     this.type = 'ExportDefault';
     this.body = body;
@@ -501,12 +749,19 @@ export class ExportDefault {
 }
 
 export class ExportFrom {
-  constructor({ namedExports, moduleSpecifier }) {
-    if (typeof namedExports === 'undefined' || !Array.isArray(namedExports) || namedExports.some(f => typeof f === 'undefined' || f.type !== 'ExportFromSpecifier')) {
-      throw new TypeError('Field "namedExports" of ExportFrom constructor is of incorrect type (expected [ExportFromSpecifier], got ' + printActualType(namedExports) + ')');
+  constructor(arg, ...extraArgs) {
+    const { namedExports, moduleSpecifier } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ExportFrom constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['moduleSpecifier', 'namedExports'])) {
+      throw new TypeError('Argument to ExportFrom constructor has wrong keys: expected {namedExports, moduleSpecifier}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(namedExports) || namedExports.some(f => typeof f === 'undefined' || f.type !== 'ExportFromSpecifier')) {
+      throw new TypeError('Field "namedExports" of ExportFrom constructor argument is of incorrect type (expected [ExportFromSpecifier], got ' + printActualType(namedExports) + ')');
     }
     if (typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of ExportFrom constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
+      throw new TypeError('Field "moduleSpecifier" of ExportFrom constructor argument is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ExportFrom';
     this.namedExports = namedExports;
@@ -515,12 +770,19 @@ export class ExportFrom {
 }
 
 export class ExportFromSpecifier {
-  constructor({ name, exportedName }) {
+  constructor(arg, ...extraArgs) {
+    const { name, exportedName } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ExportFromSpecifier constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['exportedName', 'name'])) {
+      throw new TypeError('Argument to ExportFromSpecifier constructor has wrong keys: expected {name, exportedName}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name !== 'string') {
-      throw new TypeError('Field "name" of ExportFromSpecifier constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of ExportFromSpecifier constructor argument is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     if (typeof exportedName === 'undefined' || exportedName !== null && (typeof exportedName !== 'string')) {
-      throw new TypeError('Field "exportedName" of ExportFromSpecifier constructor is of incorrect type (expected null or string, got ' + printActualType(exportedName) + ')');
+      throw new TypeError('Field "exportedName" of ExportFromSpecifier constructor argument is of incorrect type (expected null or string, got ' + printActualType(exportedName) + ')');
     }
     this.type = 'ExportFromSpecifier';
     this.name = name;
@@ -529,12 +791,19 @@ export class ExportFromSpecifier {
 }
 
 export class ExportLocalSpecifier {
-  constructor({ name, exportedName }) {
+  constructor(arg, ...extraArgs) {
+    const { name, exportedName } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ExportLocalSpecifier constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['exportedName', 'name'])) {
+      throw new TypeError('Argument to ExportLocalSpecifier constructor has wrong keys: expected {name, exportedName}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || name.type !== 'IdentifierExpression') {
-      throw new TypeError('Field "name" of ExportLocalSpecifier constructor is of incorrect type (expected IdentifierExpression, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of ExportLocalSpecifier constructor argument is of incorrect type (expected IdentifierExpression, got ' + printActualType(name) + ')');
     }
     if (typeof exportedName === 'undefined' || exportedName !== null && (typeof exportedName !== 'string')) {
-      throw new TypeError('Field "exportedName" of ExportLocalSpecifier constructor is of incorrect type (expected null or string, got ' + printActualType(exportedName) + ')');
+      throw new TypeError('Field "exportedName" of ExportLocalSpecifier constructor argument is of incorrect type (expected null or string, got ' + printActualType(exportedName) + ')');
     }
     this.type = 'ExportLocalSpecifier';
     this.name = name;
@@ -543,9 +812,16 @@ export class ExportLocalSpecifier {
 }
 
 export class ExportLocals {
-  constructor({ namedExports }) {
-    if (typeof namedExports === 'undefined' || !Array.isArray(namedExports) || namedExports.some(f => typeof f === 'undefined' || f.type !== 'ExportLocalSpecifier')) {
-      throw new TypeError('Field "namedExports" of ExportLocals constructor is of incorrect type (expected [ExportLocalSpecifier], got ' + printActualType(namedExports) + ')');
+  constructor(arg, ...extraArgs) {
+    const { namedExports } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ExportLocals constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['namedExports'])) {
+      throw new TypeError('Argument to ExportLocals constructor has wrong keys: expected {namedExports}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(namedExports) || namedExports.some(f => typeof f === 'undefined' || f.type !== 'ExportLocalSpecifier')) {
+      throw new TypeError('Field "namedExports" of ExportLocals constructor argument is of incorrect type (expected [ExportLocalSpecifier], got ' + printActualType(namedExports) + ')');
     }
     this.type = 'ExportLocals';
     this.namedExports = namedExports;
@@ -553,9 +829,16 @@ export class ExportLocals {
 }
 
 export class ExpressionStatement {
-  constructor({ expression }) {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ExpressionStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to ExpressionStatement constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ExpressionStatement constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of ExpressionStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ExpressionStatement';
     this.expression = expression;
@@ -563,15 +846,22 @@ export class ExpressionStatement {
 }
 
 export class ForInStatement {
-  constructor({ left, right, body }) {
+  constructor(arg, ...extraArgs) {
+    const { left, right, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ForInStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'left', 'right'])) {
+      throw new TypeError('Argument to ForInStatement constructor has wrong keys: expected {left, right, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof left === 'undefined' || (((left.type !== 'ArrayAssignmentTarget') && (left.type !== 'ObjectAssignmentTarget')) && ((left.type !== 'AssignmentTargetIdentifier') && ((left.type !== 'ComputedMemberAssignmentTarget') && (left.type !== 'StaticMemberAssignmentTarget')))) && (left.type !== 'VariableDeclaration')) {
-      throw new TypeError('Field "left" of ForInStatement constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration}, got ' + printActualType(left) + ')');
+      throw new TypeError('Field "left" of ForInStatement constructor argument is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration}, got ' + printActualType(left) + ')');
     }
     if (isNotExpression(right)) {
-      throw new TypeError('Field "right" of ForInStatement constructor is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
+      throw new TypeError('Field "right" of ForInStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of ForInStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of ForInStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'ForInStatement';
     this.left = left;
@@ -581,15 +871,22 @@ export class ForInStatement {
 }
 
 export class ForOfStatement {
-  constructor({ left, right, body }) {
+  constructor(arg, ...extraArgs) {
+    const { left, right, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ForOfStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'left', 'right'])) {
+      throw new TypeError('Argument to ForOfStatement constructor has wrong keys: expected {left, right, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof left === 'undefined' || (((left.type !== 'ArrayAssignmentTarget') && (left.type !== 'ObjectAssignmentTarget')) && ((left.type !== 'AssignmentTargetIdentifier') && ((left.type !== 'ComputedMemberAssignmentTarget') && (left.type !== 'StaticMemberAssignmentTarget')))) && (left.type !== 'VariableDeclaration')) {
-      throw new TypeError('Field "left" of ForOfStatement constructor is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration}, got ' + printActualType(left) + ')');
+      throw new TypeError('Field "left" of ForOfStatement constructor argument is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration}, got ' + printActualType(left) + ')');
     }
     if (isNotExpression(right)) {
-      throw new TypeError('Field "right" of ForOfStatement constructor is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
+      throw new TypeError('Field "right" of ForOfStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of ForOfStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of ForOfStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'ForOfStatement';
     this.left = left;
@@ -599,18 +896,25 @@ export class ForOfStatement {
 }
 
 export class ForStatement {
-  constructor({ init, test, update, body }) {
+  constructor(arg, ...extraArgs) {
+    const { init, test, update, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ForStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'init', 'test', 'update'])) {
+      throw new TypeError('Argument to ForStatement constructor has wrong keys: expected {init, test, update, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof init === 'undefined' || init !== null && ((isNotExpression(init)) && (init.type !== 'VariableDeclaration'))) {
-      throw new TypeError('Field "init" of ForStatement constructor is of incorrect type (expected null or one of {Expression, VariableDeclaration}, got ' + printActualType(init) + ')');
+      throw new TypeError('Field "init" of ForStatement constructor argument is of incorrect type (expected null or one of {Expression, VariableDeclaration}, got ' + printActualType(init) + ')');
     }
     if (typeof test === 'undefined' || test !== null && (isNotExpression(test))) {
-      throw new TypeError('Field "test" of ForStatement constructor is of incorrect type (expected null or Expression, got ' + printActualType(test) + ')');
+      throw new TypeError('Field "test" of ForStatement constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(test) + ')');
     }
     if (typeof update === 'undefined' || update !== null && (isNotExpression(update))) {
-      throw new TypeError('Field "update" of ForStatement constructor is of incorrect type (expected null or Expression, got ' + printActualType(update) + ')');
+      throw new TypeError('Field "update" of ForStatement constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(update) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of ForStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of ForStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'ForStatement';
     this.init = init;
@@ -621,12 +925,19 @@ export class ForStatement {
 }
 
 export class FormalParameters {
-  constructor({ items, rest }) {
-    if (typeof items === 'undefined' || !Array.isArray(items) || items.some(f => typeof f === 'undefined' || (f.type !== 'BindingWithDefault') && ((f.type !== 'BindingIdentifier') && ((f.type !== 'ArrayBinding') && (f.type !== 'ObjectBinding'))))) {
-      throw new TypeError('Field "items" of FormalParameters constructor is of incorrect type (expected [one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}], got ' + printActualType(items) + ')');
+  constructor(arg, ...extraArgs) {
+    const { items, rest } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('FormalParameters constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['items', 'rest'])) {
+      throw new TypeError('Argument to FormalParameters constructor has wrong keys: expected {items, rest}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(items) || items.some(f => typeof f === 'undefined' || (f.type !== 'BindingWithDefault') && ((f.type !== 'BindingIdentifier') && ((f.type !== 'ArrayBinding') && (f.type !== 'ObjectBinding'))))) {
+      throw new TypeError('Field "items" of FormalParameters constructor argument is of incorrect type (expected [one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}], got ' + printActualType(items) + ')');
     }
     if (typeof rest === 'undefined' || rest !== null && ((rest.type !== 'BindingIdentifier') && ((rest.type !== 'ArrayBinding') && (rest.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "rest" of FormalParameters constructor is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
+      throw new TypeError('Field "rest" of FormalParameters constructor argument is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
     }
     this.type = 'FormalParameters';
     this.items = items;
@@ -635,12 +946,19 @@ export class FormalParameters {
 }
 
 export class FunctionBody {
-  constructor({ directives, statements }) {
-    if (typeof directives === 'undefined' || !Array.isArray(directives) || directives.some(f => typeof f === 'undefined' || f.type !== 'Directive')) {
-      throw new TypeError('Field "directives" of FunctionBody constructor is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
+  constructor(arg, ...extraArgs) {
+    const { directives, statements } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('FunctionBody constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof statements === 'undefined' || !Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "statements" of FunctionBody constructor is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['directives', 'statements'])) {
+      throw new TypeError('Argument to FunctionBody constructor has wrong keys: expected {directives, statements}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(directives) || directives.some(f => typeof f === 'undefined' || f.type !== 'Directive')) {
+      throw new TypeError('Field "directives" of FunctionBody constructor argument is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
+    }
+    if (!Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
+      throw new TypeError('Field "statements" of FunctionBody constructor argument is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
     }
     this.type = 'FunctionBody';
     this.directives = directives;
@@ -649,18 +967,25 @@ export class FunctionBody {
 }
 
 export class FunctionDeclaration {
-  constructor({ isGenerator, name, params, body }) {
+  constructor(arg, ...extraArgs) {
+    const { isGenerator, name, params, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('FunctionDeclaration constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isGenerator', 'name', 'params'])) {
+      throw new TypeError('Argument to FunctionDeclaration constructor has wrong keys: expected {isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof isGenerator !== 'boolean') {
-      throw new TypeError('Field "isGenerator" of FunctionDeclaration constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
+      throw new TypeError('Field "isGenerator" of FunctionDeclaration constructor argument is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (typeof name === 'undefined' || name.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "name" of FunctionDeclaration constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of FunctionDeclaration constructor argument is of incorrect type (expected BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (typeof params === 'undefined' || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of FunctionDeclaration constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
+      throw new TypeError('Field "params" of FunctionDeclaration constructor argument is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of FunctionDeclaration constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of FunctionDeclaration constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'FunctionDeclaration';
     this.isGenerator = isGenerator;
@@ -671,18 +996,25 @@ export class FunctionDeclaration {
 }
 
 export class FunctionExpression {
-  constructor({ isGenerator, name, params, body }) {
+  constructor(arg, ...extraArgs) {
+    const { isGenerator, name, params, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('FunctionExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isGenerator', 'name', 'params'])) {
+      throw new TypeError('Argument to FunctionExpression constructor has wrong keys: expected {isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof isGenerator !== 'boolean') {
-      throw new TypeError('Field "isGenerator" of FunctionExpression constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
+      throw new TypeError('Field "isGenerator" of FunctionExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (typeof name === 'undefined' || name !== null && (name.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "name" of FunctionExpression constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of FunctionExpression constructor argument is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(name) + ')');
     }
     if (typeof params === 'undefined' || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of FunctionExpression constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
+      throw new TypeError('Field "params" of FunctionExpression constructor argument is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of FunctionExpression constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of FunctionExpression constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'FunctionExpression';
     this.isGenerator = isGenerator;
@@ -693,12 +1025,19 @@ export class FunctionExpression {
 }
 
 export class Getter {
-  constructor({ name, body }) {
+  constructor(arg, ...extraArgs) {
+    const { name, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Getter constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'name'])) {
+      throw new TypeError('Argument to Getter constructor has wrong keys: expected {name, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of Getter constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of Getter constructor argument is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of Getter constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of Getter constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'Getter';
     this.name = name;
@@ -707,9 +1046,16 @@ export class Getter {
 }
 
 export class IdentifierExpression {
-  constructor({ name }) {
+  constructor(arg, ...extraArgs) {
+    const { name } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('IdentifierExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['name'])) {
+      throw new TypeError('Argument to IdentifierExpression constructor has wrong keys: expected {name}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name !== 'string') {
-      throw new TypeError('Field "name" of IdentifierExpression constructor is of incorrect type (expected string, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of IdentifierExpression constructor argument is of incorrect type (expected string, got ' + printActualType(name) + ')');
     }
     this.type = 'IdentifierExpression';
     this.name = name;
@@ -717,15 +1063,22 @@ export class IdentifierExpression {
 }
 
 export class IfStatement {
-  constructor({ test, consequent, alternate }) {
+  constructor(arg, ...extraArgs) {
+    const { test, consequent, alternate } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('IfStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['alternate', 'consequent', 'test'])) {
+      throw new TypeError('Argument to IfStatement constructor has wrong keys: expected {test, consequent, alternate}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of IfStatement constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
+      throw new TypeError('Field "test" of IfStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     if (isNotStatement(consequent)) {
-      throw new TypeError('Field "consequent" of IfStatement constructor is of incorrect type (expected Statement, got ' + printActualType(consequent) + ')');
+      throw new TypeError('Field "consequent" of IfStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(consequent) + ')');
     }
     if (typeof alternate === 'undefined' || alternate !== null && (isNotStatement(alternate))) {
-      throw new TypeError('Field "alternate" of IfStatement constructor is of incorrect type (expected null or Statement, got ' + printActualType(alternate) + ')');
+      throw new TypeError('Field "alternate" of IfStatement constructor argument is of incorrect type (expected null or Statement, got ' + printActualType(alternate) + ')');
     }
     this.type = 'IfStatement';
     this.test = test;
@@ -735,15 +1088,22 @@ export class IfStatement {
 }
 
 export class Import {
-  constructor({ defaultBinding, namedImports, moduleSpecifier }) {
-    if (typeof defaultBinding === 'undefined' || defaultBinding !== null && (defaultBinding.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "defaultBinding" of Import constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(defaultBinding) + ')');
+  constructor(arg, ...extraArgs) {
+    const { defaultBinding, namedImports, moduleSpecifier } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Import constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof namedImports === 'undefined' || !Array.isArray(namedImports) || namedImports.some(f => typeof f === 'undefined' || f.type !== 'ImportSpecifier')) {
-      throw new TypeError('Field "namedImports" of Import constructor is of incorrect type (expected [ImportSpecifier], got ' + printActualType(namedImports) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['defaultBinding', 'moduleSpecifier', 'namedImports'])) {
+      throw new TypeError('Argument to Import constructor has wrong keys: expected {defaultBinding, namedImports, moduleSpecifier}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof defaultBinding === 'undefined' || defaultBinding !== null && (defaultBinding.type !== 'BindingIdentifier')) {
+      throw new TypeError('Field "defaultBinding" of Import constructor argument is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(defaultBinding) + ')');
+    }
+    if (!Array.isArray(namedImports) || namedImports.some(f => typeof f === 'undefined' || f.type !== 'ImportSpecifier')) {
+      throw new TypeError('Field "namedImports" of Import constructor argument is of incorrect type (expected [ImportSpecifier], got ' + printActualType(namedImports) + ')');
     }
     if (typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of Import constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
+      throw new TypeError('Field "moduleSpecifier" of Import constructor argument is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'Import';
     this.defaultBinding = defaultBinding;
@@ -753,15 +1113,22 @@ export class Import {
 }
 
 export class ImportNamespace {
-  constructor({ defaultBinding, namespaceBinding, moduleSpecifier }) {
+  constructor(arg, ...extraArgs) {
+    const { defaultBinding, namespaceBinding, moduleSpecifier } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ImportNamespace constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['defaultBinding', 'moduleSpecifier', 'namespaceBinding'])) {
+      throw new TypeError('Argument to ImportNamespace constructor has wrong keys: expected {defaultBinding, namespaceBinding, moduleSpecifier}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof defaultBinding === 'undefined' || defaultBinding !== null && (defaultBinding.type !== 'BindingIdentifier')) {
-      throw new TypeError('Field "defaultBinding" of ImportNamespace constructor is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(defaultBinding) + ')');
+      throw new TypeError('Field "defaultBinding" of ImportNamespace constructor argument is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(defaultBinding) + ')');
     }
     if (typeof namespaceBinding === 'undefined' || namespaceBinding.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "namespaceBinding" of ImportNamespace constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(namespaceBinding) + ')');
+      throw new TypeError('Field "namespaceBinding" of ImportNamespace constructor argument is of incorrect type (expected BindingIdentifier, got ' + printActualType(namespaceBinding) + ')');
     }
     if (typeof moduleSpecifier !== 'string') {
-      throw new TypeError('Field "moduleSpecifier" of ImportNamespace constructor is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
+      throw new TypeError('Field "moduleSpecifier" of ImportNamespace constructor argument is of incorrect type (expected string, got ' + printActualType(moduleSpecifier) + ')');
     }
     this.type = 'ImportNamespace';
     this.defaultBinding = defaultBinding;
@@ -771,12 +1138,19 @@ export class ImportNamespace {
 }
 
 export class ImportSpecifier {
-  constructor({ name, binding }) {
+  constructor(arg, ...extraArgs) {
+    const { name, binding } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ImportSpecifier constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'name'])) {
+      throw new TypeError('Argument to ImportSpecifier constructor has wrong keys: expected {name, binding}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || name !== null && (typeof name !== 'string')) {
-      throw new TypeError('Field "name" of ImportSpecifier constructor is of incorrect type (expected null or string, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of ImportSpecifier constructor argument is of incorrect type (expected null or string, got ' + printActualType(name) + ')');
     }
     if (typeof binding === 'undefined' || binding.type !== 'BindingIdentifier') {
-      throw new TypeError('Field "binding" of ImportSpecifier constructor is of incorrect type (expected BindingIdentifier, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of ImportSpecifier constructor argument is of incorrect type (expected BindingIdentifier, got ' + printActualType(binding) + ')');
     }
     this.type = 'ImportSpecifier';
     this.name = name;
@@ -785,12 +1159,19 @@ export class ImportSpecifier {
 }
 
 export class LabeledStatement {
-  constructor({ label, body }) {
+  constructor(arg, ...extraArgs) {
+    const { label, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('LabeledStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'label'])) {
+      throw new TypeError('Argument to LabeledStatement constructor has wrong keys: expected {label, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof label !== 'string') {
-      throw new TypeError('Field "label" of LabeledStatement constructor is of incorrect type (expected string, got ' + printActualType(label) + ')');
+      throw new TypeError('Field "label" of LabeledStatement constructor argument is of incorrect type (expected string, got ' + printActualType(label) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of LabeledStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of LabeledStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'LabeledStatement';
     this.label = label;
@@ -799,9 +1180,16 @@ export class LabeledStatement {
 }
 
 export class LiteralBooleanExpression {
-  constructor({ value }) {
+  constructor(arg, ...extraArgs) {
+    const { value } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('LiteralBooleanExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['value'])) {
+      throw new TypeError('Argument to LiteralBooleanExpression constructor has wrong keys: expected {value}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof value !== 'boolean') {
-      throw new TypeError('Field "value" of LiteralBooleanExpression constructor is of incorrect type (expected boolean, got ' + printActualType(value) + ')');
+      throw new TypeError('Field "value" of LiteralBooleanExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralBooleanExpression';
     this.value = value;
@@ -809,21 +1197,34 @@ export class LiteralBooleanExpression {
 }
 
 export class LiteralInfinityExpression {
-  constructor() {
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('LiteralInfinityExpression constructor takes no arguments');
+    }
     this.type = 'LiteralInfinityExpression';
   }
 }
 
 export class LiteralNullExpression {
-  constructor() {
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('LiteralNullExpression constructor takes no arguments');
+    }
     this.type = 'LiteralNullExpression';
   }
 }
 
 export class LiteralNumericExpression {
-  constructor({ value }) {
+  constructor(arg, ...extraArgs) {
+    const { value } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('LiteralNumericExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['value'])) {
+      throw new TypeError('Argument to LiteralNumericExpression constructor has wrong keys: expected {value}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof value !== 'number') {
-      throw new TypeError('Field "value" of LiteralNumericExpression constructor is of incorrect type (expected number, got ' + printActualType(value) + ')');
+      throw new TypeError('Field "value" of LiteralNumericExpression constructor argument is of incorrect type (expected number, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralNumericExpression';
     this.value = value;
@@ -831,24 +1232,31 @@ export class LiteralNumericExpression {
 }
 
 export class LiteralRegExpExpression {
-  constructor({ pattern, global, ignoreCase, multiLine, sticky, unicode }) {
+  constructor(arg, ...extraArgs) {
+    const { pattern, global, ignoreCase, multiLine, sticky, unicode } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('LiteralRegExpExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['global', 'ignoreCase', 'multiLine', 'pattern', 'sticky', 'unicode'])) {
+      throw new TypeError('Argument to LiteralRegExpExpression constructor has wrong keys: expected {pattern, global, ignoreCase, multiLine, sticky, unicode}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof pattern !== 'string') {
-      throw new TypeError('Field "pattern" of LiteralRegExpExpression constructor is of incorrect type (expected string, got ' + printActualType(pattern) + ')');
+      throw new TypeError('Field "pattern" of LiteralRegExpExpression constructor argument is of incorrect type (expected string, got ' + printActualType(pattern) + ')');
     }
     if (typeof global !== 'boolean') {
-      throw new TypeError('Field "global" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(global) + ')');
+      throw new TypeError('Field "global" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(global) + ')');
     }
     if (typeof ignoreCase !== 'boolean') {
-      throw new TypeError('Field "ignoreCase" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(ignoreCase) + ')');
+      throw new TypeError('Field "ignoreCase" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(ignoreCase) + ')');
     }
     if (typeof multiLine !== 'boolean') {
-      throw new TypeError('Field "multiLine" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(multiLine) + ')');
+      throw new TypeError('Field "multiLine" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(multiLine) + ')');
     }
     if (typeof sticky !== 'boolean') {
-      throw new TypeError('Field "sticky" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(sticky) + ')');
+      throw new TypeError('Field "sticky" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(sticky) + ')');
     }
     if (typeof unicode !== 'boolean') {
-      throw new TypeError('Field "unicode" of LiteralRegExpExpression constructor is of incorrect type (expected boolean, got ' + printActualType(unicode) + ')');
+      throw new TypeError('Field "unicode" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(unicode) + ')');
     }
     this.type = 'LiteralRegExpExpression';
     this.pattern = pattern;
@@ -861,9 +1269,16 @@ export class LiteralRegExpExpression {
 }
 
 export class LiteralStringExpression {
-  constructor({ value }) {
+  constructor(arg, ...extraArgs) {
+    const { value } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('LiteralStringExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['value'])) {
+      throw new TypeError('Argument to LiteralStringExpression constructor has wrong keys: expected {value}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof value !== 'string') {
-      throw new TypeError('Field "value" of LiteralStringExpression constructor is of incorrect type (expected string, got ' + printActualType(value) + ')');
+      throw new TypeError('Field "value" of LiteralStringExpression constructor argument is of incorrect type (expected string, got ' + printActualType(value) + ')');
     }
     this.type = 'LiteralStringExpression';
     this.value = value;
@@ -871,18 +1286,25 @@ export class LiteralStringExpression {
 }
 
 export class Method {
-  constructor({ isGenerator, name, params, body }) {
+  constructor(arg, ...extraArgs) {
+    const { isGenerator, name, params, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Method constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'isGenerator', 'name', 'params'])) {
+      throw new TypeError('Argument to Method constructor has wrong keys: expected {isGenerator, name, params, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof isGenerator !== 'boolean') {
-      throw new TypeError('Field "isGenerator" of Method constructor is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
+      throw new TypeError('Field "isGenerator" of Method constructor argument is of incorrect type (expected boolean, got ' + printActualType(isGenerator) + ')');
     }
     if (typeof name === 'undefined' || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of Method constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of Method constructor argument is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (typeof params === 'undefined' || params.type !== 'FormalParameters') {
-      throw new TypeError('Field "params" of Method constructor is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
+      throw new TypeError('Field "params" of Method constructor argument is of incorrect type (expected FormalParameters, got ' + printActualType(params) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of Method constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of Method constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'Method';
     this.isGenerator = isGenerator;
@@ -893,12 +1315,19 @@ export class Method {
 }
 
 export class Module {
-  constructor({ directives, items }) {
-    if (typeof directives === 'undefined' || !Array.isArray(directives) || directives.some(f => typeof f === 'undefined' || f.type !== 'Directive')) {
-      throw new TypeError('Field "directives" of Module constructor is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
+  constructor(arg, ...extraArgs) {
+    const { directives, items } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Module constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof items === 'undefined' || !Array.isArray(items) || items.some(f => typeof f === 'undefined' || ((f.type !== 'Export') && (f.type !== 'ExportAllFrom') && (f.type !== 'ExportDefault') && (f.type !== 'ExportFrom') && (f.type !== 'ExportLocals')) && ((f.type !== 'Import') && (f.type !== 'ImportNamespace')) && (isNotStatement(f)))) {
-      throw new TypeError('Field "items" of Module constructor is of incorrect type (expected [one of {Export, ExportAllFrom, ExportDefault, ExportFrom, ExportLocals, Import, ImportNamespace, Statement}], got ' + printActualType(items) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['directives', 'items'])) {
+      throw new TypeError('Argument to Module constructor has wrong keys: expected {directives, items}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(directives) || directives.some(f => typeof f === 'undefined' || f.type !== 'Directive')) {
+      throw new TypeError('Field "directives" of Module constructor argument is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
+    }
+    if (!Array.isArray(items) || items.some(f => typeof f === 'undefined' || ((f.type !== 'Export') && (f.type !== 'ExportAllFrom') && (f.type !== 'ExportDefault') && (f.type !== 'ExportFrom') && (f.type !== 'ExportLocals')) && ((f.type !== 'Import') && (f.type !== 'ImportNamespace')) && (isNotStatement(f)))) {
+      throw new TypeError('Field "items" of Module constructor argument is of incorrect type (expected [one of {Export, ExportAllFrom, ExportDefault, ExportFrom, ExportLocals, Import, ImportNamespace, Statement}], got ' + printActualType(items) + ')');
     }
     this.type = 'Module';
     this.directives = directives;
@@ -907,12 +1336,19 @@ export class Module {
 }
 
 export class NewExpression {
-  constructor({ callee, arguments: _arguments }) {
-    if (isNotExpression(callee)) {
-      throw new TypeError('Field "callee" of NewExpression constructor is of incorrect type (expected Expression, got ' + printActualType(callee) + ')');
+  constructor(arg, ...extraArgs) {
+    const { callee, arguments: _arguments } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('NewExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof _arguments === 'undefined' || !Array.isArray(_arguments) || _arguments.some(f => typeof f === 'undefined' || (isNotExpression(f)) && (f.type !== 'SpreadElement'))) {
-      throw new TypeError('Field "arguments" of NewExpression constructor is of incorrect type (expected [one of {Expression, SpreadElement}], got ' + printActualType(_arguments) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['arguments', 'callee'])) {
+      throw new TypeError('Argument to NewExpression constructor has wrong keys: expected {callee, arguments}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (isNotExpression(callee)) {
+      throw new TypeError('Field "callee" of NewExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(callee) + ')');
+    }
+    if (!Array.isArray(_arguments) || _arguments.some(f => typeof f === 'undefined' || (isNotExpression(f)) && (f.type !== 'SpreadElement'))) {
+      throw new TypeError('Field "arguments" of NewExpression constructor argument is of incorrect type (expected [one of {Expression, SpreadElement}], got ' + printActualType(_arguments) + ')');
     }
     this.type = 'NewExpression';
     this.callee = callee;
@@ -921,15 +1357,25 @@ export class NewExpression {
 }
 
 export class NewTargetExpression {
-  constructor() {
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('NewTargetExpression constructor takes no arguments');
+    }
     this.type = 'NewTargetExpression';
   }
 }
 
 export class ObjectAssignmentTarget {
-  constructor({ properties }) {
-    if (typeof properties === 'undefined' || !Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'AssignmentTargetPropertyIdentifier') && (f.type !== 'AssignmentTargetPropertyProperty'))) {
-      throw new TypeError('Field "properties" of ObjectAssignmentTarget constructor is of incorrect type (expected [one of {AssignmentTargetPropertyIdentifier, AssignmentTargetPropertyProperty}], got ' + printActualType(properties) + ')');
+  constructor(arg, ...extraArgs) {
+    const { properties } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ObjectAssignmentTarget constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['properties'])) {
+      throw new TypeError('Argument to ObjectAssignmentTarget constructor has wrong keys: expected {properties}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'AssignmentTargetPropertyIdentifier') && (f.type !== 'AssignmentTargetPropertyProperty'))) {
+      throw new TypeError('Field "properties" of ObjectAssignmentTarget constructor argument is of incorrect type (expected [one of {AssignmentTargetPropertyIdentifier, AssignmentTargetPropertyProperty}], got ' + printActualType(properties) + ')');
     }
     this.type = 'ObjectAssignmentTarget';
     this.properties = properties;
@@ -937,9 +1383,16 @@ export class ObjectAssignmentTarget {
 }
 
 export class ObjectBinding {
-  constructor({ properties }) {
-    if (typeof properties === 'undefined' || !Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'BindingPropertyIdentifier') && (f.type !== 'BindingPropertyProperty'))) {
-      throw new TypeError('Field "properties" of ObjectBinding constructor is of incorrect type (expected [one of {BindingPropertyIdentifier, BindingPropertyProperty}], got ' + printActualType(properties) + ')');
+  constructor(arg, ...extraArgs) {
+    const { properties } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ObjectBinding constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['properties'])) {
+      throw new TypeError('Argument to ObjectBinding constructor has wrong keys: expected {properties}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'BindingPropertyIdentifier') && (f.type !== 'BindingPropertyProperty'))) {
+      throw new TypeError('Field "properties" of ObjectBinding constructor argument is of incorrect type (expected [one of {BindingPropertyIdentifier, BindingPropertyProperty}], got ' + printActualType(properties) + ')');
     }
     this.type = 'ObjectBinding';
     this.properties = properties;
@@ -947,9 +1400,16 @@ export class ObjectBinding {
 }
 
 export class ObjectExpression {
-  constructor({ properties }) {
-    if (typeof properties === 'undefined' || !Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || ((f.type !== 'DataProperty') && ((f.type !== 'Getter') && (f.type !== 'Method') && (f.type !== 'Setter'))) && (f.type !== 'ShorthandProperty'))) {
-      throw new TypeError('Field "properties" of ObjectExpression constructor is of incorrect type (expected [one of {DataProperty, Getter, Method, Setter, ShorthandProperty}], got ' + printActualType(properties) + ')');
+  constructor(arg, ...extraArgs) {
+    const { properties } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ObjectExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['properties'])) {
+      throw new TypeError('Argument to ObjectExpression constructor has wrong keys: expected {properties}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || ((f.type !== 'DataProperty') && ((f.type !== 'Getter') && (f.type !== 'Method') && (f.type !== 'Setter'))) && (f.type !== 'ShorthandProperty'))) {
+      throw new TypeError('Field "properties" of ObjectExpression constructor argument is of incorrect type (expected [one of {DataProperty, Getter, Method, Setter, ShorthandProperty}], got ' + printActualType(properties) + ')');
     }
     this.type = 'ObjectExpression';
     this.properties = properties;
@@ -957,9 +1417,16 @@ export class ObjectExpression {
 }
 
 export class ReturnStatement {
-  constructor({ expression }) {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ReturnStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to ReturnStatement constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof expression === 'undefined' || expression !== null && (isNotExpression(expression))) {
-      throw new TypeError('Field "expression" of ReturnStatement constructor is of incorrect type (expected null or Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of ReturnStatement constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ReturnStatement';
     this.expression = expression;
@@ -967,12 +1434,19 @@ export class ReturnStatement {
 }
 
 export class Script {
-  constructor({ directives, statements }) {
-    if (typeof directives === 'undefined' || !Array.isArray(directives) || directives.some(f => typeof f === 'undefined' || f.type !== 'Directive')) {
-      throw new TypeError('Field "directives" of Script constructor is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
+  constructor(arg, ...extraArgs) {
+    const { directives, statements } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Script constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof statements === 'undefined' || !Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "statements" of Script constructor is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['directives', 'statements'])) {
+      throw new TypeError('Argument to Script constructor has wrong keys: expected {directives, statements}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(directives) || directives.some(f => typeof f === 'undefined' || f.type !== 'Directive')) {
+      throw new TypeError('Field "directives" of Script constructor argument is of incorrect type (expected [Directive], got ' + printActualType(directives) + ')');
+    }
+    if (!Array.isArray(statements) || statements.some(f => isNotStatement(f))) {
+      throw new TypeError('Field "statements" of Script constructor argument is of incorrect type (expected [Statement], got ' + printActualType(statements) + ')');
     }
     this.type = 'Script';
     this.directives = directives;
@@ -981,15 +1455,22 @@ export class Script {
 }
 
 export class Setter {
-  constructor({ name, param, body }) {
+  constructor(arg, ...extraArgs) {
+    const { name, param, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('Setter constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'name', 'param'])) {
+      throw new TypeError('Argument to Setter constructor has wrong keys: expected {name, param, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || (name.type !== 'ComputedPropertyName') && (name.type !== 'StaticPropertyName')) {
-      throw new TypeError('Field "name" of Setter constructor is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of Setter constructor argument is of incorrect type (expected one of {ComputedPropertyName, StaticPropertyName}, got ' + printActualType(name) + ')');
     }
     if (typeof param === 'undefined' || (param.type !== 'BindingWithDefault') && ((param.type !== 'BindingIdentifier') && ((param.type !== 'ArrayBinding') && (param.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "param" of Setter constructor is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(param) + ')');
+      throw new TypeError('Field "param" of Setter constructor argument is of incorrect type (expected one of {BindingWithDefault, BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(param) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'FunctionBody') {
-      throw new TypeError('Field "body" of Setter constructor is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of Setter constructor argument is of incorrect type (expected FunctionBody, got ' + printActualType(body) + ')');
     }
     this.type = 'Setter';
     this.name = name;
@@ -999,9 +1480,16 @@ export class Setter {
 }
 
 export class ShorthandProperty {
-  constructor({ name }) {
+  constructor(arg, ...extraArgs) {
+    const { name } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ShorthandProperty constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['name'])) {
+      throw new TypeError('Argument to ShorthandProperty constructor has wrong keys: expected {name}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof name === 'undefined' || name.type !== 'IdentifierExpression') {
-      throw new TypeError('Field "name" of ShorthandProperty constructor is of incorrect type (expected IdentifierExpression, got ' + printActualType(name) + ')');
+      throw new TypeError('Field "name" of ShorthandProperty constructor argument is of incorrect type (expected IdentifierExpression, got ' + printActualType(name) + ')');
     }
     this.type = 'ShorthandProperty';
     this.name = name;
@@ -1009,9 +1497,16 @@ export class ShorthandProperty {
 }
 
 export class SpreadElement {
-  constructor({ expression }) {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('SpreadElement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to SpreadElement constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of SpreadElement constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of SpreadElement constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'SpreadElement';
     this.expression = expression;
@@ -1019,12 +1514,19 @@ export class SpreadElement {
 }
 
 export class StaticMemberAssignmentTarget {
-  constructor({ object, property }) {
+  constructor(arg, ...extraArgs) {
+    const { object, property } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('StaticMemberAssignmentTarget constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['object', 'property'])) {
+      throw new TypeError('Argument to StaticMemberAssignmentTarget constructor has wrong keys: expected {object, property}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof object === 'undefined' || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of StaticMemberAssignmentTarget constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
+      throw new TypeError('Field "object" of StaticMemberAssignmentTarget constructor argument is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (typeof property !== 'string') {
-      throw new TypeError('Field "property" of StaticMemberAssignmentTarget constructor is of incorrect type (expected string, got ' + printActualType(property) + ')');
+      throw new TypeError('Field "property" of StaticMemberAssignmentTarget constructor argument is of incorrect type (expected string, got ' + printActualType(property) + ')');
     }
     this.type = 'StaticMemberAssignmentTarget';
     this.object = object;
@@ -1033,12 +1535,19 @@ export class StaticMemberAssignmentTarget {
 }
 
 export class StaticMemberExpression {
-  constructor({ object, property }) {
+  constructor(arg, ...extraArgs) {
+    const { object, property } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('StaticMemberExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['object', 'property'])) {
+      throw new TypeError('Argument to StaticMemberExpression constructor has wrong keys: expected {object, property}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof object === 'undefined' || (isNotExpression(object)) && (object.type !== 'Super')) {
-      throw new TypeError('Field "object" of StaticMemberExpression constructor is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
+      throw new TypeError('Field "object" of StaticMemberExpression constructor argument is of incorrect type (expected one of {Expression, Super}, got ' + printActualType(object) + ')');
     }
     if (typeof property !== 'string') {
-      throw new TypeError('Field "property" of StaticMemberExpression constructor is of incorrect type (expected string, got ' + printActualType(property) + ')');
+      throw new TypeError('Field "property" of StaticMemberExpression constructor argument is of incorrect type (expected string, got ' + printActualType(property) + ')');
     }
     this.type = 'StaticMemberExpression';
     this.object = object;
@@ -1047,9 +1556,16 @@ export class StaticMemberExpression {
 }
 
 export class StaticPropertyName {
-  constructor({ value }) {
+  constructor(arg, ...extraArgs) {
+    const { value } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('StaticPropertyName constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['value'])) {
+      throw new TypeError('Argument to StaticPropertyName constructor has wrong keys: expected {value}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof value !== 'string') {
-      throw new TypeError('Field "value" of StaticPropertyName constructor is of incorrect type (expected string, got ' + printActualType(value) + ')');
+      throw new TypeError('Field "value" of StaticPropertyName constructor argument is of incorrect type (expected string, got ' + printActualType(value) + ')');
     }
     this.type = 'StaticPropertyName';
     this.value = value;
@@ -1057,18 +1573,28 @@ export class StaticPropertyName {
 }
 
 export class Super {
-  constructor() {
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('Super constructor takes no arguments');
+    }
     this.type = 'Super';
   }
 }
 
 export class SwitchCase {
-  constructor({ test, consequent }) {
-    if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of SwitchCase constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
+  constructor(arg, ...extraArgs) {
+    const { test, consequent } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('SwitchCase constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof consequent === 'undefined' || !Array.isArray(consequent) || consequent.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "consequent" of SwitchCase constructor is of incorrect type (expected [Statement], got ' + printActualType(consequent) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['consequent', 'test'])) {
+      throw new TypeError('Argument to SwitchCase constructor has wrong keys: expected {test, consequent}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (isNotExpression(test)) {
+      throw new TypeError('Field "test" of SwitchCase constructor argument is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
+    }
+    if (!Array.isArray(consequent) || consequent.some(f => isNotStatement(f))) {
+      throw new TypeError('Field "consequent" of SwitchCase constructor argument is of incorrect type (expected [Statement], got ' + printActualType(consequent) + ')');
     }
     this.type = 'SwitchCase';
     this.test = test;
@@ -1077,9 +1603,16 @@ export class SwitchCase {
 }
 
 export class SwitchDefault {
-  constructor({ consequent }) {
-    if (typeof consequent === 'undefined' || !Array.isArray(consequent) || consequent.some(f => isNotStatement(f))) {
-      throw new TypeError('Field "consequent" of SwitchDefault constructor is of incorrect type (expected [Statement], got ' + printActualType(consequent) + ')');
+  constructor(arg, ...extraArgs) {
+    const { consequent } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('SwitchDefault constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['consequent'])) {
+      throw new TypeError('Argument to SwitchDefault constructor has wrong keys: expected {consequent}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (!Array.isArray(consequent) || consequent.some(f => isNotStatement(f))) {
+      throw new TypeError('Field "consequent" of SwitchDefault constructor argument is of incorrect type (expected [Statement], got ' + printActualType(consequent) + ')');
     }
     this.type = 'SwitchDefault';
     this.consequent = consequent;
@@ -1087,12 +1620,19 @@ export class SwitchDefault {
 }
 
 export class SwitchStatement {
-  constructor({ discriminant, cases }) {
-    if (isNotExpression(discriminant)) {
-      throw new TypeError('Field "discriminant" of SwitchStatement constructor is of incorrect type (expected Expression, got ' + printActualType(discriminant) + ')');
+  constructor(arg, ...extraArgs) {
+    const { discriminant, cases } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('SwitchStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof cases === 'undefined' || !Array.isArray(cases) || cases.some(f => typeof f === 'undefined' || f.type !== 'SwitchCase')) {
-      throw new TypeError('Field "cases" of SwitchStatement constructor is of incorrect type (expected [SwitchCase], got ' + printActualType(cases) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['cases', 'discriminant'])) {
+      throw new TypeError('Argument to SwitchStatement constructor has wrong keys: expected {discriminant, cases}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (isNotExpression(discriminant)) {
+      throw new TypeError('Field "discriminant" of SwitchStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(discriminant) + ')');
+    }
+    if (!Array.isArray(cases) || cases.some(f => typeof f === 'undefined' || f.type !== 'SwitchCase')) {
+      throw new TypeError('Field "cases" of SwitchStatement constructor argument is of incorrect type (expected [SwitchCase], got ' + printActualType(cases) + ')');
     }
     this.type = 'SwitchStatement';
     this.discriminant = discriminant;
@@ -1101,18 +1641,25 @@ export class SwitchStatement {
 }
 
 export class SwitchStatementWithDefault {
-  constructor({ discriminant, preDefaultCases, defaultCase, postDefaultCases }) {
-    if (isNotExpression(discriminant)) {
-      throw new TypeError('Field "discriminant" of SwitchStatementWithDefault constructor is of incorrect type (expected Expression, got ' + printActualType(discriminant) + ')');
+  constructor(arg, ...extraArgs) {
+    const { discriminant, preDefaultCases, defaultCase, postDefaultCases } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('SwitchStatementWithDefault constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof preDefaultCases === 'undefined' || !Array.isArray(preDefaultCases) || preDefaultCases.some(f => typeof f === 'undefined' || f.type !== 'SwitchCase')) {
-      throw new TypeError('Field "preDefaultCases" of SwitchStatementWithDefault constructor is of incorrect type (expected [SwitchCase], got ' + printActualType(preDefaultCases) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['defaultCase', 'discriminant', 'postDefaultCases', 'preDefaultCases'])) {
+      throw new TypeError('Argument to SwitchStatementWithDefault constructor has wrong keys: expected {discriminant, preDefaultCases, defaultCase, postDefaultCases}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (isNotExpression(discriminant)) {
+      throw new TypeError('Field "discriminant" of SwitchStatementWithDefault constructor argument is of incorrect type (expected Expression, got ' + printActualType(discriminant) + ')');
+    }
+    if (!Array.isArray(preDefaultCases) || preDefaultCases.some(f => typeof f === 'undefined' || f.type !== 'SwitchCase')) {
+      throw new TypeError('Field "preDefaultCases" of SwitchStatementWithDefault constructor argument is of incorrect type (expected [SwitchCase], got ' + printActualType(preDefaultCases) + ')');
     }
     if (typeof defaultCase === 'undefined' || defaultCase.type !== 'SwitchDefault') {
-      throw new TypeError('Field "defaultCase" of SwitchStatementWithDefault constructor is of incorrect type (expected SwitchDefault, got ' + printActualType(defaultCase) + ')');
+      throw new TypeError('Field "defaultCase" of SwitchStatementWithDefault constructor argument is of incorrect type (expected SwitchDefault, got ' + printActualType(defaultCase) + ')');
     }
-    if (typeof postDefaultCases === 'undefined' || !Array.isArray(postDefaultCases) || postDefaultCases.some(f => typeof f === 'undefined' || f.type !== 'SwitchCase')) {
-      throw new TypeError('Field "postDefaultCases" of SwitchStatementWithDefault constructor is of incorrect type (expected [SwitchCase], got ' + printActualType(postDefaultCases) + ')');
+    if (!Array.isArray(postDefaultCases) || postDefaultCases.some(f => typeof f === 'undefined' || f.type !== 'SwitchCase')) {
+      throw new TypeError('Field "postDefaultCases" of SwitchStatementWithDefault constructor argument is of incorrect type (expected [SwitchCase], got ' + printActualType(postDefaultCases) + ')');
     }
     this.type = 'SwitchStatementWithDefault';
     this.discriminant = discriminant;
@@ -1123,9 +1670,16 @@ export class SwitchStatementWithDefault {
 }
 
 export class TemplateElement {
-  constructor({ rawValue }) {
+  constructor(arg, ...extraArgs) {
+    const { rawValue } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('TemplateElement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['rawValue'])) {
+      throw new TypeError('Argument to TemplateElement constructor has wrong keys: expected {rawValue}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof rawValue !== 'string') {
-      throw new TypeError('Field "rawValue" of TemplateElement constructor is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
+      throw new TypeError('Field "rawValue" of TemplateElement constructor argument is of incorrect type (expected string, got ' + printActualType(rawValue) + ')');
     }
     this.type = 'TemplateElement';
     this.rawValue = rawValue;
@@ -1133,12 +1687,19 @@ export class TemplateElement {
 }
 
 export class TemplateExpression {
-  constructor({ tag, elements }) {
-    if (typeof tag === 'undefined' || tag !== null && (isNotExpression(tag))) {
-      throw new TypeError('Field "tag" of TemplateExpression constructor is of incorrect type (expected null or Expression, got ' + printActualType(tag) + ')');
+  constructor(arg, ...extraArgs) {
+    const { tag, elements } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('TemplateExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof elements === 'undefined' || !Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || (isNotExpression(f)) && (f.type !== 'TemplateElement'))) {
-      throw new TypeError('Field "elements" of TemplateExpression constructor is of incorrect type (expected [one of {Expression, TemplateElement}], got ' + printActualType(elements) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['elements', 'tag'])) {
+      throw new TypeError('Argument to TemplateExpression constructor has wrong keys: expected {tag, elements}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof tag === 'undefined' || tag !== null && (isNotExpression(tag))) {
+      throw new TypeError('Field "tag" of TemplateExpression constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(tag) + ')');
+    }
+    if (!Array.isArray(elements) || elements.some(f => typeof f === 'undefined' || (isNotExpression(f)) && (f.type !== 'TemplateElement'))) {
+      throw new TypeError('Field "elements" of TemplateExpression constructor argument is of incorrect type (expected [one of {Expression, TemplateElement}], got ' + printActualType(elements) + ')');
     }
     this.type = 'TemplateExpression';
     this.tag = tag;
@@ -1147,15 +1708,25 @@ export class TemplateExpression {
 }
 
 export class ThisExpression {
-  constructor() {
+  constructor(...extraArgs) {
+    if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
+      throw new TypeError('ThisExpression constructor takes no arguments');
+    }
     this.type = 'ThisExpression';
   }
 }
 
 export class ThrowStatement {
-  constructor({ expression }) {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ThrowStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to ThrowStatement constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of ThrowStatement constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of ThrowStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'ThrowStatement';
     this.expression = expression;
@@ -1163,12 +1734,19 @@ export class ThrowStatement {
 }
 
 export class TryCatchStatement {
-  constructor({ body, catchClause }) {
+  constructor(arg, ...extraArgs) {
+    const { body, catchClause } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('TryCatchStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'catchClause'])) {
+      throw new TypeError('Argument to TryCatchStatement constructor has wrong keys: expected {body, catchClause}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof body === 'undefined' || body.type !== 'Block') {
-      throw new TypeError('Field "body" of TryCatchStatement constructor is of incorrect type (expected Block, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of TryCatchStatement constructor argument is of incorrect type (expected Block, got ' + printActualType(body) + ')');
     }
     if (typeof catchClause === 'undefined' || catchClause.type !== 'CatchClause') {
-      throw new TypeError('Field "catchClause" of TryCatchStatement constructor is of incorrect type (expected CatchClause, got ' + printActualType(catchClause) + ')');
+      throw new TypeError('Field "catchClause" of TryCatchStatement constructor argument is of incorrect type (expected CatchClause, got ' + printActualType(catchClause) + ')');
     }
     this.type = 'TryCatchStatement';
     this.body = body;
@@ -1177,15 +1755,22 @@ export class TryCatchStatement {
 }
 
 export class TryFinallyStatement {
-  constructor({ body, catchClause, finalizer }) {
+  constructor(arg, ...extraArgs) {
+    const { body, catchClause, finalizer } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('TryFinallyStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'catchClause', 'finalizer'])) {
+      throw new TypeError('Argument to TryFinallyStatement constructor has wrong keys: expected {body, catchClause, finalizer}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof body === 'undefined' || body.type !== 'Block') {
-      throw new TypeError('Field "body" of TryFinallyStatement constructor is of incorrect type (expected Block, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of TryFinallyStatement constructor argument is of incorrect type (expected Block, got ' + printActualType(body) + ')');
     }
     if (typeof catchClause === 'undefined' || catchClause !== null && (catchClause.type !== 'CatchClause')) {
-      throw new TypeError('Field "catchClause" of TryFinallyStatement constructor is of incorrect type (expected null or CatchClause, got ' + printActualType(catchClause) + ')');
+      throw new TypeError('Field "catchClause" of TryFinallyStatement constructor argument is of incorrect type (expected null or CatchClause, got ' + printActualType(catchClause) + ')');
     }
     if (typeof finalizer === 'undefined' || finalizer.type !== 'Block') {
-      throw new TypeError('Field "finalizer" of TryFinallyStatement constructor is of incorrect type (expected Block, got ' + printActualType(finalizer) + ')');
+      throw new TypeError('Field "finalizer" of TryFinallyStatement constructor argument is of incorrect type (expected Block, got ' + printActualType(finalizer) + ')');
     }
     this.type = 'TryFinallyStatement';
     this.body = body;
@@ -1195,12 +1780,19 @@ export class TryFinallyStatement {
 }
 
 export class UnaryExpression {
-  constructor({ operator, operand }) {
+  constructor(arg, ...extraArgs) {
+    const { operator, operand } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('UnaryExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['operand', 'operator'])) {
+      throw new TypeError('Argument to UnaryExpression constructor has wrong keys: expected {operator, operand}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof operator === 'undefined' || ['+', '-', '!', '~', 'typeof', 'void', 'delete'].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of UnaryExpression constructor is of incorrect type (expected one of {"+", "-", "!", "~", "typeof", "void", "delete"}, got ' + printActualType(operator) + ')');
+      throw new TypeError('Field "operator" of UnaryExpression constructor argument is of incorrect type (expected one of {"+", "-", "!", "~", "typeof", "void", "delete"}, got ' + printActualType(operator) + ')');
     }
     if (isNotExpression(operand)) {
-      throw new TypeError('Field "operand" of UnaryExpression constructor is of incorrect type (expected Expression, got ' + printActualType(operand) + ')');
+      throw new TypeError('Field "operand" of UnaryExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(operand) + ')');
     }
     this.type = 'UnaryExpression';
     this.operator = operator;
@@ -1209,15 +1801,22 @@ export class UnaryExpression {
 }
 
 export class UpdateExpression {
-  constructor({ isPrefix, operator, operand }) {
+  constructor(arg, ...extraArgs) {
+    const { isPrefix, operator, operand } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('UpdateExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['isPrefix', 'operand', 'operator'])) {
+      throw new TypeError('Argument to UpdateExpression constructor has wrong keys: expected {isPrefix, operator, operand}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof isPrefix !== 'boolean') {
-      throw new TypeError('Field "isPrefix" of UpdateExpression constructor is of incorrect type (expected boolean, got ' + printActualType(isPrefix) + ')');
+      throw new TypeError('Field "isPrefix" of UpdateExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(isPrefix) + ')');
     }
     if (typeof operator === 'undefined' || ['++', '--'].indexOf(operator) === -1) {
-      throw new TypeError('Field "operator" of UpdateExpression constructor is of incorrect type (expected one of {"++", "--"}, got ' + printActualType(operator) + ')');
+      throw new TypeError('Field "operator" of UpdateExpression constructor argument is of incorrect type (expected one of {"++", "--"}, got ' + printActualType(operator) + ')');
     }
     if (typeof operand === 'undefined' || (operand.type !== 'AssignmentTargetIdentifier') && ((operand.type !== 'ComputedMemberAssignmentTarget') && (operand.type !== 'StaticMemberAssignmentTarget'))) {
-      throw new TypeError('Field "operand" of UpdateExpression constructor is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(operand) + ')');
+      throw new TypeError('Field "operand" of UpdateExpression constructor argument is of incorrect type (expected one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(operand) + ')');
     }
     this.type = 'UpdateExpression';
     this.isPrefix = isPrefix;
@@ -1227,12 +1826,19 @@ export class UpdateExpression {
 }
 
 export class VariableDeclaration {
-  constructor({ kind, declarators }) {
-    if (typeof kind === 'undefined' || ['var', 'let', 'const'].indexOf(kind) === -1) {
-      throw new TypeError('Field "kind" of VariableDeclaration constructor is of incorrect type (expected one of {"var", "let", "const"}, got ' + printActualType(kind) + ')');
+  constructor(arg, ...extraArgs) {
+    const { kind, declarators } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('VariableDeclaration constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (typeof declarators === 'undefined' || !Array.isArray(declarators) || declarators.some(f => typeof f === 'undefined' || f.type !== 'VariableDeclarator')) {
-      throw new TypeError('Field "declarators" of VariableDeclaration constructor is of incorrect type (expected [VariableDeclarator], got ' + printActualType(declarators) + ')');
+    if (!arrayEquals(Object.keys(arg).sort(), ['declarators', 'kind'])) {
+      throw new TypeError('Argument to VariableDeclaration constructor has wrong keys: expected {kind, declarators}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof kind === 'undefined' || ['var', 'let', 'const'].indexOf(kind) === -1) {
+      throw new TypeError('Field "kind" of VariableDeclaration constructor argument is of incorrect type (expected one of {"var", "let", "const"}, got ' + printActualType(kind) + ')');
+    }
+    if (!Array.isArray(declarators) || declarators.some(f => typeof f === 'undefined' || f.type !== 'VariableDeclarator')) {
+      throw new TypeError('Field "declarators" of VariableDeclaration constructor argument is of incorrect type (expected [VariableDeclarator], got ' + printActualType(declarators) + ')');
     }
     this.type = 'VariableDeclaration';
     this.kind = kind;
@@ -1241,9 +1847,16 @@ export class VariableDeclaration {
 }
 
 export class VariableDeclarationStatement {
-  constructor({ declaration }) {
+  constructor(arg, ...extraArgs) {
+    const { declaration } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('VariableDeclarationStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['declaration'])) {
+      throw new TypeError('Argument to VariableDeclarationStatement constructor has wrong keys: expected {declaration}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof declaration === 'undefined' || declaration.type !== 'VariableDeclaration') {
-      throw new TypeError('Field "declaration" of VariableDeclarationStatement constructor is of incorrect type (expected VariableDeclaration, got ' + printActualType(declaration) + ')');
+      throw new TypeError('Field "declaration" of VariableDeclarationStatement constructor argument is of incorrect type (expected VariableDeclaration, got ' + printActualType(declaration) + ')');
     }
     this.type = 'VariableDeclarationStatement';
     this.declaration = declaration;
@@ -1251,12 +1864,19 @@ export class VariableDeclarationStatement {
 }
 
 export class VariableDeclarator {
-  constructor({ binding, init }) {
+  constructor(arg, ...extraArgs) {
+    const { binding, init } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('VariableDeclarator constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'init'])) {
+      throw new TypeError('Argument to VariableDeclarator constructor has wrong keys: expected {binding, init}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof binding === 'undefined' || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of VariableDeclarator constructor is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
+      throw new TypeError('Field "binding" of VariableDeclarator constructor argument is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (typeof init === 'undefined' || init !== null && (isNotExpression(init))) {
-      throw new TypeError('Field "init" of VariableDeclarator constructor is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
+      throw new TypeError('Field "init" of VariableDeclarator constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(init) + ')');
     }
     this.type = 'VariableDeclarator';
     this.binding = binding;
@@ -1265,12 +1885,19 @@ export class VariableDeclarator {
 }
 
 export class WhileStatement {
-  constructor({ test, body }) {
+  constructor(arg, ...extraArgs) {
+    const { test, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('WhileStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'test'])) {
+      throw new TypeError('Argument to WhileStatement constructor has wrong keys: expected {test, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(test)) {
-      throw new TypeError('Field "test" of WhileStatement constructor is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
+      throw new TypeError('Field "test" of WhileStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(test) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of WhileStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of WhileStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'WhileStatement';
     this.test = test;
@@ -1279,12 +1906,19 @@ export class WhileStatement {
 }
 
 export class WithStatement {
-  constructor({ object, body }) {
+  constructor(arg, ...extraArgs) {
+    const { object, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('WithStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'object'])) {
+      throw new TypeError('Argument to WithStatement constructor has wrong keys: expected {object, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(object)) {
-      throw new TypeError('Field "object" of WithStatement constructor is of incorrect type (expected Expression, got ' + printActualType(object) + ')');
+      throw new TypeError('Field "object" of WithStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(object) + ')');
     }
     if (isNotStatement(body)) {
-      throw new TypeError('Field "body" of WithStatement constructor is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+      throw new TypeError('Field "body" of WithStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
     }
     this.type = 'WithStatement';
     this.object = object;
@@ -1293,9 +1927,16 @@ export class WithStatement {
 }
 
 export class YieldExpression {
-  constructor({ expression }) {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('YieldExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to YieldExpression constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (typeof expression === 'undefined' || expression !== null && (isNotExpression(expression))) {
-      throw new TypeError('Field "expression" of YieldExpression constructor is of incorrect type (expected null or Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of YieldExpression constructor argument is of incorrect type (expected null or Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'YieldExpression';
     this.expression = expression;
@@ -1303,9 +1944,16 @@ export class YieldExpression {
 }
 
 export class YieldGeneratorExpression {
-  constructor({ expression }) {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('YieldGeneratorExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to YieldGeneratorExpression constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
     if (isNotExpression(expression)) {
-      throw new TypeError('Field "expression" of YieldGeneratorExpression constructor is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+      throw new TypeError('Field "expression" of YieldGeneratorExpression constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'YieldGeneratorExpression';
     this.expression = expression;
