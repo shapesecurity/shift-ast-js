@@ -40,8 +40,9 @@ export class ArrayExpression {
 }
 
 export class ArrowExpression {
-  constructor({ params, body }) {
+  constructor({ isAsync, params, body }) {
     this.type = 'ArrowExpression';
+    this.isAsync = isAsync;
     this.params = params;
     this.body = body;
   }
@@ -83,6 +84,13 @@ export class AssignmentTargetWithDefault {
     this.type = 'AssignmentTargetWithDefault';
     this.binding = binding;
     this.init = init;
+  }
+}
+
+export class AwaitExpression {
+  constructor({ expression }) {
+    this.type = 'AwaitExpression';
+    this.expression = expression;
   }
 }
 
@@ -376,8 +384,9 @@ export class FunctionBody {
 }
 
 export class FunctionDeclaration {
-  constructor({ isGenerator, name, params, body }) {
+  constructor({ isAsync, isGenerator, name, params, body }) {
     this.type = 'FunctionDeclaration';
+    this.isAsync = isAsync;
     this.isGenerator = isGenerator;
     this.name = name;
     this.params = params;
@@ -386,8 +395,9 @@ export class FunctionDeclaration {
 }
 
 export class FunctionExpression {
-  constructor({ isGenerator, name, params, body }) {
+  constructor({ isAsync, isGenerator, name, params, body }) {
     this.type = 'FunctionExpression';
+    this.isAsync = isAsync;
     this.isGenerator = isGenerator;
     this.name = name;
     this.params = params;
@@ -499,8 +509,9 @@ export class LiteralStringExpression {
 }
 
 export class Method {
-  constructor({ isGenerator, name, params, body }) {
+  constructor({ isAsync, isGenerator, name, params, body }) {
     this.type = 'Method';
+    this.isAsync = isAsync;
     this.isGenerator = isGenerator;
     this.name = name;
     this.params = params;
