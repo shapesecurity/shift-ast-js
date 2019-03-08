@@ -21,7 +21,7 @@ function isNotExpression(node) {
 }
 
 function isNotStatement(node) {
-  return typeof node === 'undefined' || (node.type !== 'BlockStatement') && (node.type !== 'BreakStatement') && (node.type !== 'ClassDeclaration') && (node.type !== 'ContinueStatement') && (node.type !== 'DebuggerStatement') && (node.type !== 'EmptyStatement') && (node.type !== 'ExpressionStatement') && (node.type !== 'FunctionDeclaration') && (node.type !== 'IfStatement') && ((node.type !== 'DoWhileStatement') && (node.type !== 'ForInStatement') && (node.type !== 'ForOfStatement') && (node.type !== 'ForStatement') && (node.type !== 'WhileStatement')) && (node.type !== 'LabeledStatement') && (node.type !== 'ReturnStatement') && (node.type !== 'SwitchStatement') && (node.type !== 'SwitchStatementWithDefault') && (node.type !== 'ThrowStatement') && (node.type !== 'TryCatchStatement') && (node.type !== 'TryFinallyStatement') && (node.type !== 'VariableDeclarationStatement') && (node.type !== 'WithStatement');
+  return typeof node === 'undefined' || (node.type !== 'BlockStatement') && (node.type !== 'BreakStatement') && (node.type !== 'ClassDeclaration') && (node.type !== 'ContinueStatement') && (node.type !== 'DebuggerStatement') && (node.type !== 'EmptyStatement') && (node.type !== 'ExpressionStatement') && (node.type !== 'FunctionDeclaration') && (node.type !== 'IfStatement') && ((node.type !== 'DoWhileStatement') && (node.type !== 'ForAwaitStatement') && (node.type !== 'ForInStatement') && (node.type !== 'ForOfStatement') && (node.type !== 'ForStatement') && (node.type !== 'WhileStatement')) && (node.type !== 'LabeledStatement') && (node.type !== 'ReturnStatement') && (node.type !== 'SwitchStatement') && (node.type !== 'SwitchStatementWithDefault') && (node.type !== 'ThrowStatement') && (node.type !== 'TryCatchStatement') && (node.type !== 'TryFinallyStatement') && (node.type !== 'VariableDeclarationStatement') && (node.type !== 'WithStatement');
 }
 
 function printActualType(arg) {
@@ -866,6 +866,31 @@ export class ExpressionStatement {
   }
 }
 
+export class ForAwaitStatement {
+  constructor(arg, ...extraArgs) {
+    const { left, right, body } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('ForAwaitStatement constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['body', 'left', 'right'])) {
+      throw new TypeError('Argument to ForAwaitStatement constructor has wrong keys: expected {left, right, body}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (typeof left === 'undefined' || (((left.type !== 'ArrayAssignmentTarget') && (left.type !== 'ObjectAssignmentTarget')) && ((left.type !== 'AssignmentTargetIdentifier') && ((left.type !== 'ComputedMemberAssignmentTarget') && (left.type !== 'StaticMemberAssignmentTarget')))) && (left.type !== 'VariableDeclaration')) {
+      throw new TypeError('Field "left" of ForAwaitStatement constructor argument is of incorrect type (expected one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget, VariableDeclaration}, got ' + printActualType(left) + ')');
+    }
+    if (isNotExpression(right)) {
+      throw new TypeError('Field "right" of ForAwaitStatement constructor argument is of incorrect type (expected Expression, got ' + printActualType(right) + ')');
+    }
+    if (isNotStatement(body)) {
+      throw new TypeError('Field "body" of ForAwaitStatement constructor argument is of incorrect type (expected Statement, got ' + printActualType(body) + ')');
+    }
+    this.type = 'ForAwaitStatement';
+    this.left = left;
+    this.right = right;
+    this.body = body;
+  }
+}
+
 export class ForInStatement {
   constructor(arg, ...extraArgs) {
     const { left, right, body } = arg;
@@ -1262,12 +1287,12 @@ export class LiteralNumericExpression {
 
 export class LiteralRegExpExpression {
   constructor(arg, ...extraArgs) {
-    const { pattern, global, ignoreCase, multiLine, sticky, unicode } = arg;
+    const { pattern, global, ignoreCase, multiLine, dotAll, unicode, sticky } = arg;
     if (extraArgs.length !== 0) {
       throw new TypeError('LiteralRegExpExpression constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (!arrayEquals(Object.keys(arg).sort(), ['global', 'ignoreCase', 'multiLine', 'pattern', 'sticky', 'unicode'])) {
-      throw new TypeError('Argument to LiteralRegExpExpression constructor has wrong keys: expected {pattern, global, ignoreCase, multiLine, sticky, unicode}, got {' + Object.keys(arg).join(', ') + '}');
+    if (!arrayEquals(Object.keys(arg).sort(), ['dotAll', 'global', 'ignoreCase', 'multiLine', 'pattern', 'sticky', 'unicode'])) {
+      throw new TypeError('Argument to LiteralRegExpExpression constructor has wrong keys: expected {pattern, global, ignoreCase, multiLine, dotAll, unicode, sticky}, got {' + Object.keys(arg).join(', ') + '}');
     }
     if (typeof pattern !== 'string') {
       throw new TypeError('Field "pattern" of LiteralRegExpExpression constructor argument is of incorrect type (expected string, got ' + printActualType(pattern) + ')');
@@ -1281,19 +1306,23 @@ export class LiteralRegExpExpression {
     if (typeof multiLine !== 'boolean') {
       throw new TypeError('Field "multiLine" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(multiLine) + ')');
     }
-    if (typeof sticky !== 'boolean') {
-      throw new TypeError('Field "sticky" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(sticky) + ')');
+    if (typeof dotAll !== 'boolean') {
+      throw new TypeError('Field "dotAll" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(dotAll) + ')');
     }
     if (typeof unicode !== 'boolean') {
       throw new TypeError('Field "unicode" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(unicode) + ')');
+    }
+    if (typeof sticky !== 'boolean') {
+      throw new TypeError('Field "sticky" of LiteralRegExpExpression constructor argument is of incorrect type (expected boolean, got ' + printActualType(sticky) + ')');
     }
     this.type = 'LiteralRegExpExpression';
     this.pattern = pattern;
     this.global = global;
     this.ignoreCase = ignoreCase;
     this.multiLine = multiLine;
-    this.sticky = sticky;
+    this.dotAll = dotAll;
     this.unicode = unicode;
+    this.sticky = sticky;
   }
 }
 
@@ -1400,35 +1429,43 @@ export class NewTargetExpression {
 
 export class ObjectAssignmentTarget {
   constructor(arg, ...extraArgs) {
-    const { properties } = arg;
+    const { properties, rest } = arg;
     if (extraArgs.length !== 0) {
       throw new TypeError('ObjectAssignmentTarget constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (!arrayEquals(Object.keys(arg).sort(), ['properties'])) {
-      throw new TypeError('Argument to ObjectAssignmentTarget constructor has wrong keys: expected {properties}, got {' + Object.keys(arg).join(', ') + '}');
+    if (!arrayEquals(Object.keys(arg).sort(), ['properties', 'rest'])) {
+      throw new TypeError('Argument to ObjectAssignmentTarget constructor has wrong keys: expected {properties, rest}, got {' + Object.keys(arg).join(', ') + '}');
     }
     if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'AssignmentTargetPropertyIdentifier') && (f.type !== 'AssignmentTargetPropertyProperty'))) {
       throw new TypeError('Field "properties" of ObjectAssignmentTarget constructor argument is of incorrect type (expected [one of {AssignmentTargetPropertyIdentifier, AssignmentTargetPropertyProperty}], got ' + printActualType(properties) + ')');
     }
+    if (typeof rest === 'undefined' || rest !== null && (((rest.type !== 'ArrayAssignmentTarget') && (rest.type !== 'ObjectAssignmentTarget')) && ((rest.type !== 'AssignmentTargetIdentifier') && ((rest.type !== 'ComputedMemberAssignmentTarget') && (rest.type !== 'StaticMemberAssignmentTarget'))))) {
+      throw new TypeError('Field "rest" of ObjectAssignmentTarget constructor argument is of incorrect type (expected null or one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
+    }
     this.type = 'ObjectAssignmentTarget';
     this.properties = properties;
+    this.rest = rest;
   }
 }
 
 export class ObjectBinding {
   constructor(arg, ...extraArgs) {
-    const { properties } = arg;
+    const { properties, rest } = arg;
     if (extraArgs.length !== 0) {
       throw new TypeError('ObjectBinding constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
     }
-    if (!arrayEquals(Object.keys(arg).sort(), ['properties'])) {
-      throw new TypeError('Argument to ObjectBinding constructor has wrong keys: expected {properties}, got {' + Object.keys(arg).join(', ') + '}');
+    if (!arrayEquals(Object.keys(arg).sort(), ['properties', 'rest'])) {
+      throw new TypeError('Argument to ObjectBinding constructor has wrong keys: expected {properties, rest}, got {' + Object.keys(arg).join(', ') + '}');
     }
     if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'BindingPropertyIdentifier') && (f.type !== 'BindingPropertyProperty'))) {
       throw new TypeError('Field "properties" of ObjectBinding constructor argument is of incorrect type (expected [one of {BindingPropertyIdentifier, BindingPropertyProperty}], got ' + printActualType(properties) + ')');
     }
+    if (typeof rest === 'undefined' || rest !== null && ((rest.type !== 'BindingIdentifier') && ((rest.type !== 'ArrayBinding') && (rest.type !== 'ObjectBinding')))) {
+      throw new TypeError('Field "rest" of ObjectBinding constructor argument is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
+    }
     this.type = 'ObjectBinding';
     this.properties = properties;
+    this.rest = rest;
   }
 }
 

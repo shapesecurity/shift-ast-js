@@ -339,6 +339,15 @@ export class ExpressionStatement {
   }
 }
 
+export class ForAwaitStatement {
+  constructor({ left, right, body }) {
+    this.type = 'ForAwaitStatement';
+    this.left = left;
+    this.right = right;
+    this.body = body;
+  }
+}
+
 export class ForInStatement {
   constructor({ left, right, body }) {
     this.type = 'ForInStatement';
@@ -490,14 +499,15 @@ export class LiteralNumericExpression {
 }
 
 export class LiteralRegExpExpression {
-  constructor({ pattern, global, ignoreCase, multiLine, sticky, unicode }) {
+  constructor({ pattern, global, ignoreCase, multiLine, dotAll, unicode, sticky }) {
     this.type = 'LiteralRegExpExpression';
     this.pattern = pattern;
     this.global = global;
     this.ignoreCase = ignoreCase;
     this.multiLine = multiLine;
-    this.sticky = sticky;
+    this.dotAll = dotAll;
     this.unicode = unicode;
+    this.sticky = sticky;
   }
 }
 
@@ -542,16 +552,18 @@ export class NewTargetExpression {
 }
 
 export class ObjectAssignmentTarget {
-  constructor({ properties }) {
+  constructor({ properties, rest }) {
     this.type = 'ObjectAssignmentTarget';
     this.properties = properties;
+    this.rest = rest;
   }
 }
 
 export class ObjectBinding {
-  constructor({ properties }) {
+  constructor({ properties, rest }) {
     this.type = 'ObjectBinding';
     this.properties = properties;
+    this.rest = rest;
   }
 }
 
