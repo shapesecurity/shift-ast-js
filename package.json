@@ -26,7 +26,7 @@
     "eslint": "^5.6.1",
     "esutils": "^2.0.2",
     "mocha": "^5.2.0",
-    "shift-spec": "2018.0.0"
+    "shift-spec": "2018.0.2"
   },
   "keywords": [
     "Shift",

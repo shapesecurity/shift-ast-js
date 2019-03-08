@@ -612,6 +612,13 @@ export class SpreadElement {
   }
 }
 
+export class SpreadProperty {
+  constructor({ expression }) {
+    this.type = 'SpreadProperty';
+    this.expression = expression;
+  }
+}
+
 export class StaticMemberAssignmentTarget {
   constructor({ object, property }) {
     this.type = 'StaticMemberAssignmentTarget';
