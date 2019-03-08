@@ -9,13 +9,14 @@
     "url": "https://github.com/shapesecurity/shift-ast-js.git"
   },
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "checked.js",
     "dist"
   ],
   "scripts": {
     "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot test",
-    "build": "mkdirp gen dist && node scripts/generate.js && node scripts/generate-checked.js && babel --out-dir dist gen",
+    "build": "mkdirp gen dist && node scripts/generate.js && node scripts/generate-checked.js && node scripts/generate-dts.js && babel --out-dir dist gen",
     "lint": "eslint scripts gen test",
     "prepare": "rimraf gen dist && npm run build"
   },
