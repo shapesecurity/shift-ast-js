@@ -1478,8 +1478,8 @@ export class ObjectExpression {
     if (!arrayEquals(Object.keys(arg).sort(), ['properties'])) {
       throw new TypeError('Argument to ObjectExpression constructor has wrong keys: expected {properties}, got {' + Object.keys(arg).join(', ') + '}');
     }
-    if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || ((f.type !== 'DataProperty') && ((f.type !== 'Getter') && (f.type !== 'Method') && (f.type !== 'Setter'))) && (f.type !== 'ShorthandProperty'))) {
-      throw new TypeError('Field "properties" of ObjectExpression constructor argument is of incorrect type (expected [one of {DataProperty, Getter, Method, Setter, ShorthandProperty}], got ' + printActualType(properties) + ')');
+    if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || ((f.type !== 'DataProperty') && ((f.type !== 'Getter') && (f.type !== 'Method') && (f.type !== 'Setter'))) && (f.type !== 'ShorthandProperty') && (f.type !== 'SpreadProperty'))) {
+      throw new TypeError('Field "properties" of ObjectExpression constructor argument is of incorrect type (expected [one of {DataProperty, Getter, Method, Setter, ShorthandProperty, SpreadProperty}], got ' + printActualType(properties) + ')');
     }
     this.type = 'ObjectExpression';
     this.properties = properties;
@@ -1579,6 +1579,23 @@ export class SpreadElement {
       throw new TypeError('Field "expression" of SpreadElement constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
     }
     this.type = 'SpreadElement';
+    this.expression = expression;
+  }
+}
+
+export class SpreadProperty {
+  constructor(arg, ...extraArgs) {
+    const { expression } = arg;
+    if (extraArgs.length !== 0) {
+      throw new TypeError('SpreadProperty constructor takes exactly one argument (' + (1 + extraArgs.length) + ' given)');
+    }
+    if (!arrayEquals(Object.keys(arg).sort(), ['expression'])) {
+      throw new TypeError('Argument to SpreadProperty constructor has wrong keys: expected {expression}, got {' + Object.keys(arg).join(', ') + '}');
+    }
+    if (isNotExpression(expression)) {
+      throw new TypeError('Field "expression" of SpreadProperty constructor argument is of incorrect type (expected Expression, got ' + printActualType(expression) + ')');
+    }
+    this.type = 'SpreadProperty';
     this.expression = expression;
   }
 }

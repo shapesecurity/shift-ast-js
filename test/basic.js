@@ -55,7 +55,7 @@ function construct(type, AST) {
 
 describe('ShiftAST', () => {
   it('has the appropriate number of types', () => {
-    assert.equal(Object.keys(ShiftAST).length, 97);
+    assert.equal(Object.keys(ShiftAST).length, 99);
   });
 
   it('can construct everything', () => {
@@ -79,7 +79,7 @@ describe('ShiftAST', () => {
 
 describe('ShiftAST/checked', () => {
   it('has the appropriate number of types', () => {
-    assert.equal(Object.keys(ShiftASTChecked).length, 97);
+    assert.equal(Object.keys(ShiftASTChecked).length, 99);
   });
 
   it('can construct everything', () => {
