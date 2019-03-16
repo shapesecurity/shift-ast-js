@@ -18,9 +18,9 @@
 
 type Init<Node> = Pick<Node, Exclude<keyof Node, 'type'>>;
 
-export type Expression = ArrayExpression | ArrowExpression | AssignmentExpression | AwaitExpression | BinaryExpression | CallExpression | ClassExpression | CompoundAssignmentExpression | ConditionalExpression | FunctionExpression | IdentifierExpression | LiteralBooleanExpression | LiteralInfinityExpression | LiteralNullExpression | LiteralNumericExpression | LiteralRegExpExpression | LiteralStringExpression | ComputedMemberExpression | StaticMemberExpression | NewExpression | NewTargetExpression | ObjectExpression | TemplateExpression | ThisExpression | UnaryExpression | UpdateExpression | YieldExpression | YieldGeneratorExpression;
+type Expression = ArrayExpression | ArrowExpression | AssignmentExpression | AwaitExpression | BinaryExpression | CallExpression | ClassExpression | CompoundAssignmentExpression | ConditionalExpression | FunctionExpression | IdentifierExpression | LiteralBooleanExpression | LiteralInfinityExpression | LiteralNullExpression | LiteralNumericExpression | LiteralRegExpExpression | LiteralStringExpression | ComputedMemberExpression | StaticMemberExpression | NewExpression | NewTargetExpression | ObjectExpression | TemplateExpression | ThisExpression | UnaryExpression | UpdateExpression | YieldExpression | YieldGeneratorExpression;
 
-export type Statement = BlockStatement | BreakStatement | ClassDeclaration | ContinueStatement | DebuggerStatement | EmptyStatement | ExpressionStatement | FunctionDeclaration | IfStatement | DoWhileStatement | ForInStatement | ForOfStatement | ForStatement | WhileStatement | LabeledStatement | ReturnStatement | SwitchStatement | SwitchStatementWithDefault | ThrowStatement | TryCatchStatement | TryFinallyStatement | VariableDeclarationStatement | WithStatement;
+type Statement = BlockStatement | BreakStatement | ClassDeclaration | ContinueStatement | DebuggerStatement | EmptyStatement | ExpressionStatement | FunctionDeclaration | IfStatement | DoWhileStatement | ForInStatement | ForOfStatement | ForStatement | WhileStatement | LabeledStatement | ReturnStatement | SwitchStatement | SwitchStatementWithDefault | ThrowStatement | TryCatchStatement | TryFinallyStatement | VariableDeclarationStatement | WithStatement;
 
 export class ArrayAssignmentTarget {
   type: 'ArrayAssignmentTarget';

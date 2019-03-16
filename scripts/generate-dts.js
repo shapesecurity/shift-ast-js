@@ -71,9 +71,9 @@ function printType(type, force) {
 content += `
 type Init<Node> = Pick<Node, Exclude<keyof Node, 'type'>>;
 
-export type Expression = ${printType(ExpressionType, true)};
+type Expression = ${printType(ExpressionType, true)};
 
-export type Statement = ${printType(StatementType, true)};
+type Statement = ${printType(StatementType, true)};
 `;
 
 for (let typename of Object.keys(Spec)) {
