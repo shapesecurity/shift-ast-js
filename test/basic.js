@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// @ts-check
+
 let ShiftAST = require('../');
 let ShiftASTChecked = require('../checked');
 let Spec = require('shift-spec').default;
@@ -106,21 +108,28 @@ describe('ShiftAST/checked', () => {
   });
 
   it('forbids passing too few arguments', () => {
+    // @ts-ignore
     assert.throws(() => new ShiftASTChecked.LiteralNumericExpression());
   });
 
   it('forbids passing extra arguments', () => {
+    // @ts-ignore
     assert.throws(() => new ShiftASTChecked.LiteralNullExpression(null));
+    // @ts-ignore
     assert.throws(() => new ShiftASTChecked.LiteralNullExpression({}, {}));
+    // @ts-ignore
     assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({ value: 0 }, {}));
   });
 
   it('forbids passing a bag with missing properties', () => {
+    // @ts-ignore
     assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({}));
   });
 
   it('forbids passing a bag with extra properties', () => {
+    // @ts-ignore
     assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({ notValue: 0 }));
+    // @ts-ignore
     assert.throws(() => new ShiftASTChecked.LiteralNumericExpression({ value: 0, notValue: 0 }));
   });
 });
