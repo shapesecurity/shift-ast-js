@@ -18,6 +18,7 @@
 
 let ShiftAST = require('../');
 let ShiftASTChecked = require('../checked');
+// @ts-ignore
 let Spec = require('shift-spec').default;
 let assert = require('assert');
 
@@ -63,6 +64,7 @@ describe('ShiftAST', () => {
   it('can construct everything', () => {
     for (let t of Object.keys(ShiftAST)) {
       let n = construct(Spec[t], ShiftAST);
+      // @ts-ignore
       assert(n instanceof ShiftAST[t]);
       assert.equal(n.type, t);
     }
@@ -87,6 +89,7 @@ describe('ShiftAST/checked', () => {
   it('can construct everything', () => {
     for (let t of Object.keys(ShiftASTChecked)) {
       let n = construct(Spec[t], ShiftASTChecked);
+      // @ts-ignore
       assert(n instanceof ShiftASTChecked[t]);
       assert.equal(n.type, t);
     }
