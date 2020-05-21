@@ -72,9 +72,12 @@ let content = `${header}
 
 type Init<Node> = Pick<Node, Exclude<keyof Node, 'type'>>;
 
-type Expression = ${printType(ExpressionType, true)};
+export type Node = ${Object.keys(Spec).join(' | ')};
 
-type Statement = ${printType(StatementType, true)};
+export type Expression = ${printType(ExpressionType, true)};
+
+export type Statement = ${printType(StatementType, true)};
+
 `;
 
 for (let typename of Object.keys(Spec)) {
