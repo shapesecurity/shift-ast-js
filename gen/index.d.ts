@@ -155,7 +155,7 @@ export class CallExpression {
 
 export class CatchClause {
   type: 'CatchClause';
-  binding: BindingIdentifier | ArrayBinding | ObjectBinding;
+  binding: BindingIdentifier | ArrayBinding | ObjectBinding | null;
   body: Block;
   constructor(init: Init<CatchClause>);
 }
@@ -496,14 +496,14 @@ export class NewTargetExpression {
 export class ObjectAssignmentTarget {
   type: 'ObjectAssignmentTarget';
   properties: Array<AssignmentTargetPropertyIdentifier | AssignmentTargetPropertyProperty>;
-  rest: ArrayAssignmentTarget | ObjectAssignmentTarget | AssignmentTargetIdentifier | ComputedMemberAssignmentTarget | StaticMemberAssignmentTarget | null;
+  rest: AssignmentTargetIdentifier | ComputedMemberAssignmentTarget | StaticMemberAssignmentTarget | null;
   constructor(init: Init<ObjectAssignmentTarget>);
 }
 
 export class ObjectBinding {
   type: 'ObjectBinding';
   properties: Array<BindingPropertyIdentifier | BindingPropertyProperty>;
-  rest: BindingIdentifier | ArrayBinding | ObjectBinding | null;
+  rest: BindingIdentifier | null;
   constructor(init: Init<ObjectBinding>);
 }
 

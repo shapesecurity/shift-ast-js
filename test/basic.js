@@ -17,9 +17,9 @@
 // @ts-check
 
 let ShiftAST = require('../');
-let ShiftASTChecked = require('../checked');
+let ShiftASTChecked = require('../gen/checked');
 // @ts-ignore
-let Spec = require('shift-spec').default;
+let Spec = require('shift-spec');
 let assert = require('assert');
 
 function construct(type, AST) {

@@ -17,7 +17,7 @@
 'use strict';
 
 const writeFileSync = require('fs').writeFileSync;
-const Spec = require('shift-spec').default;
+const Spec = require('shift-spec');
 const ExpressionType = Spec.ExpressionStatement.fields[1].type;
 const StatementType = Spec.LabeledStatement.fields[2].type;
 
@@ -94,7 +94,6 @@ export class ${typename} {
 }
 
 writeFileSync('gen/index.d.ts', content);
-writeFileSync('dist/index.d.ts', content);
 
 let checkedContent = `${header}
 
@@ -102,4 +101,3 @@ export * from './index';
 `;
 
 writeFileSync('gen/checked.d.ts', checkedContent);
-writeFileSync('dist/checked.d.ts', checkedContent);

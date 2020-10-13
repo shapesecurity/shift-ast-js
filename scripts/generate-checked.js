@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const Spec = require('shift-spec').default;
+const Spec = require('shift-spec');
 const { keyword } = require('esutils');
 const { isRestrictedWord, isReservedWordES6 } = keyword;
 
@@ -158,14 +158,14 @@ for (let typename of Object.keys(Spec)) {
   let fields = type.fields.filter(f => f.name !== 'type' && f.name !== 'loc');
   if (fields.length === 0) {
     content += `
-export class ${typename} {
+exports.${typename} = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('${typename} constructor takes no arguments');
     }
     this.type = '${typename}';
   }
-}
+};
 `;
   } else {
     let expectedArgs = '{' + fields.map(f => f.name).join(', ') + '}';
@@ -178,7 +178,7 @@ export class ${typename} {
     }`;
     }).join('\n    ');
     content += `
-export class ${typename} {
+exports.${typename} = class {
   constructor(arg, ...extraArgs) {
     const ${param} = arg;
     if (extraArgs.length !== 0) {
@@ -191,7 +191,7 @@ export class ${typename} {
     this.type = '${typename}';
     ${fields.map(f => `this.${f.name} = ${sanitize(f.name)};`).join('\n    ')}
   }
-}
+};
 `;
 
   }

@@ -1,6 +1,6 @@
 {
   "name": "shift-ast",
-  "version": "6.1.0",
+  "version": "7.0.0",
   "description": "constructors for the Shift AST format",
   "author": "Shape Security",
   "homepage": "https://github.com/shapesecurity/shift-ast-js",
@@ -8,30 +8,27 @@
     "type": "git",
     "url": "https://github.com/shapesecurity/shift-ast-js.git"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "gen/index.js",
+  "types": "gen/index.d.ts",
   "files": [
     "checked.js",
-    "dist"
+    "gen"
   ],
   "scripts": {
-    "test": "mocha --inline-diffs --check-leaks --ui tdd --reporter dot test && tsc -p test",
-    "build": "mkdirp gen dist && node scripts/generate.js && node scripts/generate-checked.js && node scripts/generate-dts.js && babel --out-dir dist gen",
+    "test": "mocha --inline-diffs --check-leaks --ui bdd --reporter dot test && tsc -p test",
+    "build": "mkdirp gen && node scripts/generate.js && node scripts/generate-checked.js && node scripts/generate-dts.js",
     "lint": "eslint scripts gen test",
-    "prepare": "rimraf gen dist && npm run build"
+    "prepare": "rimraf gen && npm run build"
   },
   "devDependencies": {
     "@types/assert": "^1.4.2",
     "@types/mocha": "^5.2.6",
-    "babel-cli": "6.26.0",
-    "babel-preset-es2015": "6.24.1",
-    "babel-register": "6.26.0",
     "eslint": "^5.6.1",
     "esutils": "^2.0.2",
     "mkdirp": "^0.5.1",
-    "mocha": "^5.2.0",
+    "mocha": "^8.1.3",
     "rimraf": "^2.6.3",
-    "shift-spec": "2018.0.2",
+    "shift-spec": "2019.0.0",
     "typescript": "^3.3.3333"
   },
   "keywords": [

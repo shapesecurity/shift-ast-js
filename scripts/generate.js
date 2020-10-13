@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const Spec = require('shift-spec').default;
+const Spec = require('shift-spec');
 const { keyword } = require('esutils');
 const { isRestrictedWord, isReservedWordES6 } = keyword;
 
@@ -61,11 +61,11 @@ for (let typename of Object.keys(Spec)) {
     param = '';
   }
   content += `
-export class ${typename} {
+exports.${typename} = class {
   constructor(${param}) {
     this.type = '${typename}';${fields.map(f => `\n    this.${f.name} = ${sanitize(f.name)};`).join('')}
   }
-}
+};
 `;
 }
 

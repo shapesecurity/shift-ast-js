@@ -44,7 +44,7 @@ function arrayEquals(a, b) {
   return a.length === b.length && a.every((v, i) => v === b[i]);
 }
 
-export class ArrayAssignmentTarget {
+exports.ArrayAssignmentTarget = class {
   constructor(arg, ...extraArgs) {
     const { elements, rest } = arg;
     if (extraArgs.length !== 0) {
@@ -63,9 +63,9 @@ export class ArrayAssignmentTarget {
     this.elements = elements;
     this.rest = rest;
   }
-}
+};
 
-export class ArrayBinding {
+exports.ArrayBinding = class {
   constructor(arg, ...extraArgs) {
     const { elements, rest } = arg;
     if (extraArgs.length !== 0) {
@@ -84,9 +84,9 @@ export class ArrayBinding {
     this.elements = elements;
     this.rest = rest;
   }
-}
+};
 
-export class ArrayExpression {
+exports.ArrayExpression = class {
   constructor(arg, ...extraArgs) {
     const { elements } = arg;
     if (extraArgs.length !== 0) {
@@ -101,9 +101,9 @@ export class ArrayExpression {
     this.type = 'ArrayExpression';
     this.elements = elements;
   }
-}
+};
 
-export class ArrowExpression {
+exports.ArrowExpression = class {
   constructor(arg, ...extraArgs) {
     const { isAsync, params, body } = arg;
     if (extraArgs.length !== 0) {
@@ -126,9 +126,9 @@ export class ArrowExpression {
     this.params = params;
     this.body = body;
   }
-}
+};
 
-export class AssignmentExpression {
+exports.AssignmentExpression = class {
   constructor(arg, ...extraArgs) {
     const { binding, expression } = arg;
     if (extraArgs.length !== 0) {
@@ -147,9 +147,9 @@ export class AssignmentExpression {
     this.binding = binding;
     this.expression = expression;
   }
-}
+};
 
-export class AssignmentTargetIdentifier {
+exports.AssignmentTargetIdentifier = class {
   constructor(arg, ...extraArgs) {
     const { name } = arg;
     if (extraArgs.length !== 0) {
@@ -164,9 +164,9 @@ export class AssignmentTargetIdentifier {
     this.type = 'AssignmentTargetIdentifier';
     this.name = name;
   }
-}
+};
 
-export class AssignmentTargetPropertyIdentifier {
+exports.AssignmentTargetPropertyIdentifier = class {
   constructor(arg, ...extraArgs) {
     const { binding, init } = arg;
     if (extraArgs.length !== 0) {
@@ -185,9 +185,9 @@ export class AssignmentTargetPropertyIdentifier {
     this.binding = binding;
     this.init = init;
   }
-}
+};
 
-export class AssignmentTargetPropertyProperty {
+exports.AssignmentTargetPropertyProperty = class {
   constructor(arg, ...extraArgs) {
     const { name, binding } = arg;
     if (extraArgs.length !== 0) {
@@ -206,9 +206,9 @@ export class AssignmentTargetPropertyProperty {
     this.name = name;
     this.binding = binding;
   }
-}
+};
 
-export class AssignmentTargetWithDefault {
+exports.AssignmentTargetWithDefault = class {
   constructor(arg, ...extraArgs) {
     const { binding, init } = arg;
     if (extraArgs.length !== 0) {
@@ -227,9 +227,9 @@ export class AssignmentTargetWithDefault {
     this.binding = binding;
     this.init = init;
   }
-}
+};
 
-export class AwaitExpression {
+exports.AwaitExpression = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -244,9 +244,9 @@ export class AwaitExpression {
     this.type = 'AwaitExpression';
     this.expression = expression;
   }
-}
+};
 
-export class BinaryExpression {
+exports.BinaryExpression = class {
   constructor(arg, ...extraArgs) {
     const { left, operator, right } = arg;
     if (extraArgs.length !== 0) {
@@ -269,9 +269,9 @@ export class BinaryExpression {
     this.operator = operator;
     this.right = right;
   }
-}
+};
 
-export class BindingIdentifier {
+exports.BindingIdentifier = class {
   constructor(arg, ...extraArgs) {
     const { name } = arg;
     if (extraArgs.length !== 0) {
@@ -286,9 +286,9 @@ export class BindingIdentifier {
     this.type = 'BindingIdentifier';
     this.name = name;
   }
-}
+};
 
-export class BindingPropertyIdentifier {
+exports.BindingPropertyIdentifier = class {
   constructor(arg, ...extraArgs) {
     const { binding, init } = arg;
     if (extraArgs.length !== 0) {
@@ -307,9 +307,9 @@ export class BindingPropertyIdentifier {
     this.binding = binding;
     this.init = init;
   }
-}
+};
 
-export class BindingPropertyProperty {
+exports.BindingPropertyProperty = class {
   constructor(arg, ...extraArgs) {
     const { name, binding } = arg;
     if (extraArgs.length !== 0) {
@@ -328,9 +328,9 @@ export class BindingPropertyProperty {
     this.name = name;
     this.binding = binding;
   }
-}
+};
 
-export class BindingWithDefault {
+exports.BindingWithDefault = class {
   constructor(arg, ...extraArgs) {
     const { binding, init } = arg;
     if (extraArgs.length !== 0) {
@@ -349,9 +349,9 @@ export class BindingWithDefault {
     this.binding = binding;
     this.init = init;
   }
-}
+};
 
-export class Block {
+exports.Block = class {
   constructor(arg, ...extraArgs) {
     const { statements } = arg;
     if (extraArgs.length !== 0) {
@@ -366,9 +366,9 @@ export class Block {
     this.type = 'Block';
     this.statements = statements;
   }
-}
+};
 
-export class BlockStatement {
+exports.BlockStatement = class {
   constructor(arg, ...extraArgs) {
     const { block } = arg;
     if (extraArgs.length !== 0) {
@@ -383,9 +383,9 @@ export class BlockStatement {
     this.type = 'BlockStatement';
     this.block = block;
   }
-}
+};
 
-export class BreakStatement {
+exports.BreakStatement = class {
   constructor(arg, ...extraArgs) {
     const { label } = arg;
     if (extraArgs.length !== 0) {
@@ -400,9 +400,9 @@ export class BreakStatement {
     this.type = 'BreakStatement';
     this.label = label;
   }
-}
+};
 
-export class CallExpression {
+exports.CallExpression = class {
   constructor(arg, ...extraArgs) {
     const { callee, arguments: _arguments } = arg;
     if (extraArgs.length !== 0) {
@@ -421,9 +421,9 @@ export class CallExpression {
     this.callee = callee;
     this.arguments = _arguments;
   }
-}
+};
 
-export class CatchClause {
+exports.CatchClause = class {
   constructor(arg, ...extraArgs) {
     const { binding, body } = arg;
     if (extraArgs.length !== 0) {
@@ -432,8 +432,8 @@ export class CatchClause {
     if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'body'])) {
       throw new TypeError('Argument to CatchClause constructor has wrong keys: expected {binding, body}, got {' + Object.keys(arg).join(', ') + '}');
     }
-    if (typeof binding === 'undefined' || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of CatchClause constructor argument is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
+    if (typeof binding === 'undefined' || binding !== null && ((binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding')))) {
+      throw new TypeError('Field "binding" of CatchClause constructor argument is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'Block') {
       throw new TypeError('Field "body" of CatchClause constructor argument is of incorrect type (expected Block, got ' + printActualType(body) + ')');
@@ -442,9 +442,9 @@ export class CatchClause {
     this.binding = binding;
     this.body = body;
   }
-}
+};
 
-export class ClassDeclaration {
+exports.ClassDeclaration = class {
   constructor(arg, ...extraArgs) {
     const { name, super: _super, elements } = arg;
     if (extraArgs.length !== 0) {
@@ -467,9 +467,9 @@ export class ClassDeclaration {
     this.super = _super;
     this.elements = elements;
   }
-}
+};
 
-export class ClassElement {
+exports.ClassElement = class {
   constructor(arg, ...extraArgs) {
     const { isStatic, method } = arg;
     if (extraArgs.length !== 0) {
@@ -488,9 +488,9 @@ export class ClassElement {
     this.isStatic = isStatic;
     this.method = method;
   }
-}
+};
 
-export class ClassExpression {
+exports.ClassExpression = class {
   constructor(arg, ...extraArgs) {
     const { name, super: _super, elements } = arg;
     if (extraArgs.length !== 0) {
@@ -513,9 +513,9 @@ export class ClassExpression {
     this.super = _super;
     this.elements = elements;
   }
-}
+};
 
-export class CompoundAssignmentExpression {
+exports.CompoundAssignmentExpression = class {
   constructor(arg, ...extraArgs) {
     const { binding, operator, expression } = arg;
     if (extraArgs.length !== 0) {
@@ -538,9 +538,9 @@ export class CompoundAssignmentExpression {
     this.operator = operator;
     this.expression = expression;
   }
-}
+};
 
-export class ComputedMemberAssignmentTarget {
+exports.ComputedMemberAssignmentTarget = class {
   constructor(arg, ...extraArgs) {
     const { object, expression } = arg;
     if (extraArgs.length !== 0) {
@@ -559,9 +559,9 @@ export class ComputedMemberAssignmentTarget {
     this.object = object;
     this.expression = expression;
   }
-}
+};
 
-export class ComputedMemberExpression {
+exports.ComputedMemberExpression = class {
   constructor(arg, ...extraArgs) {
     const { object, expression } = arg;
     if (extraArgs.length !== 0) {
@@ -580,9 +580,9 @@ export class ComputedMemberExpression {
     this.object = object;
     this.expression = expression;
   }
-}
+};
 
-export class ComputedPropertyName {
+exports.ComputedPropertyName = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -597,9 +597,9 @@ export class ComputedPropertyName {
     this.type = 'ComputedPropertyName';
     this.expression = expression;
   }
-}
+};
 
-export class ConditionalExpression {
+exports.ConditionalExpression = class {
   constructor(arg, ...extraArgs) {
     const { test, consequent, alternate } = arg;
     if (extraArgs.length !== 0) {
@@ -622,9 +622,9 @@ export class ConditionalExpression {
     this.consequent = consequent;
     this.alternate = alternate;
   }
-}
+};
 
-export class ContinueStatement {
+exports.ContinueStatement = class {
   constructor(arg, ...extraArgs) {
     const { label } = arg;
     if (extraArgs.length !== 0) {
@@ -639,9 +639,9 @@ export class ContinueStatement {
     this.type = 'ContinueStatement';
     this.label = label;
   }
-}
+};
 
-export class DataProperty {
+exports.DataProperty = class {
   constructor(arg, ...extraArgs) {
     const { name, expression } = arg;
     if (extraArgs.length !== 0) {
@@ -660,18 +660,18 @@ export class DataProperty {
     this.name = name;
     this.expression = expression;
   }
-}
+};
 
-export class DebuggerStatement {
+exports.DebuggerStatement = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('DebuggerStatement constructor takes no arguments');
     }
     this.type = 'DebuggerStatement';
   }
-}
+};
 
-export class Directive {
+exports.Directive = class {
   constructor(arg, ...extraArgs) {
     const { rawValue } = arg;
     if (extraArgs.length !== 0) {
@@ -686,9 +686,9 @@ export class Directive {
     this.type = 'Directive';
     this.rawValue = rawValue;
   }
-}
+};
 
-export class DoWhileStatement {
+exports.DoWhileStatement = class {
   constructor(arg, ...extraArgs) {
     const { body, test } = arg;
     if (extraArgs.length !== 0) {
@@ -707,18 +707,18 @@ export class DoWhileStatement {
     this.body = body;
     this.test = test;
   }
-}
+};
 
-export class EmptyStatement {
+exports.EmptyStatement = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('EmptyStatement constructor takes no arguments');
     }
     this.type = 'EmptyStatement';
   }
-}
+};
 
-export class Export {
+exports.Export = class {
   constructor(arg, ...extraArgs) {
     const { declaration } = arg;
     if (extraArgs.length !== 0) {
@@ -733,9 +733,9 @@ export class Export {
     this.type = 'Export';
     this.declaration = declaration;
   }
-}
+};
 
-export class ExportAllFrom {
+exports.ExportAllFrom = class {
   constructor(arg, ...extraArgs) {
     const { moduleSpecifier } = arg;
     if (extraArgs.length !== 0) {
@@ -750,9 +750,9 @@ export class ExportAllFrom {
     this.type = 'ExportAllFrom';
     this.moduleSpecifier = moduleSpecifier;
   }
-}
+};
 
-export class ExportDefault {
+exports.ExportDefault = class {
   constructor(arg, ...extraArgs) {
     const { body } = arg;
     if (extraArgs.length !== 0) {
@@ -767,9 +767,9 @@ export class ExportDefault {
     this.type = 'ExportDefault';
     this.body = body;
   }
-}
+};
 
-export class ExportFrom {
+exports.ExportFrom = class {
   constructor(arg, ...extraArgs) {
     const { namedExports, moduleSpecifier } = arg;
     if (extraArgs.length !== 0) {
@@ -788,9 +788,9 @@ export class ExportFrom {
     this.namedExports = namedExports;
     this.moduleSpecifier = moduleSpecifier;
   }
-}
+};
 
-export class ExportFromSpecifier {
+exports.ExportFromSpecifier = class {
   constructor(arg, ...extraArgs) {
     const { name, exportedName } = arg;
     if (extraArgs.length !== 0) {
@@ -809,9 +809,9 @@ export class ExportFromSpecifier {
     this.name = name;
     this.exportedName = exportedName;
   }
-}
+};
 
-export class ExportLocalSpecifier {
+exports.ExportLocalSpecifier = class {
   constructor(arg, ...extraArgs) {
     const { name, exportedName } = arg;
     if (extraArgs.length !== 0) {
@@ -830,9 +830,9 @@ export class ExportLocalSpecifier {
     this.name = name;
     this.exportedName = exportedName;
   }
-}
+};
 
-export class ExportLocals {
+exports.ExportLocals = class {
   constructor(arg, ...extraArgs) {
     const { namedExports } = arg;
     if (extraArgs.length !== 0) {
@@ -847,9 +847,9 @@ export class ExportLocals {
     this.type = 'ExportLocals';
     this.namedExports = namedExports;
   }
-}
+};
 
-export class ExpressionStatement {
+exports.ExpressionStatement = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -864,9 +864,9 @@ export class ExpressionStatement {
     this.type = 'ExpressionStatement';
     this.expression = expression;
   }
-}
+};
 
-export class ForAwaitStatement {
+exports.ForAwaitStatement = class {
   constructor(arg, ...extraArgs) {
     const { left, right, body } = arg;
     if (extraArgs.length !== 0) {
@@ -889,9 +889,9 @@ export class ForAwaitStatement {
     this.right = right;
     this.body = body;
   }
-}
+};
 
-export class ForInStatement {
+exports.ForInStatement = class {
   constructor(arg, ...extraArgs) {
     const { left, right, body } = arg;
     if (extraArgs.length !== 0) {
@@ -914,9 +914,9 @@ export class ForInStatement {
     this.right = right;
     this.body = body;
   }
-}
+};
 
-export class ForOfStatement {
+exports.ForOfStatement = class {
   constructor(arg, ...extraArgs) {
     const { left, right, body } = arg;
     if (extraArgs.length !== 0) {
@@ -939,9 +939,9 @@ export class ForOfStatement {
     this.right = right;
     this.body = body;
   }
-}
+};
 
-export class ForStatement {
+exports.ForStatement = class {
   constructor(arg, ...extraArgs) {
     const { init, test, update, body } = arg;
     if (extraArgs.length !== 0) {
@@ -968,9 +968,9 @@ export class ForStatement {
     this.update = update;
     this.body = body;
   }
-}
+};
 
-export class FormalParameters {
+exports.FormalParameters = class {
   constructor(arg, ...extraArgs) {
     const { items, rest } = arg;
     if (extraArgs.length !== 0) {
@@ -989,9 +989,9 @@ export class FormalParameters {
     this.items = items;
     this.rest = rest;
   }
-}
+};
 
-export class FunctionBody {
+exports.FunctionBody = class {
   constructor(arg, ...extraArgs) {
     const { directives, statements } = arg;
     if (extraArgs.length !== 0) {
@@ -1010,9 +1010,9 @@ export class FunctionBody {
     this.directives = directives;
     this.statements = statements;
   }
-}
+};
 
-export class FunctionDeclaration {
+exports.FunctionDeclaration = class {
   constructor(arg, ...extraArgs) {
     const { isAsync, isGenerator, name, params, body } = arg;
     if (extraArgs.length !== 0) {
@@ -1043,9 +1043,9 @@ export class FunctionDeclaration {
     this.params = params;
     this.body = body;
   }
-}
+};
 
-export class FunctionExpression {
+exports.FunctionExpression = class {
   constructor(arg, ...extraArgs) {
     const { isAsync, isGenerator, name, params, body } = arg;
     if (extraArgs.length !== 0) {
@@ -1076,9 +1076,9 @@ export class FunctionExpression {
     this.params = params;
     this.body = body;
   }
-}
+};
 
-export class Getter {
+exports.Getter = class {
   constructor(arg, ...extraArgs) {
     const { name, body } = arg;
     if (extraArgs.length !== 0) {
@@ -1097,9 +1097,9 @@ export class Getter {
     this.name = name;
     this.body = body;
   }
-}
+};
 
-export class IdentifierExpression {
+exports.IdentifierExpression = class {
   constructor(arg, ...extraArgs) {
     const { name } = arg;
     if (extraArgs.length !== 0) {
@@ -1114,9 +1114,9 @@ export class IdentifierExpression {
     this.type = 'IdentifierExpression';
     this.name = name;
   }
-}
+};
 
-export class IfStatement {
+exports.IfStatement = class {
   constructor(arg, ...extraArgs) {
     const { test, consequent, alternate } = arg;
     if (extraArgs.length !== 0) {
@@ -1139,9 +1139,9 @@ export class IfStatement {
     this.consequent = consequent;
     this.alternate = alternate;
   }
-}
+};
 
-export class Import {
+exports.Import = class {
   constructor(arg, ...extraArgs) {
     const { defaultBinding, namedImports, moduleSpecifier } = arg;
     if (extraArgs.length !== 0) {
@@ -1164,9 +1164,9 @@ export class Import {
     this.namedImports = namedImports;
     this.moduleSpecifier = moduleSpecifier;
   }
-}
+};
 
-export class ImportNamespace {
+exports.ImportNamespace = class {
   constructor(arg, ...extraArgs) {
     const { defaultBinding, namespaceBinding, moduleSpecifier } = arg;
     if (extraArgs.length !== 0) {
@@ -1189,9 +1189,9 @@ export class ImportNamespace {
     this.namespaceBinding = namespaceBinding;
     this.moduleSpecifier = moduleSpecifier;
   }
-}
+};
 
-export class ImportSpecifier {
+exports.ImportSpecifier = class {
   constructor(arg, ...extraArgs) {
     const { name, binding } = arg;
     if (extraArgs.length !== 0) {
@@ -1210,9 +1210,9 @@ export class ImportSpecifier {
     this.name = name;
     this.binding = binding;
   }
-}
+};
 
-export class LabeledStatement {
+exports.LabeledStatement = class {
   constructor(arg, ...extraArgs) {
     const { label, body } = arg;
     if (extraArgs.length !== 0) {
@@ -1231,9 +1231,9 @@ export class LabeledStatement {
     this.label = label;
     this.body = body;
   }
-}
+};
 
-export class LiteralBooleanExpression {
+exports.LiteralBooleanExpression = class {
   constructor(arg, ...extraArgs) {
     const { value } = arg;
     if (extraArgs.length !== 0) {
@@ -1248,27 +1248,27 @@ export class LiteralBooleanExpression {
     this.type = 'LiteralBooleanExpression';
     this.value = value;
   }
-}
+};
 
-export class LiteralInfinityExpression {
+exports.LiteralInfinityExpression = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('LiteralInfinityExpression constructor takes no arguments');
     }
     this.type = 'LiteralInfinityExpression';
   }
-}
+};
 
-export class LiteralNullExpression {
+exports.LiteralNullExpression = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('LiteralNullExpression constructor takes no arguments');
     }
     this.type = 'LiteralNullExpression';
   }
-}
+};
 
-export class LiteralNumericExpression {
+exports.LiteralNumericExpression = class {
   constructor(arg, ...extraArgs) {
     const { value } = arg;
     if (extraArgs.length !== 0) {
@@ -1283,9 +1283,9 @@ export class LiteralNumericExpression {
     this.type = 'LiteralNumericExpression';
     this.value = value;
   }
-}
+};
 
-export class LiteralRegExpExpression {
+exports.LiteralRegExpExpression = class {
   constructor(arg, ...extraArgs) {
     const { pattern, global, ignoreCase, multiLine, dotAll, unicode, sticky } = arg;
     if (extraArgs.length !== 0) {
@@ -1324,9 +1324,9 @@ export class LiteralRegExpExpression {
     this.unicode = unicode;
     this.sticky = sticky;
   }
-}
+};
 
-export class LiteralStringExpression {
+exports.LiteralStringExpression = class {
   constructor(arg, ...extraArgs) {
     const { value } = arg;
     if (extraArgs.length !== 0) {
@@ -1341,9 +1341,9 @@ export class LiteralStringExpression {
     this.type = 'LiteralStringExpression';
     this.value = value;
   }
-}
+};
 
-export class Method {
+exports.Method = class {
   constructor(arg, ...extraArgs) {
     const { isAsync, isGenerator, name, params, body } = arg;
     if (extraArgs.length !== 0) {
@@ -1374,9 +1374,9 @@ export class Method {
     this.params = params;
     this.body = body;
   }
-}
+};
 
-export class Module {
+exports.Module = class {
   constructor(arg, ...extraArgs) {
     const { directives, items } = arg;
     if (extraArgs.length !== 0) {
@@ -1395,9 +1395,9 @@ export class Module {
     this.directives = directives;
     this.items = items;
   }
-}
+};
 
-export class NewExpression {
+exports.NewExpression = class {
   constructor(arg, ...extraArgs) {
     const { callee, arguments: _arguments } = arg;
     if (extraArgs.length !== 0) {
@@ -1416,18 +1416,18 @@ export class NewExpression {
     this.callee = callee;
     this.arguments = _arguments;
   }
-}
+};
 
-export class NewTargetExpression {
+exports.NewTargetExpression = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('NewTargetExpression constructor takes no arguments');
     }
     this.type = 'NewTargetExpression';
   }
-}
+};
 
-export class ObjectAssignmentTarget {
+exports.ObjectAssignmentTarget = class {
   constructor(arg, ...extraArgs) {
     const { properties, rest } = arg;
     if (extraArgs.length !== 0) {
@@ -1439,16 +1439,16 @@ export class ObjectAssignmentTarget {
     if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'AssignmentTargetPropertyIdentifier') && (f.type !== 'AssignmentTargetPropertyProperty'))) {
       throw new TypeError('Field "properties" of ObjectAssignmentTarget constructor argument is of incorrect type (expected [one of {AssignmentTargetPropertyIdentifier, AssignmentTargetPropertyProperty}], got ' + printActualType(properties) + ')');
     }
-    if (typeof rest === 'undefined' || rest !== null && (((rest.type !== 'ArrayAssignmentTarget') && (rest.type !== 'ObjectAssignmentTarget')) && ((rest.type !== 'AssignmentTargetIdentifier') && ((rest.type !== 'ComputedMemberAssignmentTarget') && (rest.type !== 'StaticMemberAssignmentTarget'))))) {
-      throw new TypeError('Field "rest" of ObjectAssignmentTarget constructor argument is of incorrect type (expected null or one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
+    if (typeof rest === 'undefined' || rest !== null && ((rest.type !== 'AssignmentTargetIdentifier') && ((rest.type !== 'ComputedMemberAssignmentTarget') && (rest.type !== 'StaticMemberAssignmentTarget')))) {
+      throw new TypeError('Field "rest" of ObjectAssignmentTarget constructor argument is of incorrect type (expected null or one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
     }
     this.type = 'ObjectAssignmentTarget';
     this.properties = properties;
     this.rest = rest;
   }
-}
+};
 
-export class ObjectBinding {
+exports.ObjectBinding = class {
   constructor(arg, ...extraArgs) {
     const { properties, rest } = arg;
     if (extraArgs.length !== 0) {
@@ -1460,16 +1460,16 @@ export class ObjectBinding {
     if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'BindingPropertyIdentifier') && (f.type !== 'BindingPropertyProperty'))) {
       throw new TypeError('Field "properties" of ObjectBinding constructor argument is of incorrect type (expected [one of {BindingPropertyIdentifier, BindingPropertyProperty}], got ' + printActualType(properties) + ')');
     }
-    if (typeof rest === 'undefined' || rest !== null && ((rest.type !== 'BindingIdentifier') && ((rest.type !== 'ArrayBinding') && (rest.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "rest" of ObjectBinding constructor argument is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
+    if (typeof rest === 'undefined' || rest !== null && (rest.type !== 'BindingIdentifier')) {
+      throw new TypeError('Field "rest" of ObjectBinding constructor argument is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(rest) + ')');
     }
     this.type = 'ObjectBinding';
     this.properties = properties;
     this.rest = rest;
   }
-}
+};
 
-export class ObjectExpression {
+exports.ObjectExpression = class {
   constructor(arg, ...extraArgs) {
     const { properties } = arg;
     if (extraArgs.length !== 0) {
@@ -1484,9 +1484,9 @@ export class ObjectExpression {
     this.type = 'ObjectExpression';
     this.properties = properties;
   }
-}
+};
 
-export class ReturnStatement {
+exports.ReturnStatement = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -1501,9 +1501,9 @@ export class ReturnStatement {
     this.type = 'ReturnStatement';
     this.expression = expression;
   }
-}
+};
 
-export class Script {
+exports.Script = class {
   constructor(arg, ...extraArgs) {
     const { directives, statements } = arg;
     if (extraArgs.length !== 0) {
@@ -1522,9 +1522,9 @@ export class Script {
     this.directives = directives;
     this.statements = statements;
   }
-}
+};
 
-export class Setter {
+exports.Setter = class {
   constructor(arg, ...extraArgs) {
     const { name, param, body } = arg;
     if (extraArgs.length !== 0) {
@@ -1547,9 +1547,9 @@ export class Setter {
     this.param = param;
     this.body = body;
   }
-}
+};
 
-export class ShorthandProperty {
+exports.ShorthandProperty = class {
   constructor(arg, ...extraArgs) {
     const { name } = arg;
     if (extraArgs.length !== 0) {
@@ -1564,9 +1564,9 @@ export class ShorthandProperty {
     this.type = 'ShorthandProperty';
     this.name = name;
   }
-}
+};
 
-export class SpreadElement {
+exports.SpreadElement = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -1581,9 +1581,9 @@ export class SpreadElement {
     this.type = 'SpreadElement';
     this.expression = expression;
   }
-}
+};
 
-export class SpreadProperty {
+exports.SpreadProperty = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -1598,9 +1598,9 @@ export class SpreadProperty {
     this.type = 'SpreadProperty';
     this.expression = expression;
   }
-}
+};
 
-export class StaticMemberAssignmentTarget {
+exports.StaticMemberAssignmentTarget = class {
   constructor(arg, ...extraArgs) {
     const { object, property } = arg;
     if (extraArgs.length !== 0) {
@@ -1619,9 +1619,9 @@ export class StaticMemberAssignmentTarget {
     this.object = object;
     this.property = property;
   }
-}
+};
 
-export class StaticMemberExpression {
+exports.StaticMemberExpression = class {
   constructor(arg, ...extraArgs) {
     const { object, property } = arg;
     if (extraArgs.length !== 0) {
@@ -1640,9 +1640,9 @@ export class StaticMemberExpression {
     this.object = object;
     this.property = property;
   }
-}
+};
 
-export class StaticPropertyName {
+exports.StaticPropertyName = class {
   constructor(arg, ...extraArgs) {
     const { value } = arg;
     if (extraArgs.length !== 0) {
@@ -1657,18 +1657,18 @@ export class StaticPropertyName {
     this.type = 'StaticPropertyName';
     this.value = value;
   }
-}
+};
 
-export class Super {
+exports.Super = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('Super constructor takes no arguments');
     }
     this.type = 'Super';
   }
-}
+};
 
-export class SwitchCase {
+exports.SwitchCase = class {
   constructor(arg, ...extraArgs) {
     const { test, consequent } = arg;
     if (extraArgs.length !== 0) {
@@ -1687,9 +1687,9 @@ export class SwitchCase {
     this.test = test;
     this.consequent = consequent;
   }
-}
+};
 
-export class SwitchDefault {
+exports.SwitchDefault = class {
   constructor(arg, ...extraArgs) {
     const { consequent } = arg;
     if (extraArgs.length !== 0) {
@@ -1704,9 +1704,9 @@ export class SwitchDefault {
     this.type = 'SwitchDefault';
     this.consequent = consequent;
   }
-}
+};
 
-export class SwitchStatement {
+exports.SwitchStatement = class {
   constructor(arg, ...extraArgs) {
     const { discriminant, cases } = arg;
     if (extraArgs.length !== 0) {
@@ -1725,9 +1725,9 @@ export class SwitchStatement {
     this.discriminant = discriminant;
     this.cases = cases;
   }
-}
+};
 
-export class SwitchStatementWithDefault {
+exports.SwitchStatementWithDefault = class {
   constructor(arg, ...extraArgs) {
     const { discriminant, preDefaultCases, defaultCase, postDefaultCases } = arg;
     if (extraArgs.length !== 0) {
@@ -1754,9 +1754,9 @@ export class SwitchStatementWithDefault {
     this.defaultCase = defaultCase;
     this.postDefaultCases = postDefaultCases;
   }
-}
+};
 
-export class TemplateElement {
+exports.TemplateElement = class {
   constructor(arg, ...extraArgs) {
     const { rawValue } = arg;
     if (extraArgs.length !== 0) {
@@ -1771,9 +1771,9 @@ export class TemplateElement {
     this.type = 'TemplateElement';
     this.rawValue = rawValue;
   }
-}
+};
 
-export class TemplateExpression {
+exports.TemplateExpression = class {
   constructor(arg, ...extraArgs) {
     const { tag, elements } = arg;
     if (extraArgs.length !== 0) {
@@ -1792,18 +1792,18 @@ export class TemplateExpression {
     this.tag = tag;
     this.elements = elements;
   }
-}
+};
 
-export class ThisExpression {
+exports.ThisExpression = class {
   constructor(...extraArgs) {
     if (extraArgs.length > 1 || extraArgs.length === 1 && (typeof extraArgs[0] !== 'object' || extraArgs[0] === null || Object.keys(extraArgs[0]).length !== 0)) {
       throw new TypeError('ThisExpression constructor takes no arguments');
     }
     this.type = 'ThisExpression';
   }
-}
+};
 
-export class ThrowStatement {
+exports.ThrowStatement = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -1818,9 +1818,9 @@ export class ThrowStatement {
     this.type = 'ThrowStatement';
     this.expression = expression;
   }
-}
+};
 
-export class TryCatchStatement {
+exports.TryCatchStatement = class {
   constructor(arg, ...extraArgs) {
     const { body, catchClause } = arg;
     if (extraArgs.length !== 0) {
@@ -1839,9 +1839,9 @@ export class TryCatchStatement {
     this.body = body;
     this.catchClause = catchClause;
   }
-}
+};
 
-export class TryFinallyStatement {
+exports.TryFinallyStatement = class {
   constructor(arg, ...extraArgs) {
     const { body, catchClause, finalizer } = arg;
     if (extraArgs.length !== 0) {
@@ -1864,9 +1864,9 @@ export class TryFinallyStatement {
     this.catchClause = catchClause;
     this.finalizer = finalizer;
   }
-}
+};
 
-export class UnaryExpression {
+exports.UnaryExpression = class {
   constructor(arg, ...extraArgs) {
     const { operator, operand } = arg;
     if (extraArgs.length !== 0) {
@@ -1885,9 +1885,9 @@ export class UnaryExpression {
     this.operator = operator;
     this.operand = operand;
   }
-}
+};
 
-export class UpdateExpression {
+exports.UpdateExpression = class {
   constructor(arg, ...extraArgs) {
     const { isPrefix, operator, operand } = arg;
     if (extraArgs.length !== 0) {
@@ -1910,9 +1910,9 @@ export class UpdateExpression {
     this.operator = operator;
     this.operand = operand;
   }
-}
+};
 
-export class VariableDeclaration {
+exports.VariableDeclaration = class {
   constructor(arg, ...extraArgs) {
     const { kind, declarators } = arg;
     if (extraArgs.length !== 0) {
@@ -1931,9 +1931,9 @@ export class VariableDeclaration {
     this.kind = kind;
     this.declarators = declarators;
   }
-}
+};
 
-export class VariableDeclarationStatement {
+exports.VariableDeclarationStatement = class {
   constructor(arg, ...extraArgs) {
     const { declaration } = arg;
     if (extraArgs.length !== 0) {
@@ -1948,9 +1948,9 @@ export class VariableDeclarationStatement {
     this.type = 'VariableDeclarationStatement';
     this.declaration = declaration;
   }
-}
+};
 
-export class VariableDeclarator {
+exports.VariableDeclarator = class {
   constructor(arg, ...extraArgs) {
     const { binding, init } = arg;
     if (extraArgs.length !== 0) {
@@ -1969,9 +1969,9 @@ export class VariableDeclarator {
     this.binding = binding;
     this.init = init;
   }
-}
+};
 
-export class WhileStatement {
+exports.WhileStatement = class {
   constructor(arg, ...extraArgs) {
     const { test, body } = arg;
     if (extraArgs.length !== 0) {
@@ -1990,9 +1990,9 @@ export class WhileStatement {
     this.test = test;
     this.body = body;
   }
-}
+};
 
-export class WithStatement {
+exports.WithStatement = class {
   constructor(arg, ...extraArgs) {
     const { object, body } = arg;
     if (extraArgs.length !== 0) {
@@ -2011,9 +2011,9 @@ export class WithStatement {
     this.object = object;
     this.body = body;
   }
-}
+};
 
-export class YieldExpression {
+exports.YieldExpression = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -2028,9 +2028,9 @@ export class YieldExpression {
     this.type = 'YieldExpression';
     this.expression = expression;
   }
-}
+};
 
-export class YieldGeneratorExpression {
+exports.YieldGeneratorExpression = class {
   constructor(arg, ...extraArgs) {
     const { expression } = arg;
     if (extraArgs.length !== 0) {
@@ -2045,4 +2045,4 @@ export class YieldGeneratorExpression {
     this.type = 'YieldGeneratorExpression';
     this.expression = expression;
   }
-}
+};
