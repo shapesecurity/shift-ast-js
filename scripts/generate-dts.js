@@ -17,7 +17,7 @@
 'use strict';
 
 const writeFileSync = require('fs').writeFileSync;
-const Spec = require('shift-spec').default;
+const Spec = require('shift-spec');
 const ExpressionType = Spec.ExpressionStatement.fields[1].type;
 const StatementType = Spec.LabeledStatement.fields[2].type;
 
