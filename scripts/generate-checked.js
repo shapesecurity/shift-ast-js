@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const Spec = require('shift-spec').default;
+const Spec = require('shift-spec');
 const { keyword } = require('esutils');
 const { isRestrictedWord, isReservedWordES6 } = keyword;
 

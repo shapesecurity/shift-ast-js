@@ -432,8 +432,8 @@ exports.CatchClause = class {
     if (!arrayEquals(Object.keys(arg).sort(), ['binding', 'body'])) {
       throw new TypeError('Argument to CatchClause constructor has wrong keys: expected {binding, body}, got {' + Object.keys(arg).join(', ') + '}');
     }
-    if (typeof binding === 'undefined' || (binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding'))) {
-      throw new TypeError('Field "binding" of CatchClause constructor argument is of incorrect type (expected one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
+    if (typeof binding === 'undefined' || binding !== null && ((binding.type !== 'BindingIdentifier') && ((binding.type !== 'ArrayBinding') && (binding.type !== 'ObjectBinding')))) {
+      throw new TypeError('Field "binding" of CatchClause constructor argument is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(binding) + ')');
     }
     if (typeof body === 'undefined' || body.type !== 'Block') {
       throw new TypeError('Field "body" of CatchClause constructor argument is of incorrect type (expected Block, got ' + printActualType(body) + ')');
@@ -1439,8 +1439,8 @@ exports.ObjectAssignmentTarget = class {
     if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'AssignmentTargetPropertyIdentifier') && (f.type !== 'AssignmentTargetPropertyProperty'))) {
       throw new TypeError('Field "properties" of ObjectAssignmentTarget constructor argument is of incorrect type (expected [one of {AssignmentTargetPropertyIdentifier, AssignmentTargetPropertyProperty}], got ' + printActualType(properties) + ')');
     }
-    if (typeof rest === 'undefined' || rest !== null && (((rest.type !== 'ArrayAssignmentTarget') && (rest.type !== 'ObjectAssignmentTarget')) && ((rest.type !== 'AssignmentTargetIdentifier') && ((rest.type !== 'ComputedMemberAssignmentTarget') && (rest.type !== 'StaticMemberAssignmentTarget'))))) {
-      throw new TypeError('Field "rest" of ObjectAssignmentTarget constructor argument is of incorrect type (expected null or one of {ArrayAssignmentTarget, ObjectAssignmentTarget, AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
+    if (typeof rest === 'undefined' || rest !== null && ((rest.type !== 'AssignmentTargetIdentifier') && ((rest.type !== 'ComputedMemberAssignmentTarget') && (rest.type !== 'StaticMemberAssignmentTarget')))) {
+      throw new TypeError('Field "rest" of ObjectAssignmentTarget constructor argument is of incorrect type (expected null or one of {AssignmentTargetIdentifier, ComputedMemberAssignmentTarget, StaticMemberAssignmentTarget}, got ' + printActualType(rest) + ')');
     }
     this.type = 'ObjectAssignmentTarget';
     this.properties = properties;
@@ -1460,8 +1460,8 @@ exports.ObjectBinding = class {
     if (!Array.isArray(properties) || properties.some(f => typeof f === 'undefined' || (f.type !== 'BindingPropertyIdentifier') && (f.type !== 'BindingPropertyProperty'))) {
       throw new TypeError('Field "properties" of ObjectBinding constructor argument is of incorrect type (expected [one of {BindingPropertyIdentifier, BindingPropertyProperty}], got ' + printActualType(properties) + ')');
     }
-    if (typeof rest === 'undefined' || rest !== null && ((rest.type !== 'BindingIdentifier') && ((rest.type !== 'ArrayBinding') && (rest.type !== 'ObjectBinding')))) {
-      throw new TypeError('Field "rest" of ObjectBinding constructor argument is of incorrect type (expected null or one of {BindingIdentifier, ArrayBinding, ObjectBinding}, got ' + printActualType(rest) + ')');
+    if (typeof rest === 'undefined' || rest !== null && (rest.type !== 'BindingIdentifier')) {
+      throw new TypeError('Field "rest" of ObjectBinding constructor argument is of incorrect type (expected null or BindingIdentifier, got ' + printActualType(rest) + ')');
     }
     this.type = 'ObjectBinding';
     this.properties = properties;
