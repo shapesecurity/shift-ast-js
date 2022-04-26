@@ -61,11 +61,11 @@ for (let typename of Object.keys(Spec)) {
     param = '';
   }
   content += `
-export class ${typename} {
+exports.${typename} = class {
   constructor(${param}) {
     this.type = '${typename}';${fields.map(f => `\n    this.${f.name} = ${sanitize(f.name)};`).join('')}
   }
-}
+};
 `;
 }
 
