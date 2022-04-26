@@ -94,7 +94,6 @@ export class ${typename} {
 }
 
 writeFileSync('gen/index.d.ts', content);
-writeFileSync('dist/index.d.ts', content);
 
 let checkedContent = `${header}
 
@@ -102,4 +101,3 @@ export * from './index';
 `;
 
 writeFileSync('gen/checked.d.ts', checkedContent);
-writeFileSync('dist/checked.d.ts', checkedContent);

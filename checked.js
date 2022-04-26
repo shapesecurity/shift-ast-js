@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-module.exports = require('./dist/checked');
+module.exports = require('./gen/checked');
